@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Logic;
+package logic;
 
-import Acquaintance.ILogic;
-import Acquaintance.IPersistence;
+import acquaintance.ILogic;
+import acquaintance.IPersistence;
 
 /**
  *

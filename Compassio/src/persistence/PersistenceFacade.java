@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Persistence;
+package persistence;
 
-import Acquaintance.IPersistence;
 import java.sql.*;
+import acquaintance.IPersistence;
 
 /**
  *

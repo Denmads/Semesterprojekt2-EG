@@ -5,12 +5,12 @@
  */
 package compassio;
 
-import Acquaintance.IGUI;
-import Acquaintance.ILogic;
-import Acquaintance.IPersistence;
-import GUI.GUIrun;
-import Logic.LogicFacade;
-import Persistence.PersistenceFacade;
+import acquaintance.IGUI;
+import acquaintance.ILogic;
+import acquaintance.IPersistence;
+import gui.GUIrun;
+import logic.LogicFacade;
+import persistence.PersistenceFacade;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

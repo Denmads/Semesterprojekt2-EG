@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Acquaintance;
+package acquaintance;
 
 /**
  *
- * @author Peter Brændgaard
+ * @author Peterzxcvbnm
  */
-public interface IGUI {
-
-    public void injectLogic(ILogic LogicLayer);
-
-    public void startApplication(String[] args);
+public interface IPersistence {
 
 }
