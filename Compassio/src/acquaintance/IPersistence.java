@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Acquaintance;
+package acquaintance;
 
 /**
  *
- * @author Peter Brændgaard
+ * @author Peterzxcvbnm
  */
-public interface ILogic {
-
-    public void injectPersistence(IPersistence PersistenceLayer);
+public interface IPersistence {
 
 }
