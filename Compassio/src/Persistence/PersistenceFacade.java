@@ -6,11 +6,35 @@
 package Persistence;
 
 import Acquaintance.IPersistence;
+import java.sql.*;
 
 /**
  *
  * @author Peterzxcvbnm
  */
-public class PersistenceFacade implements IPersistence{
-    
+public class PersistenceFacade implements IPersistence {
+
+    private String dbIP = "jdbc:postgresql://139.59.208.42:5432/postgres";
+    private String username = "postgres";
+    private String password = "compassio";
+
+    public PersistenceFacade() {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+//    public void example() {
+//         try (Connection db = DriverManager.getConnection(dbIP, username, password);
+//                PreparedStatement statement = db.prepareStatement("INSERT INTO test VALUES (?, ?)")) {
+//            statement.setString(1, "Peter");
+//            statement.setInt(2, 2);
+//            statement.execute();
+//        } catch (SQLException ex) {
+//            System.out.println("SQL exception");
+//            ex.printStackTrace();
+//        }
+//    }
 }
