@@ -147,7 +147,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: #2899C2; -fx-background-radius: 5em;" text="Log ud" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#user_logout" prefWidth="100.0" style="-fx-background-color: #2899C2; -fx-background-radius: 5em;" text="Log ud" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
