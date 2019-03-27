@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import acquaintance.IGUI;
 import acquaintance.ILogic;
+import javafx.scene.image.Image;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -40,6 +42,11 @@ public class GUIrun extends Application implements IGUI {
     public void start(Stage stage) throws Exception {
 
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        
+        stage.initStyle(StageStyle.TRANSPARENT);
+        
+        Image img = new Image("/img/logo.png");
+        stage.getIcons().add(img);
 
         Scene scene = new Scene(root);
 
