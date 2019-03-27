@@ -5,14 +5,16 @@
  */
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 /**
@@ -23,34 +25,22 @@ import javafx.stage.Stage;
 public class LoginController implements Initializable {
 
     @FXML
-    private AnchorPane user_menu;
+    private GridPane login_grid;
     @FXML
-    private ImageView menu_click;
+    private GridPane start_grid;
+
+    ChangeFXML cng = new ChangeFXML(){};
     @FXML
-    private ImageView menu_close;
+    private TextField user_textfield;
+    @FXML
+    private TextField password_textfield;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        user_menu.setVisible(false);
-        menu_click.setVisible(true);
-        menu_close.setVisible(false);
-    }    
-
-    @FXML
-    private void user_menu_slide(MouseEvent event) {
-        user_menu.setVisible(true);
-        menu_click.setVisible(false);
-        menu_close.setVisible(true);
-    }
-
-    @FXML
-    private void user_menu_close(MouseEvent event) {
-        user_menu.setVisible(false);
-        menu_click.setVisible(true);
-        menu_close.setVisible(false);
+        visible();
     }
 
     @FXML
@@ -64,5 +54,27 @@ public class LoginController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
-    
+
+    public void visible() {
+        start_grid.setVisible(true);
+        login_grid.setVisible(false);
+    }
+
+    @FXML
+    private void buttonBack(MouseEvent event) throws IOException {
+        cng.changeFXMLMouse("/gui/login.fxml", event);
+    }
+
+    @FXML
+    private void start_button(ActionEvent event) {
+        visible();
+        start_grid.setVisible(false);
+        login_grid.setVisible(true);
+    }
+
+    @FXML
+    private void login_button(ActionEvent event) throws IOException {
+        cng.changeFXMLAction("/gui/start_user_login.fxml", event);
+    }
+
 }
