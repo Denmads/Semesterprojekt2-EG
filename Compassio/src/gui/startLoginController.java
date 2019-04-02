@@ -5,8 +5,10 @@
  */
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -29,18 +31,18 @@ public class startLoginController implements Initializable {
     @FXML
     private ImageView menu_click;
 
+    ChangeFXML cng = new ChangeFXML(){};
     /**
      * Initializes the controller class.
      */
    @Override
     public void initialize(URL url, ResourceBundle rb) {
-        user_menu.setVisible(false);
-        menu_click.setVisible(true);
-        menu_close.setVisible(false);
+        visible();
     }    
 
     @FXML
     private void user_menu_slide(MouseEvent event) {
+        visible();
         user_menu.setVisible(true);
         menu_click.setVisible(false);
         menu_close.setVisible(true);
@@ -48,6 +50,10 @@ public class startLoginController implements Initializable {
 
     @FXML
     private void user_menu_close(MouseEvent event) {
+        visible();
+    }
+    
+    private void visible(){
         user_menu.setVisible(false);
         menu_click.setVisible(true);
         menu_close.setVisible(false);
@@ -68,6 +74,11 @@ public class startLoginController implements Initializable {
     @FXML
     private void buttonBack(MouseEvent event) {
         //are u sure u want to log out.. then cng.changeFXMLAction("/gui/login.fxml", event); or change to front page start_user_login.fxml
+    }
+
+    @FXML
+    private void user_logout(ActionEvent event) throws IOException {
+        cng.changeFXMLAction("/gui/login.fxml", event);
     }
     
 }
