@@ -12,9 +12,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -29,11 +32,13 @@ public class LoginController implements Initializable {
     @FXML
     private GridPane start_grid;
 
-    ChangeFXML cng = new ChangeFXML(){};
+    GUIHandler guih = new GUIHandler(){};
     @FXML
     private TextField user_textfield;
     @FXML
-    private TextField password_textfield;
+    private PasswordField password_passwordsFiled;
+    @FXML
+    private Label label_check;
 
     /**
      * Initializes the controller class.
@@ -41,6 +46,12 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         visible();
+        password_passwordsFiled.setPromptText("Din adgangskode");
+        user_textfield.setPromptText("Dit brugernavn");
+    }
+    
+    public void setupDragWindow (Stage stage) {
+        guih.moves(stage, stage.getScene());
     }
 
     @FXML
@@ -62,7 +73,7 @@ public class LoginController implements Initializable {
 
     @FXML
     private void buttonBack(MouseEvent event) throws IOException {
-        cng.changeFXMLMouse("/gui/login.fxml", event);
+        guih.changeFXMLMouse("/gui/login.fxml", event);
     }
 
     @FXML
@@ -74,7 +85,12 @@ public class LoginController implements Initializable {
 
     @FXML
     private void login_button(ActionEvent event) throws IOException {
-        cng.changeFXMLAction("/gui/start_user_login.fxml", event);
+        if (user_textfield.getText().equals("") || password_passwordsFiled.getText().equals("")) {
+            label_check.setText("Du har ikke skrevet noget!");
+            label_check.setTextFill(Color.rgb(210, 39, 30));
+        } else {
+            guih.changeFXMLAction("/gui/start_user_login.fxml", event);
+        }
     }
 
 }

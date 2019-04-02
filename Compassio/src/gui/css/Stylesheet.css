@@ -1,0 +1,23 @@
+.btn {
+    -fx-background-color: #2899C2;
+    -fx-background-radius: 1em;
+}
+
+.btn:hover {
+    -fx-background-color: #1a6682;
+    -fx-background-radius: 1em;
+    -fx-cursor: hand;
+}
+
+.listview:empty {
+    -fx-background-color: khaki;
+    -fx-border-color: grey
+}
+ 
+.listview:hover{
+    -fx-background-color: blanchedalmond;
+}
+ 
+.listview:selected{
+    -fx-background-color: chocolate;
+}

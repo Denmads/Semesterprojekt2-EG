@@ -41,7 +41,10 @@ public class GUIrun extends Application implements IGUI {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+        Parent root = loader.load();
+        
+        LoginController controller = loader.getController();
         
         stage.initStyle(StageStyle.TRANSPARENT);
         
@@ -52,6 +55,7 @@ public class GUIrun extends Application implements IGUI {
 
         stage.setResizable(true);
         stage.setScene(scene);
+        controller.setupDragWindow(stage);
         stage.show();
     }
 
