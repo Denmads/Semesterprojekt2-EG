@@ -15,7 +15,7 @@ import java.util.Date;
 public class Case {
 
     private String firstName;
-    
+
     private String lastName;
 
     private int caseID;
@@ -33,21 +33,19 @@ public class Case {
     private int departmentID;
 
     private String inquiry;
-    
-    public Case(String firstName, String lastName, int caseID, int cprNumber, String type, String mainBody, Calendar dateCreated, Calendar dateClosed, int departmentID, String inquiry ){
-        this.firstName=firstName;
-        this.lastName=lastName;
-        this.caseID=caseID;
-        this.cprNumber=cprNumber;
-        this.type=type;
-        this.mainBody=mainBody;
-        this.dateCreated=dateCreated;
-        this.dateClosed=dateClosed;
-        this.departmentID=departmentID;
-        this.inquiry=inquiry;
+
+    public Case(String firstName, String lastName, int caseID, int cprNumber, String type, String mainBody, Calendar dateCreated, Calendar dateClosed, int departmentID, String inquiry) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.caseID = caseID;
+        this.cprNumber = cprNumber;
+        this.type = type;
+        this.mainBody = mainBody;
+        this.dateCreated = dateCreated;
+        this.dateClosed = dateClosed;
+        this.departmentID = departmentID;
+        this.inquiry = inquiry;
     }
-
-
 
     public int getCaseID() {
         return caseID;
@@ -88,7 +86,5 @@ public class Case {
     public String getLastName() {
         return lastName;
     }
-    
-    
 
 }

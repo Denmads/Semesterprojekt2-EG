@@ -5,10 +5,15 @@
  */
 package acquaintance;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Peterzxcvbnm
  */
 public interface IPersistence {
 
+    public ArrayList<String[]> getCasesByUserID(int userID);
+    
+    public ArrayList<String[]> getCasesByDepartment(int departmentID);
 }

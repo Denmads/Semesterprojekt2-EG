@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class PersistenceFacade implements IPersistence {
 
-    private String dbIP = "jdbc:postgresql://68.163.68.65:5432/postgres";
+    private String dbIP = "jdbc:postgresql://68.18S3.68.65:5432/postgres";
     private String username = "postgres";
     private String password = "software-f19-4";
 
@@ -45,6 +45,7 @@ public class PersistenceFacade implements IPersistence {
      * @return An ArrayList with a String array containing all the attributes of
      * the case
      */
+    @Override
     public ArrayList<String[]> getCasesByUserID(int userID) {
         ArrayList<String[]> cases = new ArrayList<>();
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
@@ -80,6 +81,7 @@ public class PersistenceFacade implements IPersistence {
      * @return An ArrayList with a String array containing all the attributes of
      * the case
      */
+    @Override
     public ArrayList<String[]> getCasesByDepartment(int departmentID) {
         ArrayList<String[]> cases = new ArrayList<>();
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
