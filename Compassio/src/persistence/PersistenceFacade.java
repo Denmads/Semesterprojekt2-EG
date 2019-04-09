@@ -8,6 +8,7 @@ package persistence;
 import java.sql.*;
 import acquaintance.IPersistence;
 import java.util.UUID;
+import java.util.Date;
 
 /**
  *
@@ -38,16 +39,40 @@ public class PersistenceFacade implements IPersistence {
 //            ex.printStackTrace();
 //        }
 //    }
-
     @Override
-    public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, String type,
+            String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
+        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+                PreparedStatement statement = db.prepareStatement("INSERT INTO SocialCase VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, caseID.toString());
+            statement.setLong(4, cprNumber);
+            statement.setString(5, type);
+            statement.setString(6, mainBody);
+            statement.setDate(7, new java.sql.Date(dateCreated.getTime()));
+            statement.setDate(8, new java.sql.Date(dateClosed.getTime()));
+            statement.setInt(9, departmentID);
+            statement.setString(10, inquiry);
+            statement.execute();
+        } catch (SQLException ex) {
+            System.out.println("SQL exception");
+            ex.printStackTrace();
+        }
     }
 
     @Override
     public void saveCaseUserRelation(long cpr, int userID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+                PreparedStatement statement = db.prepareStatement("INSERT INTO CaseUserRelation VALUES (?, ?)")) {
+            statement.setLong(1, cpr);
+            statement.setInt(2, userID);
+            statement.execute();
+        } catch (SQLException ex) {
+            System.out.println("SQL exception");
+            ex.printStackTrace();
+
+        }
+
     }
-    
-    
 }

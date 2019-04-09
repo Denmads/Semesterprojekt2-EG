@@ -34,20 +34,18 @@ public class Case {
 
     private String inquiry;
 
-    public Case(long cprNumber, UUID caseID) {
+    public Case(long cprNumber, UUID caseID, Date dateCreated) {
         this.cprNumber = cprNumber;
-        this.dateCreated = new Date();
+        this.dateCreated = dateCreated;
         this.caseID = caseID;
     }
 
     public Case(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
+        this(cprNumber, caseID, dateCreated);
         this.firstName = firstName;
         this.lastName = lastName;
-        this.caseID = caseID;
-        this.cprNumber = cprNumber;
         this.type = type;
         this.mainBody = mainBody;
-        this.dateCreated = dateCreated;
         this.dateClosed = dateClosed;
         this.departmentID = departmentID;
         this.inquiry = inquiry;

@@ -7,6 +7,7 @@ package logic;
 
 import acquaintance.ILogic;
 import acquaintance.IPersistence;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -24,7 +25,7 @@ public class LogicFacade implements ILogic {
 
     public void createCase(long cpr, int[] socialWorkers) {
         UUID caseID = UUID.randomUUID();
-        Case newCase = new Case(cpr, caseID);
+        Case newCase = new Case(cpr, caseID, new Date());
         newCase.saveCase();
         
         for (int i = 0 ; i < socialWorkers.length ; i++){
