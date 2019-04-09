@@ -90,11 +90,6 @@ public class startLoginController implements Initializable {
     private void buttonBack(MouseEvent event) {
         //are u sure u want to log out.. then cng.changeFXMLAction("/gui/login.fxml", event); or change to front page start_user_login.fxml
     }
-
-    @FXML
-    private void user_logout(ActionEvent event) throws IOException {
-        cng.changeFXMLAction("/gui/login.fxml", event);
-    }
     
     @FXML
     private void user_logout(ActionEvent event) throws IOException {

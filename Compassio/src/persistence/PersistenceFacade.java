@@ -14,9 +14,9 @@ import acquaintance.IPersistence;
  */
 public class PersistenceFacade implements IPersistence {
 
-    private String dbIP = "jdbc:postgresql://139.59.208.42:5432/postgres";
+    private String dbIP = "jdbc:postgresql://68.183.68.65:5432/compassio";
     private String username = "postgres";
-    private String password = "compassio";
+    private String password = "software-f19-4";
 
     public PersistenceFacade() {
         try {
@@ -28,8 +28,8 @@ public class PersistenceFacade implements IPersistence {
 
     public String[] retrieveUser(String username, String password) {
         String[] user = new String[4];
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
-                PreparedStatement statement = db.prepareStatement("SELECT * FROM people WHERE username=? AND password =?")) {
+        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
+                PreparedStatement statement = db.prepareStatement("SELECT * FROM people WHERE username=? AND hashedpassword =?")) {
             statement.setString(1, username);
             statement.setString(2, password);
             ResultSet rs = statement.executeQuery();
