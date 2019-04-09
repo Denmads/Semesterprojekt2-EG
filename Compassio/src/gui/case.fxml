@@ -22,7 +22,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CaseController">
+<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CaseController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="1024.0" style="-fx-background-color: #2899C2;">
          <children>
