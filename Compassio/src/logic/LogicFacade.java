@@ -7,6 +7,7 @@ package logic;
 
 import acquaintance.ILogic;
 import acquaintance.IPersistence;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,14 +25,28 @@ public class LogicFacade implements ILogic {
 
     @Override
     public boolean login(String username, String password) {
-        String[] result = this.persistence.retrieveUser(username, password);
+        String[] result = this.persistence.getUser(username, password);
+
         if (result != null) {
-            this.user = new User(result[0],result[1],result[2],result[3]);
+            String userType = this.persistence.getUserType(result[0]);
+            switch (userType) {
+                case "user":
+                    this.user = new User(result[0], result[1], result[2], result[3]);
+                    break;
+                case "caseworker":
+                    this.user = new CaseWorker(result[0], result[1], result[2], 
+                            result[3], this.persistence.getUserDepartments(result[0]));
+                    break;
+                case "socialworker":
+                    this.user = new SocialWorker(result[0], result[1], result[2], 
+                            result[3], this.persistence.getUserDepartments(result[0]));
+                    break;
+                default:
+                    break;
+            }
             return true;
-        } else { 
+        } else {
             return false;
         }
     }
-    
-    
 }

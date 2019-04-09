@@ -7,6 +7,7 @@ package persistence;
 
 import java.sql.*;
 import acquaintance.IPersistence;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,7 +27,55 @@ public class PersistenceFacade implements IPersistence {
         }
     }
 
-    public String[] retrieveUser(String username, String password) {
+    public ArrayList<Long> getUserDepartments(String userID) {
+        ArrayList<Long> departments = new ArrayList();
+        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
+                PreparedStatement statement = db.prepareStatement("SELECT * FROM employeesofdepartment WHERE userID=?")) {
+            statement.setLong(1, Long.parseLong(userID));
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next() == false) {
+                return null;
+            } else {
+                do {
+                    departments.add(rs.getLong("departmentID"));
+                } while (rs.next());
+                return departments;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getUserType(String userID) {
+        ArrayList<Long> departments = this.getUserDepartments(userID);
+        if (departments == null) {
+            return "user";
+        }
+        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
+                PreparedStatement statement = db.prepareStatement("SELECT type\n" +
+                "WHERE institutionID =(SELECT institutionID FROM "
+                        + "InstitutionDeparmentRelatition "
+                        + "WHERE deparmentID=?)")) {
+            statement.setLong(1, departments.get(0));
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next() == false) {
+                return "user";
+            } else if (rs.getString("type").equals("Kommune")) {
+                return "caseworker";
+            } else {
+                return "socialworker";
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return "user";
+        }
+    }
+
+    public String[] getUser(String username, String password) {
         String[] user = new String[4];
         try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
                 PreparedStatement statement = db.prepareStatement("SELECT * FROM people WHERE username=? AND hashedpassword =?")) {

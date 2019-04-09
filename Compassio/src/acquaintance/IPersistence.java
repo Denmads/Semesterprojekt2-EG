@@ -5,10 +5,14 @@
  */
 package acquaintance;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Peterzxcvbnm
  */
 public interface IPersistence {
-    public String[] retrieveUser(String username, String password);
+    public String[] getUser(String username, String password);
+    public ArrayList<Long> getUserDepartments(String userID);
+    public String getUserType(String userID);
 }

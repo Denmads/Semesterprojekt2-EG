@@ -6,20 +6,16 @@
 package logic;
 
 import java.util.ArrayList;
-import acquaintance.IPersistence;
-
 
 /**
  *
- * @author Morten Kargo Lyngesen
+ * @author Kargo
  */
-public class SocialWorker extends User {
+public class CaseWorker extends User {
     ArrayList<Long> departments;
     
-    public SocialWorker (String userID, String username, String firstName, String lastName,  ArrayList<Long> departments) {
+    public CaseWorker (String userID, String username, String firstName, String lastName, ArrayList<Long> departments) {
         super(userID, username, firstName, lastName);
         this.departments = departments;
     }
-    
-    
 }
