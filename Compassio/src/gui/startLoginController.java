@@ -51,7 +51,7 @@ public class startLoginController implements Initializable {
     @FXML
     private ListView<Case> listview_cases;
     private ObservableList<Case> viewableCases;
-    private ObservableList<Case> showing;
+    private FilteredList<Case> filteredCases;
 
     @FXML
     private AnchorPane see_cases_ancher;
@@ -71,16 +71,11 @@ public class startLoginController implements Initializable {
         visibleMenu();
         visibleCases();
 
-        ArrayList<Case> testCases = new ArrayList<>();
-        testCases.add(new Case("John", "Lars Larsen", 1234, 1234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
-        //testCases.add(new Case("Lone", "Borgersen", 1234, 3112191111L, "Ældre", "", Calendar.getInstance().getTime(), new Date(System.currentTimeMillis() + 123456), 1, ""));
-        
-        viewableCases = FXCollections.observableArrayList(testCases);
-        showing = listview_cases.getItems();
-        showing.addAll(viewableCases);
+        viewableCases = FXCollections.observableArrayList();
+        filteredCases = new FilteredList<>(viewableCases, p -> true);
+        listview_cases.setItems(filteredCases);
 
         listview_cases.setCellFactory(view -> new GUICaseCell());
-        //listview_cases.setItems(showing);
 
         searchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -88,15 +83,13 @@ public class startLoginController implements Initializable {
                 updateCaseFilter();
             }
         });
-        
+
         caseTypes = FXCollections.observableArrayList();
         caseTypes.add("All");
         caseTypes.addAll(GUIrun.getLogic().retrieveCaseTypes());
         caseType.setItems(caseTypes);
         caseType.getSelectionModel().select(0);
-        
-        
-        
+
         caseType.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -107,34 +100,27 @@ public class startLoginController implements Initializable {
 
     private void updateCaseFilter() {
         Predicate<Case> text = c -> {
-                String input = searchField.getText().trim().toLowerCase();
-                String fullName = c.getFirstName().toLowerCase() + " " + c.getLastName().toLowerCase();
-                String cpr = "" + c.getCprNumber();
-                String caseNumber = "" + c.getCaseID();
-                return fullName.startsWith(input) || cpr.startsWith(input) || caseNumber.startsWith(input);
+            String input = searchField.getText().trim().toLowerCase();
+            String fullName = c.getFirstName().toLowerCase() + " " + c.getLastName().toLowerCase();
+            String cpr = "" + c.getCprNumber();
+            String caseNumber = "" + c.getCaseID();
+            
+            if (searchField.getText().trim().length() == 0) {
+                return true;
+            }
+            
+            return fullName.startsWith(input) || cpr.startsWith(input) || caseNumber.startsWith(input);
         };
         Predicate<Case> type = c -> {
+            if (caseType.getSelectionModel().getSelectedIndex() == 0) {
+                return true;
+            }
+            
             return c.getType().equals(caseType.getValue());
         };
-        showing.clear();
-        showing.addAll(viewableCases);
         
-        ArrayList<Case> cases = new ArrayList<>(viewableCases);
-        
-        viewableCases.forEach(c -> {
-            boolean show = (searchField.getText().trim().length() > 0 && text.test(c)) || searchField.getText().trim().length() == 0;
-            //System.out.println(show + " - " + c.getFirstName());
-//            if (caseType.getSelectionModel().getSelectedIndex() != 0) {
-//               show = type.test(c);
-//            }
-            
-            if (!show) {
-                cases.remove(c);
-            }
-            System.out.println(Arrays.toString(cases.toArray()));
-        });
-        listview_cases.getItems().setAll(FXCollections.observableArrayList(cases));
-        listview_cases.refresh();
+        filteredCases.setPredicate(text.and(type));
+
     }
 
     @FXML
