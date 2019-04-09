@@ -40,7 +40,6 @@ public class startLoginController implements Initializable {
     private AnchorPane see_cases_ancher;
     @FXML
     private AnchorPane create_case;
-
     /**
      * Initializes the controller class.
      */
