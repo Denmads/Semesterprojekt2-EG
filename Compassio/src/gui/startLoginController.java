@@ -179,6 +179,7 @@ public class startLoginController implements Initializable {
         visibleCases();
         see_cases_ancher.setVisible(false);
         create_case.setVisible(true);
+        visibleMenu();
     }
 
     @FXML
