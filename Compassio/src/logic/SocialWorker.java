@@ -3,14 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package acquaintance;
-
-import java.util.ArrayList;
+package logic;
 
 /**
  *
- * @author Peterzxcvbnm
+ * @author Frederik
  */
-public interface IPersistence {
-    public ArrayList<String> retrieveCaseTypeNames ();
+public class SocialWorker {
+    private int id;
+    
+    
+    public int getID(){
+        return this.id;
+    }
 }

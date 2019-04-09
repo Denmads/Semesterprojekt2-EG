@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -16,24 +17,24 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" stylesheets="@css/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="1024.0" style="-fx-background-color: #2899C2;">
          <children>
-            <ImageView fitHeight="22.0" fitWidth="22.0" onMouseClicked="#minimise" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="22.0" fitWidth="22.0" onMouseClicked="#minimise" pickOnBounds="true" preserveRatio="true" styleClass="btn">
                <HBox.margin>
                   <Insets right="15.0" />
                </HBox.margin>
                <image>
-                  <Image url="@../img/icons8_minimize_window_22px.png" />
+                  <Image url="@img/icons8_minimize_window_22px.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="22.0" fitWidth="22.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="22.0" fitWidth="22.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true" styleClass="btn">
                <HBox.margin>
                   <Insets right="15.0" />
                </HBox.margin>
                <image>
-                  <Image url="@../img/icons8_close_window_22px.png" />
+                  <Image url="@img/icons8_close_window_22px.png" />
                </image>
             </ImageView>
          </children>
@@ -52,9 +53,9 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <ImageView fitHeight="50.0" fitWidth="100.0" onMouseClicked="#buttonBack" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <ImageView fitHeight="50.0" fitWidth="100.0" onMouseClicked="#buttonBack" pickOnBounds="true" preserveRatio="true" styleClass="btn" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <image>
-                  <Image url="@../img/logoo.png" />
+                  <Image url="@img/logoo.png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -73,7 +74,7 @@
                         <Insets bottom="10.0" top="30.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="user_textfield" style="-fx-background-radius: 5em;">
+                  <TextField fx:id="user_textfield" onAction="#login_button" style="-fx-background-radius: 5em;">
                      <VBox.margin>
                         <Insets bottom="30.0" />
                      </VBox.margin>
@@ -86,12 +87,12 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="password_textfield" style="-fx-background-radius: 5em;">
+                  <PasswordField fx:id="password_passwordsFiled" onAction="#login_button" style="-fx-background-radius: 5em;">
                      <VBox.margin>
                         <Insets bottom="30.0" />
                      </VBox.margin>
-                  </TextField>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#login_button" prefWidth="100.0" style="-fx-background-color: #2899C2; -fx-background-radius: 5em;" text="Log ind" textAlignment="CENTER" textFill="WHITE">
+                  </PasswordField>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#login_button" prefWidth="100.0" styleClass="btn" text="Log ind" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
@@ -99,6 +100,14 @@
                         <Insets bottom="30.0" />
                      </VBox.margin>
                   </Button>
+                  <Label fx:id="label_check" alignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Label>
                   <Separator prefWidth="200.0">
                      <VBox.margin>
                         <Insets bottom="30.0" />
@@ -116,7 +125,7 @@
             </VBox>
             <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <image>
-                  <Image url="@../img/logo.png" />
+                  <Image url="@img/logo.png" />
                </image>
             </ImageView>
          </children>
@@ -137,13 +146,13 @@
          <children>
             <ImageView fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <image>
-                  <Image url="@../img/logo.png" />
+                  <Image url="@img/logo.png" />
                </image>
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
             </ImageView>
-            <Button mnemonicParsing="false" onAction="#start_button" prefWidth="100.0" style="-fx-background-color: #2899C2; -fx-background-radius: 5em;" text="Log ind" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#start_button" prefWidth="100.0" styleClass="btn" text="Log ind" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>

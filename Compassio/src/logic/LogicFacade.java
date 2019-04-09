@@ -7,6 +7,7 @@ package logic;
 
 import acquaintance.ILogic;
 import acquaintance.IPersistence;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,5 +21,13 @@ public class LogicFacade implements ILogic {
     public void injectPersistence(IPersistence PersistenceLayer) {
         persistence = PersistenceLayer;
     }
+    
+    public void createCase(int CPR, SocialWorker[] socialWorkers){
+        
+    }
 
+    @Override
+    public ArrayList<String> retrieveCaseTypes() {
+        return persistence.retrieveCaseTypeNames();
+    }
 }

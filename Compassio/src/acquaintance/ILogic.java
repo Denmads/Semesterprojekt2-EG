@@ -5,6 +5,8 @@
  */
 package acquaintance;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Peter Brændgaard
@@ -12,5 +14,6 @@ package acquaintance;
 public interface ILogic {
 
     public void injectPersistence(IPersistence PersistenceLayer);
-
+    
+    public ArrayList<String> retrieveCaseTypes ();
 }
