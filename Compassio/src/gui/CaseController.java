@@ -6,6 +6,7 @@
 package gui;
 
 import java.net.URL;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -46,7 +47,7 @@ public class CaseController implements Initializable {
     @FXML
     private DatePicker closedDateField;
     @FXML
-    private ChoiceBox<?> departmentBox;
+    private ChoiceBox<Integer> departmentBox;
     @FXML
     private TextArea inquiryArea;
     @FXML
@@ -70,6 +71,21 @@ public class CaseController implements Initializable {
         editableFields.add(closedDateField);
         editableFields.add(departmentBox);
         editableFields.add(inquiryArea);
+
+        firstNameField.setText(currentCase.getFirstName());
+        lastNameField.setText(currentCase.getLastName());
+        caseIDField.setText(currentCase.getCaseID().toString());
+        //Get case types
+        mainBodyArea.setText(currentCase.getMainBody());
+        if (currentCase.getDateCreated() != null) {
+            dateCreatedField.setValue(currentCase.getDateCreated().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
+        if (currentCase.getDateClosed() != null) {
+            closedDateField.setValue(currentCase.getDateClosed().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
+        departmentBox.getItems().add(currentCase.getDepartmentID());
+        departmentBox.getSelectionModel().selectFirst();
+        inquiryArea.setText(currentCase.getInquiry());
     }
 
     @FXML
@@ -92,9 +108,12 @@ public class CaseController implements Initializable {
             editableFields.forEach(nodes -> {
                 nodes.setDisable(false);
             });
+
             cancelButton.setVisible(true);
         } else if (source.getText().equals("Gem")) {
-
+            currentCase.setDateClosed(java.util.Date.from(closedDateField.getValue().atStartOfDay()
+                    .atZone(ZoneId.systemDefault()).toInstant()));
+            currentCase.saveCase();
         }
     }
 
