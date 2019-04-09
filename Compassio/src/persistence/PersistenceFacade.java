@@ -7,6 +7,7 @@ package persistence;
 
 import java.sql.*;
 import acquaintance.IPersistence;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,9 +15,9 @@ import acquaintance.IPersistence;
  */
 public class PersistenceFacade implements IPersistence {
 
-    private String dbIP = "jdbc:postgresql://139.59.208.42:5432/postgres";
+    private String dbIP = "jdbc:postgresql://68.163.68.65:5432/postgres";
     private String username = "postgres";
-    private String password = "compassio";
+    private String password = "software-f19-4";
 
     public PersistenceFacade() {
         try {
@@ -37,4 +38,59 @@ public class PersistenceFacade implements IPersistence {
 //            ex.printStackTrace();
 //        }
 //    }
+    public String[] getCasesByUserID(int userID) {
+        ArrayList<String> cases = new ArrayList<>();
+        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+                PreparedStatement statement = db.prepareStatement(
+                        "SELECT * FROM SocialCase NATURAL JOIN CaseUserRelation NATURAL JOIN CPR WHERE 'userID'=(?)")) {
+            statement.setInt(1, userID);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                StringBuilder queryResult = new StringBuilder();
+                queryResult.append(rs.getString("firstname") + ";");
+                queryResult.append(rs.getString("lastname") + ";");
+                queryResult.append(rs.getString("caseid") + ";");
+                queryResult.append(rs.getString("cprnumber") + ";");
+                queryResult.append(rs.getString("type") + ";");
+                queryResult.append(rs.getString("mainBody") + ";");
+                queryResult.append(rs.getString("datecreated") + ";");
+                queryResult.append(rs.getString("dateclosed") + ";");
+                queryResult.append(rs.getString("departmentid") + ";");
+                queryResult.append(rs.getString("inquiry"));
+                cases.add(queryResult.toString());
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQL exception");
+            ex.printStackTrace();
+        }
+        return (String[]) cases.toArray();
+    }
+
+    public String[] getCasesByDepartment(int departmentID) {
+        ArrayList<String> cases = new ArrayList<>();
+        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+                PreparedStatement statement = db.prepareStatement(
+                        "SELECT * FROM SocialCase NATURAL JOIN CaseUserRelation NATURAL JOIN CPR WHERE 'userID'=(?)")) {
+            statement.setInt(1, departmentID);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                StringBuilder queryResult = new StringBuilder();
+                queryResult.append(rs.getString("firstname") + ";");
+                queryResult.append(rs.getString("lastname") + ";");
+                queryResult.append(rs.getString("caseid") + ";");
+                queryResult.append(rs.getString("cprnumber") + ";");
+                queryResult.append(rs.getString("type") + ";");
+                queryResult.append(rs.getString("mainBody") + ";");
+                queryResult.append(rs.getString("datecreated") + ";");
+                queryResult.append(rs.getString("dateclosed") + ";");
+                queryResult.append(rs.getString("departmentid") + ";");
+                queryResult.append(rs.getString("inquiry"));
+                cases.add(queryResult.toString());
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQL exception");
+            ex.printStackTrace();
+        }
+        return (String[]) cases.toArray();
+    }
 }
