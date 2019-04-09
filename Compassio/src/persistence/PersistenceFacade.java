@@ -43,7 +43,12 @@ public class PersistenceFacade implements IPersistence {
     public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, String type,
             String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
-                PreparedStatement statement = db.prepareStatement("INSERT INTO SocialCase VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                PreparedStatement statement = db.prepareStatement("INSERT INTO SocialCase VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(caseID) FROM SocialCase WHERE caseID = ?")) {
+            existCheck.setString(1, caseID.toString());
+            ResultSet tuples = existCheck.executeQuery();
+            tuples.next();
+            if(1 > tuples.getInt(1)){
             statement.setString(1, firstName);
             statement.setString(2, lastName);
             statement.setString(3, caseID.toString());
@@ -55,6 +60,7 @@ public class PersistenceFacade implements IPersistence {
             statement.setInt(9, departmentID);
             statement.setString(10, inquiry);
             statement.execute();
+            }
         } catch (SQLException ex) {
             System.out.println("SQL exception");
             ex.printStackTrace();
@@ -62,12 +68,19 @@ public class PersistenceFacade implements IPersistence {
     }
 
     @Override
-    public void saveCaseUserRelation(long cpr, int userID) {
+    public void saveCaseUserRelation(UUID caseID, int userID) {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
-                PreparedStatement statement = db.prepareStatement("INSERT INTO CaseUserRelation VALUES (?, ?)")) {
-            statement.setLong(1, cpr);
+                PreparedStatement statement = db.prepareStatement("INSERT INTO CaseUserRelation VALUES (?, ?)");
+                PreparedStatement existCheck = db.prepareStatement("SELECT caseID, userID FROM CaseUserRelation WHERE caseID = ? AND userID = ?")) {
+            existCheck.setString(1, caseID.toString());
+            existCheck.setInt(2, userID);
+            ResultSet existTuples = existCheck.executeQuery();
+            existTuples.next();
+            if(caseID.toString()!= existTuples.getString(1) && userID != existTuples.getInt(2)){
+            statement.setString(1, caseID.toString());
             statement.setInt(2, userID);
             statement.execute();
+            }
         } catch (SQLException ex) {
             System.out.println("SQL exception");
             ex.printStackTrace();

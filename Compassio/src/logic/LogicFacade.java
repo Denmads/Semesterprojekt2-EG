@@ -29,7 +29,7 @@ public class LogicFacade implements ILogic {
         newCase.saveCase();
         
         for (int i = 0 ; i < socialWorkers.length ; i++){
-            persistence.saveCaseUserRelation(cpr, socialWorkers[i]);
+            persistence.saveCaseUserRelation(caseID, socialWorkers[i]);
         }
 
     }
