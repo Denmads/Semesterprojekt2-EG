@@ -20,21 +20,21 @@ public class Case {
 
     private int caseID;
 
-    private int cprNumber;
+    private long cprNumber;
 
     private String type;
 
     private String mainBody;
 
-    private Calendar dateCreated;
+    private Date dateCreated;
 
-    private Calendar dateClosed;
+    private Date dateClosed;
 
     private int departmentID;
 
     private String inquiry;
     
-    public Case(String firstName, String lastName, int caseID, int cprNumber, String type, String mainBody, Calendar dateCreated, Calendar dateClosed, int departmentID, String inquiry ){
+    public Case(String firstName, String lastName, int caseID, long cprNumber, String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry ){
         this.firstName=firstName;
         this.lastName=lastName;
         this.caseID=caseID;
@@ -53,7 +53,7 @@ public class Case {
         return caseID;
     }
 
-    public int getCprNumber() {
+    public long getCprNumber() {
         return cprNumber;
     }
 
@@ -65,11 +65,11 @@ public class Case {
         return mainBody;
     }
 
-    public Calendar getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public Calendar getDateClosed() {
+    public Date getDateClosed() {
         return dateClosed;
     }
 

@@ -7,6 +7,7 @@ package logic;
 
 import acquaintance.ILogic;
 import acquaintance.IPersistence;
+import java.util.ArrayList;
 
 /**
  *
@@ -25,4 +26,8 @@ public class LogicFacade implements ILogic {
         
     }
 
+    @Override
+    public ArrayList<String> retrieveCaseTypes() {
+        return persistence.retrieveCaseTypeNames();
+    }
 }

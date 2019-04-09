@@ -5,10 +5,12 @@
  */
 package acquaintance;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Peterzxcvbnm
  */
 public interface IPersistence {
-
+    public ArrayList<String> retrieveCaseTypeNames ();
 }
