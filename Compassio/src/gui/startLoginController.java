@@ -21,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -60,6 +61,24 @@ public class startLoginController implements Initializable {
     @FXML
     private ChoiceBox<String> caseType;
     private ObservableList<String> caseTypes;
+    @FXML
+    private TextField firstNameField;
+    @FXML
+    private TextField lastNameField;
+    @FXML
+    private TextField caseIDField;
+    @FXML
+    private TextField CPRField;
+    @FXML
+    private ChoiceBox<?> caseTypeChoiceBox;
+    @FXML
+    private ChoiceBox<?> departmentBox;
+    @FXML
+    private Button editButton;
+    @FXML
+    private Button cancelButton;
+    @FXML
+    private Button closeButton;
 
     /**
      * Initializes the controller class.
@@ -192,6 +211,18 @@ public class startLoginController implements Initializable {
 
     @FXML
     private void changePassword(ActionEvent event) {
+    }
+
+    @FXML
+    private void editButton(ActionEvent event) {
+    }
+
+    @FXML
+    private void cancelButton(ActionEvent event) {
+    }
+
+    @FXML
+    private void close(ActionEvent event) {
     }
 
 }
