@@ -26,6 +26,29 @@ public class PersistenceFacade implements IPersistence {
         }
     }
 
+    public String[] retrieveUser(String username, String password) {
+        String[] user = new String[4];
+        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+                PreparedStatement statement = db.prepareStatement("SELECT * FROM people WHERE username=? AND password =?")) {
+            statement.setString(1, username);
+            statement.setString(2, password);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next() == false) {
+                return null;
+            } else {
+                user[0] = rs.getString("userid");
+                user[1] = rs.getString("username");
+                user[2] = rs.getString("firstname");
+                user[3] = rs.getString("lastname");
+                return user;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
 //    public void example() {
 //         try (Connection db = DriverManager.getConnection(dbIP, username, password);
 //                PreparedStatement statement = db.prepareStatement("INSERT INTO test VALUES (?, ?)")) {
