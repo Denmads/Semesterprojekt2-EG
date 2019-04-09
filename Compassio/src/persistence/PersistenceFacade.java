@@ -29,23 +29,23 @@ public class PersistenceFacade implements IPersistence {
         }
     }
 
-    public ArrayList<String> retrieveCaseTypeNames () {
+    public ArrayList<String> retrieveCaseTypeNames() {
         ArrayList<String> types = new ArrayList<>();
-        
+
         try (Connection db = DriverManager.getConnection(dbIP, username, password)) {
-            
+
             ResultSet result = db.prepareStatement("SELECT name FROM casetyperelation").executeQuery();
-            
-            while (result.next()) {                
+
+            while (result.next()) {
                 types.add(result.getString("name"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(PersistenceFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return types;
     }
-    
+
     @Override
     public ArrayList<Long> getUserDepartments(String userID) {
         ArrayList<Long> departments = new ArrayList();
@@ -67,7 +67,7 @@ public class PersistenceFacade implements IPersistence {
             return null;
         }
     }
-    
+
     @Override
     public String getUserType(String userID) {
         ArrayList<Long> departments = this.getUserDepartments(userID);
@@ -75,8 +75,8 @@ public class PersistenceFacade implements IPersistence {
             return "user";
         }
         try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
-                PreparedStatement statement = db.prepareStatement("SELECT type\n" +
-                "WHERE institutionID =(SELECT institutionID FROM "
+                PreparedStatement statement = db.prepareStatement("SELECT type\n"
+                        + "WHERE institutionID =(SELECT institutionID FROM "
                         + "InstitutionDeparmentRelatition "
                         + "WHERE deparmentID=?)")) {
             statement.setLong(1, departments.get(0));
@@ -89,13 +89,13 @@ public class PersistenceFacade implements IPersistence {
             } else {
                 return "socialworker";
             }
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
             return "user";
         }
     }
-    
+
     @Override
     public String[] getUser(String username, String password) {
         String[] user = new String[4];
