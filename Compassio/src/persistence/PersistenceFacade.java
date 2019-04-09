@@ -38,59 +38,73 @@ public class PersistenceFacade implements IPersistence {
 //            ex.printStackTrace();
 //        }
 //    }
-    public String[] getCasesByUserID(int userID) {
-        ArrayList<String> cases = new ArrayList<>();
+    /**
+     * Get the cases connected to the userID
+     *
+     * @param userID The userID for which all the cases are connected to
+     * @return An ArrayList with a String array containing all the attributes of
+     * the case
+     */
+    public ArrayList<String[]> getCasesByUserID(int userID) {
+        ArrayList<String[]> cases = new ArrayList<>();
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement(
                         "SELECT * FROM SocialCase NATURAL JOIN CaseUserRelation NATURAL JOIN CPR WHERE 'userID'=(?)")) {
             statement.setInt(1, userID);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                StringBuilder queryResult = new StringBuilder();
-                queryResult.append(rs.getString("firstname") + ";");
-                queryResult.append(rs.getString("lastname") + ";");
-                queryResult.append(rs.getString("caseid") + ";");
-                queryResult.append(rs.getString("cprnumber") + ";");
-                queryResult.append(rs.getString("type") + ";");
-                queryResult.append(rs.getString("mainBody") + ";");
-                queryResult.append(rs.getString("datecreated") + ";");
-                queryResult.append(rs.getString("dateclosed") + ";");
-                queryResult.append(rs.getString("departmentid") + ";");
-                queryResult.append(rs.getString("inquiry"));
-                cases.add(queryResult.toString());
+                String[] singleCase = new String[10];
+                singleCase[0] = rs.getString("firstname");
+                singleCase[1] = rs.getString("lastname");
+                singleCase[2] = rs.getString("caseid");
+                singleCase[3] = rs.getString("cprnumber");
+                singleCase[4] = rs.getString("type");
+                singleCase[5] = rs.getString("mainBody");
+                singleCase[6] = rs.getString("datecreated");
+                singleCase[7] = rs.getString("dateclosed");
+                singleCase[8] = rs.getString("departmentid");
+                singleCase[9] = rs.getString("inquiry");
+                cases.add(singleCase);
             }
         } catch (SQLException ex) {
             System.out.println("SQL exception");
             ex.printStackTrace();
         }
-        return (String[]) cases.toArray();
+        return cases;
     }
 
-    public String[] getCasesByDepartment(int departmentID) {
-        ArrayList<String> cases = new ArrayList<>();
+    /**
+     * Get the cases connected to the departmentID
+     *
+     * @param departmentID The userID for which all the cases are connected to
+     * @return An ArrayList with a String array containing all the attributes of
+     * the case
+     */
+    public ArrayList<String[]> getCasesByDepartment(int departmentID) {
+        ArrayList<String[]> cases = new ArrayList<>();
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement(
-                        "SELECT * FROM SocialCase NATURAL JOIN CaseUserRelation NATURAL JOIN CPR WHERE 'userID'=(?)")) {
+                        "SELECT * FROM SocialCase NATURAL JOIN CPR WHERE 'departmentID'=(?)")) {
             statement.setInt(1, departmentID);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                StringBuilder queryResult = new StringBuilder();
-                queryResult.append(rs.getString("firstname") + ";");
-                queryResult.append(rs.getString("lastname") + ";");
-                queryResult.append(rs.getString("caseid") + ";");
-                queryResult.append(rs.getString("cprnumber") + ";");
-                queryResult.append(rs.getString("type") + ";");
-                queryResult.append(rs.getString("mainBody") + ";");
-                queryResult.append(rs.getString("datecreated") + ";");
-                queryResult.append(rs.getString("dateclosed") + ";");
-                queryResult.append(rs.getString("departmentid") + ";");
-                queryResult.append(rs.getString("inquiry"));
-                cases.add(queryResult.toString());
+                String[] singleCase = new String[10];
+                singleCase[0] = rs.getString("firstname");
+                singleCase[1] = rs.getString("lastname");
+                singleCase[2] = rs.getString("caseid");
+                singleCase[3] = rs.getString("cprnumber");
+                singleCase[4] = rs.getString("type");
+                singleCase[5] = rs.getString("mainBody");
+                singleCase[6] = rs.getString("datecreated");
+                singleCase[7] = rs.getString("dateclosed");
+                singleCase[8] = rs.getString("departmentid");
+                singleCase[9] = rs.getString("inquiry");
+                cases.add(singleCase);
             }
         } catch (SQLException ex) {
             System.out.println("SQL exception");
             ex.printStackTrace();
         }
-        return (String[]) cases.toArray();
+        return cases;
     }
 }
