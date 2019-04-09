@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -140,12 +141,22 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="see_cases_ancher" GridPane.columnIndex="1" GridPane.columnSpan="3">
+            <AnchorPane fx:id="see_cases_ancher" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowSpan="3">
                <GridPane.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </GridPane.margin>
                <children>
-                  <ListView fx:id="listview_cases" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label styleClass="headline" text="SØG PÅ EN SAG" />
+                        <TextField>
+                           <VBox.margin>
+                              <Insets bottom="40.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <ListView fx:id="listview_cases" stylesheets="@css/Stylesheet.css" />
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="create_case" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="3">

@@ -44,7 +44,7 @@ public class GUIrun extends Application implements IGUI {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
         Parent root = loader.load();
         
-        LoginController controller = loader.getController();
+        loginController controller = loader.getController();
         
         stage.initStyle(StageStyle.TRANSPARENT);
         

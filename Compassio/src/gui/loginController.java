@@ -25,7 +25,7 @@ import javafx.stage.Stage;
  *
  * @author Peterzxcvbnm
  */
-public class LoginController implements Initializable {
+public class loginController implements Initializable {
 
     @FXML
     private GridPane login_grid;
