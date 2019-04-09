@@ -12,5 +12,5 @@ package acquaintance;
 public interface ILogic {
 
     public void injectPersistence(IPersistence PersistenceLayer);
-
+    public boolean login(String username, String password);
 }

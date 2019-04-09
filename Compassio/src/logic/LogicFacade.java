@@ -15,10 +15,23 @@ import acquaintance.IPersistence;
 public class LogicFacade implements ILogic {
 
     private IPersistence persistence;
+    User user;
 
     @Override
     public void injectPersistence(IPersistence PersistenceLayer) {
         persistence = PersistenceLayer;
     }
 
+    @Override
+    public boolean login(String username, String password) {
+        String[] result = this.persistence.retrieveUser(username, password);
+        if (result != null) {
+            this.user = new User(result[0],result[1],result[2],result[3]);
+            return true;
+        } else { 
+            return false;
+        }
+    }
+    
+    
 }

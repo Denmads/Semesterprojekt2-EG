@@ -10,5 +10,5 @@ package acquaintance;
  * @author Peterzxcvbnm
  */
 public interface IPersistence {
-
+    public String[] retrieveUser(String username, String password);
 }
