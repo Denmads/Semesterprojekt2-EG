@@ -32,22 +32,28 @@ public class startLoginController implements Initializable {
     @FXML
     private ImageView menu_click;
 
-    GUIHandler guih = new GUIHandler(){};
+    GUIHandler guih = new GUIHandler() {
+    };
     @FXML
     private ListView<?> listview_cases;
     @FXML
     private AnchorPane see_cases_ancher;
     @FXML
     private AnchorPane create_case;
-    
+
     /**
      * Initializes the controller class.
      */
-   @Override
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
         visibleMenu();
         visibleCases();
-    }    
+    }
+
+    @FXML
+    private void user_menu_close(MouseEvent event) {
+        visibleMenu();
+    }
 
     @FXML
     private void user_menu_slide(MouseEvent event) {
@@ -57,17 +63,12 @@ public class startLoginController implements Initializable {
         menu_close.setVisible(true);
     }
 
-    @FXML
-    private void user_menu_close(MouseEvent event) {
-        visibleMenu();
-    }
-    
-    private void visibleMenu(){
+    private void visibleMenu() {
         user_menu.setVisible(false);
         menu_click.setVisible(true);
         menu_close.setVisible(false);
     }
-    
+
     private void visibleCases() {
         see_cases_ancher.setVisible(false);
         create_case.setVisible(false);
@@ -112,5 +113,5 @@ public class startLoginController implements Initializable {
     @FXML
     private void changePassword(ActionEvent event) {
     }
-    
+
 }
