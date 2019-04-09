@@ -22,7 +22,15 @@ public class LogicFacade implements ILogic {
     public void injectPersistence(IPersistence PersistenceLayer) {
         persistence = PersistenceLayer;
     }
+    
+    public void createCase(int CPR, SocialWorker[] socialWorkers){
+        
+    }
 
+    @Override
+    public ArrayList<String> retrieveCaseTypes() {
+        return persistence.retrieveCaseTypeNames();
+    }
     @Override
     public boolean login(String username, String password) {
         String[] result = this.persistence.getUser(username, password);

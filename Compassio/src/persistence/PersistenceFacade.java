@@ -8,6 +8,8 @@ package persistence;
 import java.sql.*;
 import acquaintance.IPersistence;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,6 +29,23 @@ public class PersistenceFacade implements IPersistence {
         }
     }
 
+    public ArrayList<String> retrieveCaseTypeNames () {
+        ArrayList<String> types = new ArrayList<>();
+        
+        try (Connection db = DriverManager.getConnection(dbIP, username, password)) {
+            
+            ResultSet result = db.prepareStatement("SELECT name FROM casetyperelation").executeQuery();
+            
+            while (result.next()) {                
+                types.add(result.getString("name"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PersistenceFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return types;
+    }
+    
     public ArrayList<Long> getUserDepartments(String userID) {
         ArrayList<Long> departments = new ArrayList();
         try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);

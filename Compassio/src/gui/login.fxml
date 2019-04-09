@@ -74,7 +74,7 @@
                         <Insets bottom="10.0" top="30.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="user_textfield" style="-fx-background-radius: 5em;">
+                  <TextField fx:id="user_textfield" onAction="#login_button" style="-fx-background-radius: 5em;">
                      <VBox.margin>
                         <Insets bottom="30.0" />
                      </VBox.margin>
@@ -87,7 +87,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
-                  <PasswordField fx:id="password_passwordsFiled" style="-fx-background-radius: 5em;">
+                  <PasswordField fx:id="password_passwordsFiled" onAction="#login_button" style="-fx-background-radius: 5em;">
                      <VBox.margin>
                         <Insets bottom="30.0" />
                      </VBox.margin>
