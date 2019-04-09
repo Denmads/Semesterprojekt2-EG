@@ -44,11 +44,11 @@ public class PersistenceFacade implements IPersistence {
             String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement("INSERT INTO SocialCase VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(caseID) FROM SocialCase WHERE caseID = ?")) {
+                PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(caseID) AS total FROM SocialCase WHERE caseID = ?")) {
             existCheck.setString(1, caseID.toString());
             ResultSet tuples = existCheck.executeQuery();
             tuples.next();
-            if (1 > tuples.getInt(1)) {
+            if (1 > tuples.getInt("total")) {
                 statement.setString(1, firstName);
                 statement.setString(2, lastName);
                 statement.setString(3, caseID.toString());
