@@ -8,10 +8,12 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -48,7 +50,7 @@ public class startLoginController implements Initializable {
 
     @FXML
     private ListView<Case> listview_cases;
-    private FilteredList<Case> viewableCases;
+    private ObservableList<Case> viewableCases;
     private ObservableList<Case> showing;
 
     @FXML
@@ -69,15 +71,16 @@ public class startLoginController implements Initializable {
         visibleMenu();
         visibleCases();
 
-        ArrayList<Case> testCases = new ArrayList<Case>();
+        ArrayList<Case> testCases = new ArrayList<>();
         testCases.add(new Case("John", "Lars Larsen", 1234, 1234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
-        testCases.add(new Case("Lone", "Borgersen", 1234, 3112191111L, "Ældre", "", Calendar.getInstance().getTime(), new Date(System.currentTimeMillis() + 123456), 1, ""));
+        //testCases.add(new Case("Lone", "Borgersen", 1234, 3112191111L, "Ældre", "", Calendar.getInstance().getTime(), new Date(System.currentTimeMillis() + 123456), 1, ""));
         
-        viewableCases = new FilteredList<>(FXCollections.observableArrayList(testCases));
-        showing = viewableCases;
+        viewableCases = FXCollections.observableArrayList(testCases);
+        showing = listview_cases.getItems();
+        showing.addAll(viewableCases);
 
         listview_cases.setCellFactory(view -> new GUICaseCell());
-        listview_cases.setItems(showing);
+        //listview_cases.setItems(showing);
 
         searchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -108,24 +111,30 @@ public class startLoginController implements Initializable {
                 String fullName = c.getFirstName().toLowerCase() + " " + c.getLastName().toLowerCase();
                 String cpr = "" + c.getCprNumber();
                 String caseNumber = "" + c.getCaseID();
-                System.out.println((fullName.startsWith(input) || cpr.startsWith(input) || caseNumber.startsWith(input)) + " - " + c.getFirstName());
                 return fullName.startsWith(input) || cpr.startsWith(input) || caseNumber.startsWith(input);
         };
         Predicate<Case> type = c -> {
             return c.getType().equals(caseType.getValue());
         };
-        showing = viewableCases;
+        showing.clear();
+        showing.addAll(viewableCases);
+        
+        ArrayList<Case> cases = new ArrayList<>(viewableCases);
+        
         viewableCases.forEach(c -> {
             boolean show = (searchField.getText().trim().length() > 0 && text.test(c)) || searchField.getText().trim().length() == 0;
-
-            if (caseType.getSelectionModel().getSelectedIndex() != 0) {
-               show = type.test(c);
-            }
+            //System.out.println(show + " - " + c.getFirstName());
+//            if (caseType.getSelectionModel().getSelectedIndex() != 0) {
+//               show = type.test(c);
+//            }
             
             if (!show) {
-                showing.remove(c);
+                cases.remove(c);
             }
+            System.out.println(Arrays.toString(cases.toArray()));
         });
+        listview_cases.getItems().setAll(FXCollections.observableArrayList(cases));
+        listview_cases.refresh();
     }
 
     @FXML
