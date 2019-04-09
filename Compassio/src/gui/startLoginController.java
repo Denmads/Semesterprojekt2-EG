@@ -71,7 +71,12 @@ public class startLoginController implements Initializable {
         visibleMenu();
         visibleCases();
 
-        viewableCases = FXCollections.observableArrayList();
+        ArrayList<Case> testCases = new ArrayList<>();
+        testCases.add(new Case("John", "Lars Larsen", 1234, 1234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
+        testCases.add(new Case("John", "Ole Larsen", 1235, 2234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
+        testCases.add(new Case("Lone", "Borgersen", 1236, 3112191111L, "Ældre", "", Calendar.getInstance().getTime(), new Date(System.currentTimeMillis() + 123456), 1, ""));
+
+        viewableCases = FXCollections.observableArrayList(testCases);
         filteredCases = new FilteredList<>(viewableCases, p -> true);
         listview_cases.setItems(filteredCases);
 
