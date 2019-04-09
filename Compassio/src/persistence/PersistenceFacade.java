@@ -43,6 +43,11 @@ public class PersistenceFacade implements IPersistence {
     public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void saveCaseUserRelation(long cpr, int userID) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }

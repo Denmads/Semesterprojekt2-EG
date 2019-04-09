@@ -21,16 +21,20 @@ public class LogicFacade implements ILogic {
     public void injectPersistence(IPersistence PersistenceLayer) {
         persistence = PersistenceLayer;
     }
-    
-    public void createCase(long CPR, int[] socialWorkers){
+
+    public void createCase(long cpr, int[] socialWorkers) {
         UUID caseID = UUID.randomUUID();
-        Case newCase = new Case(CPR , caseID);
+        Case newCase = new Case(cpr, caseID);
         newCase.saveCase();
         
-        
+        for (int i = 0 ; i < socialWorkers.length ; i++){
+            persistence.saveCaseUserRelation(cpr, socialWorkers[i]);
+        }
+
     }
     
-    public static IPersistence getPersistence(){
+
+    public static IPersistence getPersistence() {
         return persistence;
     }
 
