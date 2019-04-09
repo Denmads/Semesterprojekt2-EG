@@ -31,7 +31,7 @@ public class LogicFacade implements ILogic {
     public ArrayList<String> retrieveCaseTypes() {
         return persistence.retrieveCaseTypeNames();
     }
-    @Override
+    
     public boolean login(String username, String password) {
         String[] result = this.persistence.getUser(username, password);
 

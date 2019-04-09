@@ -46,6 +46,7 @@ public class PersistenceFacade implements IPersistence {
         return types;
     }
     
+    @Override
     public ArrayList<Long> getUserDepartments(String userID) {
         ArrayList<Long> departments = new ArrayList();
         try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
@@ -66,7 +67,8 @@ public class PersistenceFacade implements IPersistence {
             return null;
         }
     }
-
+    
+    @Override
     public String getUserType(String userID) {
         ArrayList<Long> departments = this.getUserDepartments(userID);
         if (departments == null) {
@@ -93,7 +95,8 @@ public class PersistenceFacade implements IPersistence {
             return "user";
         }
     }
-
+    
+    @Override
     public String[] getUser(String username, String password) {
         String[] user = new String[4];
         try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);

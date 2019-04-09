@@ -43,7 +43,7 @@ public class loginController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    @Override
+
     public void initialize(URL url, ResourceBundle rb) {
         visible();
         password_passwordsFiled.setPromptText("Din adgangskode");
