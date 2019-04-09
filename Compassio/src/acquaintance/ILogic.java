@@ -5,6 +5,8 @@
  */
 package acquaintance;
 
+import java.util.Date;
+
 /**
  *
  * @author Peter Brændgaard
@@ -13,6 +15,7 @@ public interface ILogic {
 
     public void injectPersistence(IPersistence PersistenceLayer);
     
-    public void createCase(long CPR, int[] socialWorkers);
+    public void createCase(String firstName, String lastName, long cprNumber,  String type, String mainBody, 
+            Date dateCreated, Date dateClosed, int departmentID, String inquiry, int[] socialWorkers);
 
 }
