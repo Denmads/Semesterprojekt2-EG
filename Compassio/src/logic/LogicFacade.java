@@ -8,6 +8,7 @@ package logic;
 import acquaintance.ILogic;
 import acquaintance.IPersistence;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  *
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  */
 public class LogicFacade implements ILogic {
 
-    private IPersistence persistence;
+    private static IPersistence persistence;
 
     @Override
     public void injectPersistence(IPersistence PersistenceLayer) {
@@ -35,6 +36,20 @@ public class LogicFacade implements ILogic {
             response.add(new Case(singleCase[0], singleCase[1], Integer.parseInt(singleCase[2]), Integer.parseInt(singleCase[3]),
                     singleCase[4], singleCase[5], singleCase[6], singleCase[7], Integer.parseInt(singleCase[8])), singleCase[9]);
         }
+    
+        
+
+    
+
+    public void createCase(long CPR, int[] socialWorkers) {
+        UUID caseID = UUID.randomUUID();
+        Case newCase = new Case(CPR, caseID);
+        newCase.saveCase();
+
+    }
+
+    public static IPersistence getPersistence() {
+        return persistence;
     }
 
 }

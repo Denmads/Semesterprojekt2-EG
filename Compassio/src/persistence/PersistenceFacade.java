@@ -8,6 +8,7 @@ package persistence;
 import java.sql.*;
 import acquaintance.IPersistence;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  *
@@ -50,7 +51,7 @@ public class PersistenceFacade implements IPersistence {
         ArrayList<String[]> cases = new ArrayList<>();
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement(
-                        "SELECT * FROM SocialCase NATURAL JOIN CaseUserRelation NATURAL JOIN CPR WHERE 'userID'=(?)")) {
+                        "SELECT * FROM SocialCase NATURAL JOIN CaseUserRelation NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE 'userID'=(?)")) {
             statement.setInt(1, userID);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -59,7 +60,7 @@ public class PersistenceFacade implements IPersistence {
                 singleCase[1] = rs.getString("lastname");
                 singleCase[2] = rs.getString("caseid");
                 singleCase[3] = rs.getString("cprnumber");
-                singleCase[4] = rs.getString("type");
+                singleCase[4] = rs.getString("name");
                 singleCase[5] = rs.getString("mainBody");
                 singleCase[6] = rs.getString("datecreated");
                 singleCase[7] = rs.getString("dateclosed");
@@ -86,7 +87,7 @@ public class PersistenceFacade implements IPersistence {
         ArrayList<String[]> cases = new ArrayList<>();
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement(
-                        "SELECT * FROM SocialCase NATURAL JOIN CPR WHERE 'departmentID'=(?)")) {
+                        "SELECT * FROM SocialCase NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE 'departmentID'=(?)")) {
             statement.setInt(1, departmentID);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -95,7 +96,7 @@ public class PersistenceFacade implements IPersistence {
                 singleCase[1] = rs.getString("lastname");
                 singleCase[2] = rs.getString("caseid");
                 singleCase[3] = rs.getString("cprnumber");
-                singleCase[4] = rs.getString("type");
+                singleCase[4] = rs.getString("name");
                 singleCase[5] = rs.getString("mainBody");
                 singleCase[6] = rs.getString("datecreated");
                 singleCase[7] = rs.getString("dateclosed");
@@ -108,5 +109,10 @@ public class PersistenceFacade implements IPersistence {
             ex.printStackTrace();
         }
         return cases;
+    }
+
+    @Override
+    public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

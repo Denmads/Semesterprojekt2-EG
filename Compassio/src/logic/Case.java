@@ -5,8 +5,8 @@
  */
 package logic;
 
-import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  *
@@ -18,23 +18,30 @@ public class Case {
 
     private String lastName;
 
-    private int caseID;
+    private UUID caseID;
 
-    private int cprNumber;
+    private long cprNumber;
 
     private String type;
 
     private String mainBody;
 
-    private Calendar dateCreated;
+    private Date dateCreated;
 
-    private Calendar dateClosed;
+    private Date dateClosed;
 
     private int departmentID;
 
     private String inquiry;
 
-    public Case(String firstName, String lastName, int caseID, int cprNumber, String type, String mainBody, Calendar dateCreated, Calendar dateClosed, int departmentID, String inquiry) {
+    public Case(long cprNumber, UUID caseID) {
+        this.cprNumber = cprNumber;
+        this.dateCreated = new Date();
+        this.caseID = caseID;
+    }
+
+    public Case(String firstName, String lastName, UUID caseID, long cprNumber,
+            String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.caseID = caseID;
@@ -47,11 +54,11 @@ public class Case {
         this.inquiry = inquiry;
     }
 
-    public int getCaseID() {
+    public UUID getCaseID() {
         return caseID;
     }
 
-    public int getCprNumber() {
+    public long getCprNumber() {
         return cprNumber;
     }
 
@@ -63,11 +70,11 @@ public class Case {
         return mainBody;
     }
 
-    public Calendar getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public Calendar getDateClosed() {
+    public Date getDateClosed() {
         return dateClosed;
     }
 
@@ -87,4 +94,35 @@ public class Case {
         return lastName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setCaseID(UUID caseID) {
+        this.caseID = caseID;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setMainBody(String mainBody) {
+        this.mainBody = mainBody;
+    }
+
+    public void setDateClosed(Date dateClosed) {
+        this.dateClosed = dateClosed;
+    }
+
+    public void setDepartmentID(int departmentID) {
+        this.departmentID = departmentID;
+    }
+
+    public void setInquiry(String inquiry) {
+        this.inquiry = inquiry;
+    }
+
+    public void saveCase() {
+        LogicFacade.getPersistence().saveCase(firstName, lastName, caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
+    }
 }
