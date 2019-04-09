@@ -173,9 +173,9 @@
                     <VBox layoutX="70.0" layoutY="58.0" prefHeight="534.0" prefWidth="635.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                         <children>
                         <Label styleClass="headline" text="SØG PÅ EN SAG" />
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>
-                                  <Label text="Fornavn">
+                                  <Label prefWidth="100.0" text="Fornavn">
                                  <font>
                                     <Font size="12.0" />
                                  </font>
@@ -185,7 +185,7 @@
                                     <Font size="12.0" />
                                  </font>
                               </TextField>
-                                  <Label text="Efternavn">
+                                  <Label prefWidth="100.0" text="Efternavn">
                                  <font>
                                     <Font size="12.0" />
                                  </font>
@@ -196,77 +196,171 @@
                                  </font>
                               </TextField>
                            </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
                         </HBox>
-                            <Label text="Sagsnummer">
-                           <font>
-                              <Font size="12.0" />
-                           </font></Label>
-                            <TextField fx:id="caseIDField" editable="false">
-                           <font>
-                              <Font size="12.0" />
-                           </font></TextField>
-                            <Label text="CPR-nummer">
-                           <font>
-                              <Font size="12.0" />
-                           </font></Label>
-                            <TextField fx:id="CPRField" editable="false">
-                           <font>
-                              <Font size="12.0" />
-                           </font></TextField>
-                            <Label text="Sagstype">
-                           <font>
-                              <Font size="12.0" />
-                           </font></Label>
-                            <ChoiceBox fx:id="caseTypeChoiceBox" disable="true" prefHeight="25.0" prefWidth="239.0" />
-                            <Label text="Sagsindhold">
-                           <font>
-                              <Font size="12.0" />
-                           </font></Label>
-                            <TextArea fx:id="mainBodyArea" editable="false" prefHeight="384.0" prefWidth="635.0">
-                           <font>
-                              <Font size="12.0" />
-                           </font></TextArea>
-                            <Label text="Oprettelsesdato">
-                           <font>
-                              <Font size="12.0" />
-                           </font></Label>
-                            <DatePicker fx:id="dateCreatedField" editable="false" />
-                            <Label text="Aflustningsdato">
-                           <font>
-                              <Font size="12.0" />
-                           </font></Label>
-                            <DatePicker fx:id="closedDateField" editable="false" />
-                            <Label text="Bostedsafdeling">
-                           <font>
-                              <Font size="12.0" />
-                           </font></Label>
-                            <ChoiceBox fx:id="departmentBox" disable="true" prefHeight="25.0" prefWidth="239.0" />
-                            <Label text="Bostedsansøgning">
-                           <font>
-                              <Font size="12.0" />
-                           </font></Label>
-                            <TextArea fx:id="inquiryArea" editable="false" prefHeight="300.0" prefWidth="635.0">
-                           <font>
-                              <Font size="12.0" />
-                           </font></TextArea>
-                            <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                                  <Label prefWidth="100.0" text="Sagsnummer">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                                  <TextField fx:id="caseIDField" editable="false">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                                  <Label prefWidth="100.0" text="CPR-nummer">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                                  <TextField fx:id="CPRField" editable="false">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                                  <Label prefWidth="100.0" text="Sagstype">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                                  <ChoiceBox fx:id="caseTypeChoiceBox" disable="true" prefHeight="25.0" prefWidth="239.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                                  <Label prefWidth="100.0" text="Sagsindhold">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                                  <TextArea fx:id="mainBodyArea" editable="false">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </TextArea>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                                  <Label prefWidth="100.0" text="Oprettelsesdato">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                                  <DatePicker fx:id="dateCreatedField" editable="false" />
+                                  <Label prefWidth="100.0" text="Aflustningsdato">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                                  <DatePicker fx:id="closedDateField" editable="false" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                                  <Label prefWidth="100.0" text="Bostedsafdeling">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                                  <ChoiceBox fx:id="departmentBox" disable="true" prefHeight="25.0" prefWidth="239.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                                  <Label prefWidth="100.0" text="Bostedsansøgning">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                                  <TextArea fx:id="inquiryArea" editable="false">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </TextArea>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                            <HBox alignment="CENTER" spacing="20.0">
                                 <children>
-                                    <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButton" prefWidth="75.0" styleClass="btn" text="Rediger">
+                                    <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButton" prefWidth="100.0" styleClass="btn" text="Opret sag">
                                         <HBox.margin>
-                                            <Insets right="10.0" />
+                                            <Insets />
                                         </HBox.margin>
                                     </Button>
-                                    <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButton" prefWidth="75.0" text="Annuller" visible="false">
+                                    <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButton" prefWidth="100.0" text="Annuller" visible="false">
                                         <HBox.margin>
-                                            <Insets right="10.0" />
+                                            <Insets />
                                         </HBox.margin>
                                     </Button>
-                                    <Button fx:id="closeButton" mnemonicParsing="false" onAction="#close" prefWidth="75.0" styleClass="btn" text="Luk">
+                                    <Button fx:id="closeButton" mnemonicParsing="false" onAction="#close" prefWidth="100.0" styleClass="btn" text="Luk">
                                         <HBox.margin>
-                                            <Insets right="10.0" />
+                                            <Insets />
                                         </HBox.margin>
                                     </Button>
                                 </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
                             </HBox>
                             
                         </children>
