@@ -7,6 +7,7 @@ package persistence;
 
 import java.sql.*;
 import acquaintance.IPersistence;
+import java.util.UUID;
 
 /**
  *
@@ -37,4 +38,11 @@ public class PersistenceFacade implements IPersistence {
 //            ex.printStackTrace();
 //        }
 //    }
+
+    @Override
+    public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }
