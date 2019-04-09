@@ -7,20 +7,21 @@ package logic;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  *
  * @author Frederik
  */
 public class Case {
-
-    private String firstName;
     
+    private String firstName;
+
     private String lastName;
 
-    private int caseID;
+    private UUID caseID;
 
-    private int cprNumber;
+    private long cprNumber;
 
     private String type;
 
@@ -33,27 +34,25 @@ public class Case {
     private int departmentID;
 
     private String inquiry;
-    
-    public Case(String firstName, String lastName, int caseID, int cprNumber, String type, String mainBody, Calendar dateCreated, Calendar dateClosed, int departmentID, String inquiry ){
-        this.firstName=firstName;
-        this.lastName=lastName;
-        this.caseID=caseID;
-        this.cprNumber=cprNumber;
-        this.type=type;
-        this.mainBody=mainBody;
-        this.dateCreated=dateCreated;
-        this.dateClosed=dateClosed;
-        this.departmentID=departmentID;
-        this.inquiry=inquiry;
+
+    public Case(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, Calendar dateCreated, Calendar dateClosed, int departmentID, String inquiry) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.caseID = caseID;
+        this.cprNumber = cprNumber;
+        this.type = type;
+        this.mainBody = mainBody;
+        this.dateCreated = dateCreated;
+        this.dateClosed = dateClosed;
+        this.departmentID = departmentID;
+        this.inquiry = inquiry;
     }
 
-
-
-    public int getCaseID() {
+    public UUID getCaseID() {
         return caseID;
     }
 
-    public int getCprNumber() {
+    public long getCprNumber() {
         return cprNumber;
     }
 
@@ -88,7 +87,5 @@ public class Case {
     public String getLastName() {
         return lastName;
     }
-    
-    
 
 }

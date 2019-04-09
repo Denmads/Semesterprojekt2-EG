@@ -21,7 +21,7 @@ public class LogicFacade implements ILogic {
         persistence = PersistenceLayer;
     }
     
-    public void createCase(int CPR, SocialWorker[] socialWorkers){
+    public void createCase(long CPR, int[] socialWorkers){
         
     }
 

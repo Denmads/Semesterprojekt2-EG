@@ -12,5 +12,7 @@ package acquaintance;
 public interface ILogic {
 
     public void injectPersistence(IPersistence PersistenceLayer);
+    
+    public void createCase(long CPR, int[] socialWorkers);
 
 }
