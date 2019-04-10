@@ -21,4 +21,5 @@ public interface ILogic {
     public void createCase(long CPR, int[] socialWorkers);
 
     public ArrayList<String> retrieveCaseTypes ();
+     public boolean login(String username, String password);
 }

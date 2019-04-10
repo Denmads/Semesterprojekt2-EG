@@ -23,4 +23,7 @@ public interface IPersistence {
     public ArrayList<String[]> getCasesByDepartment(int departmentID);
 
     public ArrayList<String> retrieveCaseTypeNames ();
+    public String[] getUser(String username, String password);
+    public String getUserType(String userID);
+    public ArrayList<Long> getUserDepartments(String userID);
 }
