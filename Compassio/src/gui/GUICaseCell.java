@@ -84,6 +84,7 @@ public class GUICaseCell extends ListCell<Case> {
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("case.fxml")), 1024, 636));
         stage.show();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("case.fxml"));
+        loader.load();
         CaseController controller = loader.getController();
         controller.injectCase(currentCase);
     }
