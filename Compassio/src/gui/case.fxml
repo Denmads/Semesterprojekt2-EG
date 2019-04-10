@@ -22,7 +22,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CaseController">
+<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" stylesheets="@css/Stylesheet.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CaseController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="1024.0" style="-fx-background-color: #2899C2;">
          <children>
@@ -31,7 +31,7 @@
                   <Insets right="15.0" />
                </HBox.margin>
                <image>
-                  <Image url="@../img/icons8_minimize_window_22px.png" />
+                  <Image url="@img/icons8_minimize_window_22px.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="22.0" fitWidth="22.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true">
@@ -39,7 +39,7 @@
                   <Insets right="15.0" />
                </HBox.margin>
                <image>
-                  <Image url="@../img/icons8_close_window_22px.png" />
+                  <Image url="@img/icons8_delete_sign_32px.png" />
                </image>
             </ImageView>
          </children>
@@ -47,25 +47,25 @@
       <VBox layoutX="70.0" layoutY="58.0" prefHeight="534.0" prefWidth="635.0">
          <children>
             <Label text="Fornavn" />
-            <TextField fx:id="firstNameField" editable="false" />
+            <TextField fx:id="firstNameField" disable="true" />
             <Label text="Efternavn" />
-            <TextField fx:id="lastNameField" editable="false" />
+            <TextField fx:id="lastNameField" disable="true" />
             <Label text="Sagsnummer" />
-            <TextField fx:id="caseIDField" editable="false" />
+            <TextField fx:id="caseIDField" disable="true" />
             <Label text="CPR-nummer" />
-            <TextField fx:id="CPRField" editable="false" />
+            <TextField fx:id="CPRField" disable="true" />
             <Label text="Sagstype" />
             <ChoiceBox fx:id="caseTypeChoiceBox" disable="true" prefHeight="25.0" prefWidth="239.0" />
             <Label text="Sagsindhold" />
-            <TextArea fx:id="mainBodyArea" editable="false" prefHeight="384.0" prefWidth="635.0" />
+            <TextArea fx:id="mainBodyArea" disable="true" prefHeight="384.0" prefWidth="635.0" />
             <Label text="Oprettelsesdato" />
-            <DatePicker fx:id="dateCreatedField" editable="false" />
+            <DatePicker fx:id="dateCreatedField" disable="true" />
             <Label text="Aflustningsdato" />
-            <DatePicker fx:id="closedDateField" editable="false" />
+            <DatePicker fx:id="closedDateField" disable="true" />
             <Label text="Bostedsafdeling" />
             <ChoiceBox fx:id="departmentBox" disable="true" prefHeight="25.0" prefWidth="239.0" />
             <Label text="Bostedsansøgning" />
-            <TextArea fx:id="inquiryArea" editable="false" prefHeight="300.0" prefWidth="635.0" />
+            <TextArea fx:id="inquiryArea" disable="true" prefHeight="300.0" prefWidth="635.0" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButton" prefWidth="75.0" text="Rediger">

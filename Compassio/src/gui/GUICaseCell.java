@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import logic.Case;
 
 /**
@@ -82,6 +83,7 @@ public class GUICaseCell extends ListCell<Case> {
     private void btnOpenCase(MouseEvent event) throws IOException {
         Stage stage = new Stage();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("case.fxml")), 1024, 636));
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("case.fxml"));
         loader.load();
