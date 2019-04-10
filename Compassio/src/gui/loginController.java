@@ -43,7 +43,7 @@ public class loginController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    @Override
+
     public void initialize(URL url, ResourceBundle rb) {
         visible();
         password_passwordsFiled.setPromptText("Din adgangskode");
@@ -85,12 +85,12 @@ public class loginController implements Initializable {
 
     @FXML
     private void login_button(ActionEvent event) throws IOException {
-        if (user_textfield.getText().equals("") || password_passwordsFiled.getText().equals("")) {
-            label_check.setText("Du har ikke skrevet noget!");
+        if (!GUIrun.getLogic().login(user_textfield.getText(), password_passwordsFiled.getText())) {
+            label_check.setText("Ugyldigt brugernavn/password!");
             label_check.setTextFill(Color.rgb(210, 39, 30));
         } else {
             guih.changeFXMLAction("/gui/start_user_login.fxml", event);
+            
         }
     }
-
 }
