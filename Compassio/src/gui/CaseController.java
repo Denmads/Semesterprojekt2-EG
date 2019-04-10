@@ -72,20 +72,6 @@ public class CaseController implements Initializable {
         editableFields.add(departmentBox);
         editableFields.add(inquiryArea);
 
-        firstNameField.setText(currentCase.getFirstName());
-        lastNameField.setText(currentCase.getLastName());
-        caseIDField.setText(currentCase.getCaseID().toString());
-        //Get case types
-        mainBodyArea.setText(currentCase.getMainBody());
-        if (currentCase.getDateCreated() != null) {
-            dateCreatedField.setValue(currentCase.getDateCreated().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-        }
-        if (currentCase.getDateClosed() != null) {
-            closedDateField.setValue(currentCase.getDateClosed().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-        }
-        departmentBox.getItems().add(currentCase.getDepartmentID());
-        departmentBox.getSelectionModel().selectFirst();
-        inquiryArea.setText(currentCase.getInquiry());
     }
 
     @FXML
@@ -129,6 +115,24 @@ public class CaseController implements Initializable {
 
     public void injectCase(Case currentCase) {
         this.currentCase = currentCase;
+        setupCase();
+    }
+
+    private void setupCase() {
+        firstNameField.setText(currentCase.getFirstName());
+        lastNameField.setText(currentCase.getLastName());
+        caseIDField.setText(currentCase.getCaseID().toString());
+        //Get case types
+        mainBodyArea.setText(currentCase.getMainBody());
+        if (currentCase.getDateCreated() != null) {
+            dateCreatedField.setValue(currentCase.getDateCreated().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
+        if (currentCase.getDateClosed() != null) {
+            closedDateField.setValue(currentCase.getDateClosed().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
+        departmentBox.getItems().add(currentCase.getDepartmentID());
+        departmentBox.getSelectionModel().selectFirst();
+        inquiryArea.setText(currentCase.getInquiry());
     }
 
 }

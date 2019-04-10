@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.function.Predicate;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -72,6 +73,8 @@ public class startLoginController implements Initializable {
         visibleCases();
 
         ArrayList<Case> testCases = GUIrun.getLogic().getCases();
+
+        testCases.add(new Case("Peter", "Brændgaard", UUID.randomUUID(), 0, "handicap", "Noget", new Date(), new Date(), 0, "halp plz"));
 
         viewableCases = FXCollections.observableArrayList(testCases);
         filteredCases = new FilteredList<>(viewableCases, p -> true);
@@ -166,7 +169,6 @@ public class startLoginController implements Initializable {
         //are u sure u want to log out.. then cng.changeFXMLAction("/gui/login.fxml", event); or change to front page start_user_login.fxml
     }
 
-    
     @FXML
     private void user_logout(ActionEvent event) throws IOException {
         guih.changeFXMLAction("/gui/login.fxml", event);
@@ -177,6 +179,7 @@ public class startLoginController implements Initializable {
         visibleCases();
         see_cases_ancher.setVisible(false);
         create_case.setVisible(true);
+        visibleMenu();
     }
 
     @FXML
@@ -189,6 +192,10 @@ public class startLoginController implements Initializable {
 
     @FXML
     private void changePassword(ActionEvent event) {
+    }
+
+    public void openCase(MouseEvent event) {
+
     }
 
 }
