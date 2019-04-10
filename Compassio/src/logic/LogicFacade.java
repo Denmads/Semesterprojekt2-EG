@@ -23,10 +23,6 @@ public class LogicFacade implements ILogic {
         persistence = PersistenceLayer;
     }
 
-    public void createCase(int CPR, SocialWorker[] socialWorkers) {
-
-    }
-
     @Override
     public ArrayList<Case> getCases() {
         ArrayList<Case> response = new ArrayList<>();
@@ -44,6 +40,7 @@ public class LogicFacade implements ILogic {
         }
     }
 
+    @Override
     public void createCase(long CPR, int[] socialWorkers) {
         UUID caseID = UUID.randomUUID();
         Case newCase = new Case(CPR, caseID);
@@ -55,4 +52,8 @@ public class LogicFacade implements ILogic {
         return persistence;
     }
 
+    @Override
+    public ArrayList<String> retrieveCaseTypes() {
+        return persistence.retrieveCaseTypeNames();
+    }
 }

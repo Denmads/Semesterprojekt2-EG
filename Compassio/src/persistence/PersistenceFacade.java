@@ -9,6 +9,8 @@ import java.sql.*;
 import acquaintance.IPersistence;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,7 +18,7 @@ import java.util.UUID;
  */
 public class PersistenceFacade implements IPersistence {
 
-    private String dbIP = "jdbc:postgresql://68.18S3.68.65:5432/postgres";
+    private String dbIP = "jdbc:postgresql://68.183.68.65:5432/compassio";
     private String username = "postgres";
     private String password = "software-f19-4";
 
@@ -26,6 +28,23 @@ public class PersistenceFacade implements IPersistence {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<String> retrieveCaseTypeNames() {
+        ArrayList<String> types = new ArrayList<>();
+
+        try (Connection db = DriverManager.getConnection(dbIP, username, password)) {
+
+            ResultSet result = db.prepareStatement("SELECT name FROM casetyperelation").executeQuery();
+
+            while (result.next()) {
+                types.add(result.getString("name"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PersistenceFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return types;
     }
 
 //    public void example() {
