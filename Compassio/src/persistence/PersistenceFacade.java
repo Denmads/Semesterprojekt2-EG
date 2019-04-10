@@ -140,12 +140,12 @@ public class PersistenceFacade implements IPersistence {
      * the case
      */
     @Override
-    public ArrayList<String[]> getCasesByUserID(int userID) {
+    public ArrayList<String[]> getCasesByUserID(String userID) {
         ArrayList<String[]> cases = new ArrayList<>();
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement(
                         "SELECT * FROM SocialCase NATURAL JOIN CaseUserRelation NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE 'userID'=(?)")) {
-            statement.setInt(1, userID);
+            statement.setString(1, userID);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 String[] singleCase = new String[10];
@@ -176,12 +176,12 @@ public class PersistenceFacade implements IPersistence {
      * the case
      */
     @Override
-    public ArrayList<String[]> getCasesByDepartment(int departmentID) {
+    public ArrayList<String[]> getCasesByDepartment(long departmentID) {
         ArrayList<String[]> cases = new ArrayList<>();
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement(
                         "SELECT * FROM SocialCase NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE 'departmentID'=(?)")) {
-            statement.setInt(1, departmentID);
+            statement.setLong(1, departmentID);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 String[] singleCase = new String[10];
