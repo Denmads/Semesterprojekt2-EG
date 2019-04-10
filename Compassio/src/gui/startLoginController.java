@@ -8,10 +8,16 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+
+import java.util.Arrays;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
+
+import javafx.application.Platform;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -21,7 +27,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+
 import javafx.scene.control.Button;
+
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -49,8 +57,10 @@ public class startLoginController implements Initializable {
 
     @FXML
     private ListView<Case> listview_cases;
-    private FilteredList<Case> viewableCases;
-    private ObservableList<Case> showing;
+
+    private ObservableList<Case> viewableCases;
+    private FilteredList<Case> filteredCases;
+
 
     @FXML
     private AnchorPane see_cases_ancher;
@@ -61,6 +71,7 @@ public class startLoginController implements Initializable {
     @FXML
     private ChoiceBox<String> caseType;
     private ObservableList<String> caseTypes;
+
     @FXML
     private TextField firstNameField;
     @FXML
@@ -80,6 +91,7 @@ public class startLoginController implements Initializable {
     @FXML
     private Button closeButton;
 
+
     /**
      * Initializes the controller class.
      */
@@ -88,15 +100,18 @@ public class startLoginController implements Initializable {
         visibleMenu();
         visibleCases();
 
-        ArrayList<Case> testCases = new ArrayList<Case>();
+
+        ArrayList<Case> testCases = new ArrayList<>();
         testCases.add(new Case("John", "Lars Larsen", 1234, 1234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
-        testCases.add(new Case("Lone", "Borgersen", 1234, 3112191111L, "Ældre", "", Calendar.getInstance().getTime(), new Date(System.currentTimeMillis() + 123456), 1, ""));
-        
-        viewableCases = new FilteredList<>(FXCollections.observableArrayList(testCases));
-        showing = viewableCases;
+        testCases.add(new Case("John", "Ole Larsen", 1235, 2234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
+        testCases.add(new Case("Lone", "Borgersen", 1236, 3112191111L, "Ældre", "", Calendar.getInstance().getTime(), new Date(System.currentTimeMillis() + 123456), 1, ""));
+
+        viewableCases = FXCollections.observableArrayList(testCases);
+        filteredCases = new FilteredList<>(viewableCases, p -> true);
+        listview_cases.setItems(filteredCases);
 
         listview_cases.setCellFactory(view -> new GUICaseCell());
-        listview_cases.setItems(showing);
+
 
         searchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -104,15 +119,13 @@ public class startLoginController implements Initializable {
                 updateCaseFilter();
             }
         });
-        
+
         caseTypes = FXCollections.observableArrayList();
         caseTypes.add("All");
         caseTypes.addAll(GUIrun.getLogic().retrieveCaseTypes());
         caseType.setItems(caseTypes);
         caseType.getSelectionModel().select(0);
-        
-        
-        
+
         caseType.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -123,28 +136,29 @@ public class startLoginController implements Initializable {
 
     private void updateCaseFilter() {
         Predicate<Case> text = c -> {
-                String input = searchField.getText().trim().toLowerCase();
-                String fullName = c.getFirstName().toLowerCase() + " " + c.getLastName().toLowerCase();
-                String cpr = "" + c.getCprNumber();
-                String caseNumber = "" + c.getCaseID();
-                System.out.println((fullName.startsWith(input) || cpr.startsWith(input) || caseNumber.startsWith(input)) + " - " + c.getFirstName());
-                return fullName.startsWith(input) || cpr.startsWith(input) || caseNumber.startsWith(input);
-        };
-        Predicate<Case> type = c -> {
-            return c.getType().equals(caseType.getValue());
-        };
-        showing = viewableCases;
-        viewableCases.forEach(c -> {
-            boolean show = (searchField.getText().trim().length() > 0 && text.test(c)) || searchField.getText().trim().length() == 0;
 
-            if (caseType.getSelectionModel().getSelectedIndex() != 0) {
-               show = type.test(c);
+            String input = searchField.getText().trim().toLowerCase();
+            String fullName = c.getFirstName().toLowerCase() + " " + c.getLastName().toLowerCase();
+            String cpr = "" + c.getCprNumber();
+            String caseNumber = "" + c.getCaseID();
+            
+            if (searchField.getText().trim().length() == 0) {
+                return true;
             }
             
-            if (!show) {
-                showing.remove(c);
+            return fullName.startsWith(input) || cpr.startsWith(input) || caseNumber.startsWith(input);
+        };
+        Predicate<Case> type = c -> {
+            if (caseType.getSelectionModel().getSelectedIndex() == 0) {
+                return true;
             }
-        });
+            
+            return c.getType().equals(caseType.getValue());
+        };
+        
+        filteredCases.setPredicate(text.and(type));
+
+
     }
 
     @FXML
@@ -199,6 +213,7 @@ public class startLoginController implements Initializable {
         see_cases_ancher.setVisible(false);
         create_case.setVisible(true);
         visibleMenu();
+
     }
 
     @FXML
@@ -213,6 +228,7 @@ public class startLoginController implements Initializable {
     private void changePassword(ActionEvent event) {
     }
 
+
     @FXML
     private void editButton(ActionEvent event) {
     }
@@ -224,5 +240,7 @@ public class startLoginController implements Initializable {
     @FXML
     private void close(ActionEvent event) {
     }
+
+
 
 }

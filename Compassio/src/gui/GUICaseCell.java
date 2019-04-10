@@ -40,6 +40,8 @@ public class GUICaseCell extends ListCell<Case>{
     
     @Override
     protected void updateItem(Case item, boolean empty) {
+        super.updateItem(item, empty);
+        
         if (empty || item == null) {
             setText("");
             setGraphic(null);
