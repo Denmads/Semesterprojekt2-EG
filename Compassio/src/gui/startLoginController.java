@@ -71,10 +71,7 @@ public class startLoginController implements Initializable {
         visibleMenu();
         visibleCases();
 
-        ArrayList<Case> testCases = new ArrayList<>();
-        testCases.add(new Case("John", "Lars Larsen", 1234, 1234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
-        testCases.add(new Case("John", "Ole Larsen", 1235, 2234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
-        testCases.add(new Case("Lone", "Borgersen", 1236, 3112191111L, "Ældre", "", Calendar.getInstance().getTime(), new Date(System.currentTimeMillis() + 123456), 1, ""));
+        ArrayList<Case> testCases = GUIrun.getLogic().getCases();
 
         viewableCases = FXCollections.observableArrayList(testCases);
         filteredCases = new FilteredList<>(viewableCases, p -> true);
@@ -109,21 +106,21 @@ public class startLoginController implements Initializable {
             String fullName = c.getFirstName().toLowerCase() + " " + c.getLastName().toLowerCase();
             String cpr = "" + c.getCprNumber();
             String caseNumber = "" + c.getCaseID();
-            
+
             if (searchField.getText().trim().length() == 0) {
                 return true;
             }
-            
+
             return fullName.startsWith(input) || cpr.startsWith(input) || caseNumber.startsWith(input);
         };
         Predicate<Case> type = c -> {
             if (caseType.getSelectionModel().getSelectedIndex() == 0) {
                 return true;
             }
-            
+
             return c.getType().equals(caseType.getValue());
         };
-        
+
         filteredCases.setPredicate(text.and(type));
 
     }
