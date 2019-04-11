@@ -78,7 +78,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="closeButton" mnemonicParsing="false" onAction="#close" prefWidth="75.0" text="Luk">
+                  <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeButton" prefWidth="75.0" text="Luk">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>

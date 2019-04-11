@@ -108,7 +108,7 @@ public class CaseController implements Initializable {
     }
 
     @FXML
-    private void close(ActionEvent event) {
+    private void closeButton(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
