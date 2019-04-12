@@ -41,7 +41,7 @@ public class CaseController implements Initializable {
     @FXML
     private TextField CPRField;
     @FXML
-    private ChoiceBox<?> caseTypeChoiceBox;
+    private ChoiceBox<String> caseTypeChoiceBox;
     @FXML
     private TextArea mainBodyArea;
     @FXML
@@ -124,7 +124,7 @@ public class CaseController implements Initializable {
         firstNameField.setText(currentCase.getFirstName());
         lastNameField.setText(currentCase.getLastName());
         caseIDField.setText(currentCase.getCaseID().toString());
-        //Get case types
+        caseTypeChoiceBox.getItems().add(currentCase.getType());
         mainBodyArea.setText(currentCase.getMainBody());
         if (currentCase.getDateCreated() != null) {
             LocalDate date = LocalDate.parse(currentCase.getDateCreated().toString());
