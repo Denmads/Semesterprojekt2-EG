@@ -49,7 +49,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label prefWidth="100.0" text="Fornavn" />
-                  <TextField fx:id="firstNameField" disable="true" prefWidth="200.0" />
+                  <TextField fx:id="firstNameField" disable="true" prefWidth="300.0" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -58,7 +58,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label prefWidth="100.0" text="Efternavn" />
-                  <TextField fx:id="lastNameField" disable="true" prefWidth="200.0" />
+                  <TextField fx:id="lastNameField" disable="true" prefWidth="300.0" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -67,7 +67,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label prefWidth="100.0" text="Sagsnummer" />
-                  <TextField fx:id="caseIDField" disable="true" prefWidth="200.0" />
+                  <TextField fx:id="caseIDField" disable="true" prefWidth="300.0" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -76,7 +76,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label prefWidth="100.0" text="CPR-nummer" />
-                  <TextField fx:id="CPRField" disable="true" prefWidth="200.0" />
+                  <TextField fx:id="CPRField" disable="true" prefWidth="300.0" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -85,7 +85,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label prefWidth="100.0" text="Sagstype" />
-                  <ChoiceBox fx:id="caseTypeChoiceBox" disable="true" prefHeight="25.0" prefWidth="200.0" />
+                  <ChoiceBox fx:id="caseTypeChoiceBox" disable="true" prefHeight="25.0" prefWidth="300.0" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -100,7 +100,7 @@
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <DatePicker fx:id="dateCreatedField" disable="true" prefWidth="200.0" />
+                  <DatePicker fx:id="dateCreatedField" disable="true" prefWidth="300.0" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -113,7 +113,7 @@
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <DatePicker fx:id="closedDateField" disable="true" prefWidth="200.0" />
+                  <DatePicker fx:id="closedDateField" disable="true" prefWidth="300.0" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -126,7 +126,7 @@
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <ChoiceBox fx:id="departmentBox" disable="true" prefHeight="25.0" prefWidth="200.0" />
+                  <ChoiceBox fx:id="departmentBox" disable="true" prefHeight="25.0" prefWidth="300.0" />
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
