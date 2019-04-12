@@ -32,9 +32,11 @@ public class LogicFacade implements ILogic {
         ArrayList<Case> response = new ArrayList<>();
         if (userType.equals("caseworker")) {
             ArrayList<String[]> cases = persistence.getCasesByUserID(user.getUserID());
-            String[] singleCase = cases.remove(cases.size() - 1);
-            response.add(new Case(singleCase[0], singleCase[1], UUID.fromString(singleCase[2]), Long.parseLong(singleCase[3]),
-                    singleCase[4], singleCase[5], Date.valueOf(singleCase[6]), Date.valueOf(singleCase[7]), Integer.parseInt(singleCase[8]), singleCase[9]));
+            while (cases.size() > 0) {
+                String[] singleCase = cases.remove(cases.size() - 1);
+                response.add(new Case(singleCase[0], singleCase[1], UUID.fromString(singleCase[2]), Long.parseLong(singleCase[3]),
+                        singleCase[4], singleCase[5], Date.valueOf(singleCase[6]), Date.valueOf(singleCase[7]), Integer.parseInt(singleCase[8]), singleCase[9]));
+            }
         } else if (userType.equals("socialworker")) {
             SocialWorker currentUser = (SocialWorker) user;
             ArrayList<Long> departments = currentUser.getDepartments();
@@ -42,9 +44,11 @@ public class LogicFacade implements ILogic {
             departments.forEach(d -> {
                 cases.addAll(persistence.getCasesByDepartment(d));
             });
-            String[] singleCase = cases.remove(cases.size() - 1);
-            response.add(new Case(singleCase[0], singleCase[1], UUID.fromString(singleCase[2]), Long.parseLong(singleCase[3]),
-                    singleCase[4], singleCase[5], Date.valueOf(singleCase[6]), Date.valueOf(singleCase[7]), Integer.parseInt(singleCase[8]), singleCase[9]));
+            while (cases.size() > 0) {
+                String[] singleCase = cases.remove(cases.size() - 1);
+                response.add(new Case(singleCase[0], singleCase[1], UUID.fromString(singleCase[2]), Long.parseLong(singleCase[3]),
+                        singleCase[4], singleCase[5], Date.valueOf(singleCase[6]), Date.valueOf(singleCase[7]), Integer.parseInt(singleCase[8]), singleCase[9]));
+            }
         }
         return response;
     }

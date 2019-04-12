@@ -6,8 +6,10 @@
 package gui;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -125,10 +127,12 @@ public class CaseController implements Initializable {
         //Get case types
         mainBodyArea.setText(currentCase.getMainBody());
         if (currentCase.getDateCreated() != null) {
-            dateCreatedField.setValue(currentCase.getDateCreated().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            LocalDate date = LocalDate.parse(currentCase.getDateCreated().toString());
+            dateCreatedField.setValue(date); //.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
         }
         if (currentCase.getDateClosed() != null) {
-            closedDateField.setValue(currentCase.getDateClosed().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            LocalDate date = LocalDate.parse(currentCase.getDateClosed().toString());
+            closedDateField.setValue(date);//.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
         }
         departmentBox.getItems().add(currentCase.getDepartmentID());
         departmentBox.getSelectionModel().selectFirst();

@@ -76,11 +76,15 @@ public class PersistenceFacade implements IPersistence {
             return "user";
         }
         try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
-                PreparedStatement statement = db.prepareStatement("SELECT type\n"
-                        + "WHERE institutionID =(SELECT institutionID FROM "
+                PreparedStatement statement = db.prepareStatement("SELECT type FROM institution "
+                        + "WHERE institutionID=?");
+                PreparedStatement getInstitutionID = db.prepareStatement("SELECT institutionID FROM "
                         + "InstitutionDeparmentRelatition "
-                        + "WHERE deparmentID=?)")) {
-            statement.setLong(1, departments.get(0));
+                        + "WHERE deparmentID=?")) {
+            getInstitutionID.setLong(1, departments.get(0));
+            ResultSet institutionID = getInstitutionID.executeQuery();
+            institutionID.next();
+            statement.setLong(1, institutionID.getLong(1));
             ResultSet rs = statement.executeQuery();
 
             if (rs.next() == false) {
@@ -144,8 +148,8 @@ public class PersistenceFacade implements IPersistence {
         ArrayList<String[]> cases = new ArrayList<>();
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement(
-                        "SELECT * FROM SocialCase NATURAL JOIN CaseUserRelation NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE 'userID'=(?)")) {
-            statement.setString(1, userID);
+                        "SELECT * FROM SocialCase NATURAL JOIN CaseUserRelation NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE userID=(?)")) {
+            statement.setLong(1, Long.parseLong(userID));
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 String[] singleCase = new String[10];
@@ -155,8 +159,8 @@ public class PersistenceFacade implements IPersistence {
                 singleCase[3] = rs.getString("cprnumber");
                 singleCase[4] = rs.getString("name");
                 singleCase[5] = rs.getString("mainBody");
-                singleCase[6] = rs.getString("datecreated");
-                singleCase[7] = rs.getString("dateclosed");
+                singleCase[6] = rs.getString("datecreated").substring(0, 10);
+                singleCase[7] = rs.getString("dateclosed").substring(0, 10);
                 singleCase[8] = rs.getString("departmentid");
                 singleCase[9] = rs.getString("inquiry");
                 cases.add(singleCase);
