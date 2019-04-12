@@ -46,27 +46,95 @@
       </HBox>
       <VBox layoutX="70.0" layoutY="58.0" prefHeight="534.0" prefWidth="635.0">
          <children>
-            <Label text="Fornavn" />
-            <TextField fx:id="firstNameField" disable="true" />
-            <Label text="Efternavn" />
-            <TextField fx:id="lastNameField" disable="true" />
-            <Label text="Sagsnummer" />
-            <TextField fx:id="caseIDField" disable="true" />
-            <Label text="CPR-nummer" />
-            <TextField fx:id="CPRField" disable="true" />
-            <Label text="Sagstype" />
-            <ChoiceBox fx:id="caseTypeChoiceBox" disable="true" prefHeight="25.0" prefWidth="239.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefWidth="100.0" text="Fornavn" />
+                  <TextField fx:id="firstNameField" disable="true" prefWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefWidth="100.0" text="Efternavn" />
+                  <TextField fx:id="lastNameField" disable="true" prefWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefWidth="100.0" text="Sagsnummer" />
+                  <TextField fx:id="caseIDField" disable="true" prefWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefWidth="100.0" text="CPR-nummer" />
+                  <TextField fx:id="CPRField" disable="true" prefWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefWidth="100.0" text="Sagstype" />
+                  <ChoiceBox fx:id="caseTypeChoiceBox" disable="true" prefHeight="25.0" prefWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
             <Label text="Sagsindhold" />
             <TextArea fx:id="mainBodyArea" disable="true" prefHeight="384.0" prefWidth="635.0" />
-            <Label text="Oprettelsesdato" />
-            <DatePicker fx:id="dateCreatedField" disable="true" />
-            <Label text="Aflustningsdato" />
-            <DatePicker fx:id="closedDateField" disable="true" />
-            <Label text="Bostedsafdeling" />
-            <ChoiceBox fx:id="departmentBox" disable="true" prefHeight="25.0" prefWidth="239.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefWidth="100.0" text="Oprettelsesdato">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <DatePicker fx:id="dateCreatedField" disable="true" prefWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefWidth="100.0" text="Aflustningsdato">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <DatePicker fx:id="closedDateField" disable="true" prefWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefWidth="100.0" text="Bostedsafdeling">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <ChoiceBox fx:id="departmentBox" disable="true" prefHeight="25.0" prefWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
             <Label text="Bostedsansøgning" />
             <TextArea fx:id="inquiryArea" disable="true" prefHeight="300.0" prefWidth="635.0" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButton" prefWidth="75.0" styleClass="btn" text="Rediger">
                      <HBox.margin>
