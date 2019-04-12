@@ -31,7 +31,7 @@ import logic.Case;
  * @author Peterzxcvbnm
  */
 public class CaseController implements Initializable {
-
+    
     @FXML
     private TextField firstNameField;
     @FXML
@@ -58,7 +58,7 @@ public class CaseController implements Initializable {
     private Button cancelButton;
     @FXML
     private Button closeButton;
-
+    
     ArrayList<Node> editableFields;
     Case currentCase;
 
@@ -73,21 +73,21 @@ public class CaseController implements Initializable {
         editableFields.add(closedDateField);
         editableFields.add(departmentBox);
         editableFields.add(inquiryArea);
-
+        
     }
-
+    
     @FXML
     private void minimise(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
-
+    
     @FXML
     private void close(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
-
+    
     @FXML
     private void editButton(ActionEvent event) {
         Button source = (Button) event.getSource();
@@ -96,7 +96,7 @@ public class CaseController implements Initializable {
             editableFields.forEach(nodes -> {
                 nodes.setDisable(false);
             });
-
+            
             cancelButton.setVisible(true);
         } else if (source.getText().equals("Gem")) {
             currentCase.setDateClosed(java.util.Date.from(closedDateField.getValue().atStartOfDay()
@@ -104,27 +104,28 @@ public class CaseController implements Initializable {
             currentCase.saveCase();
         }
     }
-
+    
     @FXML
     private void cancelButton(ActionEvent event) {
     }
-
+    
     @FXML
     private void closeButton(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
-
+    
     public void injectCase(Case currentCase) {
         this.currentCase = currentCase;
         setupCase();
     }
-
+    
     private void setupCase() {
         firstNameField.setText(currentCase.getFirstName());
         lastNameField.setText(currentCase.getLastName());
         caseIDField.setText(currentCase.getCaseID().toString());
-        caseTypeChoiceBox.getItems().add(currentCase.getType());
+        caseTypeChoiceBox.getItems().addAll(GUIrun.getLogic().retrieveCaseTypes());
+        caseTypeChoiceBox.getSelectionModel().select(currentCase.getType());
         mainBodyArea.setText(currentCase.getMainBody());
         if (currentCase.getDateCreated() != null) {
             LocalDate date = LocalDate.parse(currentCase.getDateCreated().toString());
@@ -138,5 +139,5 @@ public class CaseController implements Initializable {
         departmentBox.getSelectionModel().selectFirst();
         inquiryArea.setText(currentCase.getInquiry());
     }
-
+    
 }
