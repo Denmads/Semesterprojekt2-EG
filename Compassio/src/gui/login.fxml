@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
+<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
     <children>
         <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="1024.0" style="-fx-background-color: #2899C2;">
             <children>
@@ -92,7 +92,7 @@
                                 <Insets bottom="30.0" />
                             </VBox.margin>
                         </PasswordField>
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#login_button" prefWidth="100.0" styleClass="btn" text="Log ind" textAlignment="CENTER" textFill="WHITE">
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#login_button" prefWidth="100.0" styleClass="btn" stylesheets="@css/Stylesheet.css" text="Log ind" textAlignment="CENTER" textFill="WHITE">
                             <font>
                                 <Font name="System Bold Italic" size="12.0" />
                             </font>
@@ -152,7 +152,7 @@
                         <Insets />
                     </GridPane.margin>
                 </ImageView>
-                <Button mnemonicParsing="false" onAction="#start_button" prefWidth="100.0" styleClass="btn" text="Log ind" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                <Button mnemonicParsing="false" onAction="#start_button" prefWidth="100.0" styleClass="btn" stylesheets="@css/Stylesheet.css" text="Log ind" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                     <font>
                         <Font name="System Bold Italic" size="12.0" />
                     </font>
