@@ -16,9 +16,9 @@ import java.util.Date;
  */
 public class PersistenceFacade implements IPersistence {
 
-    private String dbIP = "jdbc:postgresql://139.59.208.42:5432/postgres";
+    private String dbIP = "jdbc:postgresql://68.183.68.65:5432/postgres";
     private String username = "postgres";
-    private String password = "compassio";
+    private String password = "software-f19-4";
 
     public PersistenceFacade() {
         try {
@@ -45,22 +45,32 @@ public class PersistenceFacade implements IPersistence {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement("INSERT INTO SocialCase VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(caseID) AS total FROM SocialCase WHERE caseID = ?")) {
-            existCheck.setString(1, caseID.toString());
-            ResultSet tuples = existCheck.executeQuery();
-            tuples.next();
-            if (1 > tuples.getInt("total")) {
-                statement.setString(1, firstName);
-                statement.setString(2, lastName);
-                statement.setString(3, caseID.toString());
-                statement.setLong(4, cprNumber);
-                statement.setString(5, type);
-                statement.setString(6, mainBody);
+//            existCheck.setString(1, caseID.toString());
+//            ResultSet tuples = existCheck.executeQuery();
+//            tuples.next();
+//            if (1 > tuples.getInt("total")) {
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, caseID.toString());
+            statement.setLong(4, cprNumber);
+            statement.setString(5, type);
+            statement.setString(6, mainBody);
+            if (dateCreated != null) {
                 statement.setDate(7, new java.sql.Date(dateCreated.getTime()));
-                statement.setDate(8, new java.sql.Date(dateClosed.getTime()));
-                statement.setInt(9, departmentID);
-                statement.setString(10, inquiry);
-                statement.execute();
             }
+            else{
+                statement.setDate(7, null);
+            }
+            if (dateClosed != null) {
+                statement.setDate(8, new java.sql.Date(dateClosed.getTime()));
+            }
+            else{
+                statement.setDate(8, null);
+            }
+            statement.setInt(9, departmentID);
+            statement.setString(10, inquiry);
+            statement.execute();
+//            }
         } catch (SQLException ex) {
             System.out.println("SQL exception");
             ex.printStackTrace();

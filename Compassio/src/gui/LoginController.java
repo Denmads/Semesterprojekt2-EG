@@ -7,6 +7,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,7 +30,8 @@ public class LoginController implements Initializable {
     @FXML
     private GridPane start_grid;
 
-    ChangeFXML cng = new ChangeFXML(){};
+    ChangeFXML cng = new ChangeFXML() {
+    };
     @FXML
     private TextField user_textfield;
     @FXML
@@ -41,6 +43,8 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         visible();
+        GUIrun.getLogic().createCase("test", "af create case", 123456789, "test type", "dette er en test", new Date(), null, 0, "hilfe", null);
+
     }
 
     @FXML
