@@ -43,33 +43,33 @@ public class PersistenceFacade implements IPersistence {
     public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, String type,
             String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
-                PreparedStatement statement = db.prepareStatement("INSERT INTO SocialCase VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                PreparedStatement statement = db.prepareStatement("INSERT INTO SocialCase VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                 PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(caseID) AS total FROM SocialCase WHERE caseID = ?")) {
 //            existCheck.setString(1, caseID.toString());
 //            ResultSet tuples = existCheck.executeQuery();
 //            tuples.next();
 //            if (1 > tuples.getInt("total")) {
-            statement.setString(1, firstName);
-            statement.setString(2, lastName);
-            statement.setString(3, caseID.toString());
-            statement.setLong(4, cprNumber);
-            statement.setString(5, type);
-            statement.setString(6, mainBody);
+//            statement.setString(1, firstName);
+//            statement.setString(2, lastName);
+            statement.setString(1, caseID.toString());
+            statement.setLong(2, cprNumber);
+            statement.setString(3, type);
+            statement.setString(4, mainBody);
             if (dateCreated != null) {
-                statement.setDate(7, new java.sql.Date(dateCreated.getTime()));
+                statement.setDate(5, new java.sql.Date(dateCreated.getTime()));
             }
             else{
-                statement.setDate(7, null);
+                statement.setDate(5, null);
             }
             if (dateClosed != null) {
-                statement.setDate(8, new java.sql.Date(dateClosed.getTime()));
+                statement.setDate(6, new java.sql.Date(dateClosed.getTime()));
             }
             else{
-                statement.setDate(8, null);
+                statement.setDate(6, null);
             }
-            statement.setInt(9, departmentID);
-            statement.setString(10, inquiry);
-            statement.execute();
+            statement.setInt(7, departmentID);
+            statement.setString(8, inquiry);
+            statement.executeUpdate();
 //            }
         } catch (SQLException ex) {
             System.out.println("SQL exception");

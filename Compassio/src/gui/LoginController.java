@@ -43,7 +43,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         visible();
-        GUIrun.getLogic().createCase("test", "af create case", 123456789, "test type", "dette er en test", new Date(), null, 0, "hilfe", null);
+        GUIrun.getLogic().createCase("test", "af create case", 123456789, "test type", "dette er en test", new Date(), null, -1, "hilfe", null);
 
     }
 
