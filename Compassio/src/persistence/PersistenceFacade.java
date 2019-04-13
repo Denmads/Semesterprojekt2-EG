@@ -16,7 +16,7 @@ import java.util.Date;
  */
 public class PersistenceFacade implements IPersistence {
 
-    private String dbIP = "jdbc:compassio://68.183.68.65:5432/postgres";
+    private String dbIP = "jdbc:postgresql://68.183.68.65:5432/compassio";
     private String username = "postgres";
     private String password = "software-f19-4";
 
@@ -49,29 +49,28 @@ public class PersistenceFacade implements IPersistence {
             ResultSet tuples = existCheck.executeQuery();
             tuples.next();
             if (1 > tuples.getInt("total")) {
-            statement.setString(1, firstName);
-            statement.setString(2, lastName);
-            statement.setString(1, caseID.toString());
-            statement.setLong(2, cprNumber);
-            statement.setLong(8, typeID);
-            statement.setString(3, mainBody);
-            if (dateCreated != null) {
-                statement.setDate(4, new java.sql.Date(dateCreated.getTime()));
-            } else {
-                statement.setDate(4, null);
-            }
-            if (dateClosed != null) {
-                statement.setDate(5, new java.sql.Date(dateClosed.getTime()));
-            } else {
-                statement.setDate(5, null);
-            }
-            statement.setInt(6, departmentID);
-            statement.setString(7, inquiry);
-            statement.execute();
+                statement.setString(1, firstName);
+                statement.setString(2, lastName);
+                statement.setString(1, caseID.toString());
+                statement.setLong(2, cprNumber);
+                statement.setLong(8, typeID);
+                statement.setString(3, mainBody);
+                if (dateCreated != null) {
+                    statement.setDate(4, new java.sql.Date(dateCreated.getTime()));
+                } else {
+                    statement.setDate(4, null);
+                }
+                if (dateClosed != null) {
+                    statement.setDate(5, new java.sql.Date(dateClosed.getTime()));
+                } else {
+                    statement.setDate(5, null);
+                }
+                statement.setInt(6, departmentID);
+                statement.setString(7, inquiry);
+                statement.execute();
             }
         } catch (SQLException ex) {
             System.out.println("SQL exception");
-            System.out.println("yeet");
             ex.printStackTrace();
         }
     }
@@ -94,7 +93,7 @@ public class PersistenceFacade implements IPersistence {
 
     public static void main(String[] args) {
         PersistenceFacade virk = new PersistenceFacade();
-        virk.saveCase("test", "af create case",UUID.randomUUID() ,(long)123456789, (long)76, "dette er en test", new Date(), new Date(), -1, "");
+        virk.saveCase("test", "af create case", UUID.randomUUID(), (long) 123456789, (long) 76, "dette er en test", new Date(), new Date(), -1, "");
 
     }
 }
