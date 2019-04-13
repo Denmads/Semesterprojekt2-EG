@@ -17,5 +17,7 @@ public interface IPersistence {
     public void saveCase(UUID caseID, long cprNumber, long typeID, String mainBody,
             Date dateCreated, Date dateClosed, int departmentID, String inquiry);
     
-    public void saveCaseUserRelation(UUID caseID, int userID);
+    public void saveCaseUserRelation(UUID caseID, int[] userID);
+    
+    public void insertNewPatient(long cpr, String firstName, String lastName);
 }

@@ -122,4 +122,8 @@ public class Case {
     public void saveCase() {
         LogicFacade.getPersistence().saveCase(caseID, cprNumber, typeID, mainBody, dateCreated, dateClosed, departmentID, inquiry);
     }
+    
+    public void addPatientToDatabase(){
+        LogicFacade.getPersistence().insertNewPatient(cprNumber, firstName, lastName);
+    }
 }
