@@ -40,7 +40,7 @@ public class PersistenceFacade implements IPersistence {
 //        }
 //    }
     @Override
-    public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, String type,
+    public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, long typeID,
             String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement("INSERT INTO SocialCase VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -53,22 +53,22 @@ public class PersistenceFacade implements IPersistence {
 //            statement.setString(2, lastName);
             statement.setString(1, caseID.toString());
             statement.setLong(2, cprNumber);
-            statement.setString(3, type);
-            statement.setString(4, mainBody);
+            statement.setLong(8, typeID);
+            statement.setString(3, mainBody);
             if (dateCreated != null) {
-                statement.setDate(5, new java.sql.Date(dateCreated.getTime()));
+                statement.setDate(4, new java.sql.Date(dateCreated.getTime()));
+            }
+            else{
+                statement.setDate(4, null);
+            }
+            if (dateClosed != null) {
+                statement.setDate(5, new java.sql.Date(dateClosed.getTime()));
             }
             else{
                 statement.setDate(5, null);
             }
-            if (dateClosed != null) {
-                statement.setDate(6, new java.sql.Date(dateClosed.getTime()));
-            }
-            else{
-                statement.setDate(6, null);
-            }
-            statement.setInt(7, departmentID);
-            statement.setString(8, inquiry);
+            statement.setInt(6, departmentID);
+            statement.setString(7, inquiry);
             statement.executeUpdate();
 //            }
         } catch (SQLException ex) {
