@@ -43,36 +43,35 @@ public class PersistenceFacade implements IPersistence {
     public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, long typeID,
             String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
-                PreparedStatement statement = db.prepareStatement("INSERT INTO SocialCase VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                PreparedStatement statement = db.prepareStatement("INSERT INTO \"socialcase\" VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                 PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(caseID) AS total FROM SocialCase WHERE caseID = ?")) {
-//            existCheck.setString(1, caseID.toString());
-//            ResultSet tuples = existCheck.executeQuery();
-//            tuples.next();
-//            if (1 > tuples.getInt("total")) {
-//            statement.setString(1, firstName);
-//            statement.setString(2, lastName);
+            existCheck.setString(1, caseID.toString());
+            ResultSet tuples = existCheck.executeQuery();
+            tuples.next();
+            if (1 > tuples.getInt("total")) {
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
             statement.setString(1, caseID.toString());
             statement.setLong(2, cprNumber);
             statement.setLong(8, typeID);
             statement.setString(3, mainBody);
             if (dateCreated != null) {
                 statement.setDate(4, new java.sql.Date(dateCreated.getTime()));
-            }
-            else{
+            } else {
                 statement.setDate(4, null);
             }
             if (dateClosed != null) {
                 statement.setDate(5, new java.sql.Date(dateClosed.getTime()));
-            }
-            else{
+            } else {
                 statement.setDate(5, null);
             }
             statement.setInt(6, departmentID);
             statement.setString(7, inquiry);
-            statement.executeUpdate();
-//            }
+            statement.execute();
+            }
         } catch (SQLException ex) {
             System.out.println("SQL exception");
+            System.out.println("yeet");
             ex.printStackTrace();
         }
     }
@@ -90,6 +89,12 @@ public class PersistenceFacade implements IPersistence {
             ex.printStackTrace();
 
         }
+
+    }
+
+    public static void main(String[] args) {
+        PersistenceFacade virk = new PersistenceFacade();
+        virk.saveCase("test", "af create case",UUID.randomUUID() ,(long)123456789, (long)76, "dette er en test", new Date(), new Date(), -1, "");
 
     }
 }
