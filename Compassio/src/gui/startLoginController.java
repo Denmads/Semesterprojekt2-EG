@@ -7,6 +7,9 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 import java.util.Arrays;
@@ -31,7 +34,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -61,7 +66,6 @@ public class startLoginController implements Initializable {
     private ObservableList<Case> viewableCases;
     private FilteredList<Case> filteredCases;
 
-
     @FXML
     private AnchorPane see_cases_ancher;
     @FXML
@@ -90,7 +94,14 @@ public class startLoginController implements Initializable {
     private Button cancelButton;
     @FXML
     private Button closeButton;
-
+    @FXML
+    private TextArea mainBodyArea;
+    @FXML
+    private DatePicker dateCreatedField;
+    @FXML
+    private DatePicker closedDateField;
+    @FXML
+    private TextArea inquiryArea;
 
     /**
      * Initializes the controller class.
@@ -99,7 +110,6 @@ public class startLoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         visibleMenu();
         visibleCases();
-
 
         ArrayList<Case> testCases = new ArrayList<>();
 //        testCases.add(new Case("John", "Lars Larsen", 1234, 1234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
@@ -111,7 +121,6 @@ public class startLoginController implements Initializable {
         listview_cases.setItems(filteredCases);
 
         listview_cases.setCellFactory(view -> new GUICaseCell());
-
 
         searchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -140,21 +149,21 @@ public class startLoginController implements Initializable {
             String fullName = c.getFirstName().toLowerCase() + " " + c.getLastName().toLowerCase();
             String cpr = "" + c.getCprNumber();
             String caseNumber = "" + c.getCaseID();
-            
+
             if (searchField.getText().trim().length() == 0) {
                 return true;
             }
-            
+
             return fullName.startsWith(input) || cpr.startsWith(input) || caseNumber.startsWith(input);
         };
         Predicate<Case> type = c -> {
             if (caseType.getSelectionModel().getSelectedIndex() == 0) {
                 return true;
             }
-            
+
             return c.getType() == (Long.parseLong(caseType.getValue()));
         };
-        
+
         filteredCases.setPredicate(text.and(type));
 
     }
@@ -200,7 +209,6 @@ public class startLoginController implements Initializable {
         //are u sure u want to log out.. then cng.changeFXMLAction("/gui/login.fxml", event); or change to front page start_user_login.fxml
     }
 
-    
     @FXML
     private void user_logout(ActionEvent event) throws IOException {
         guih.changeFXMLAction("/gui/login.fxml", event);
@@ -212,6 +220,7 @@ public class startLoginController implements Initializable {
         see_cases_ancher.setVisible(false);
         create_case.setVisible(true);
         visibleMenu();
+        accessToCreateCase(true);
 
     }
 
@@ -227,9 +236,16 @@ public class startLoginController implements Initializable {
     private void changePassword(ActionEvent event) {
     }
 
-
     @FXML
-    private void editButton(ActionEvent event) {
+    private void createCaseButton(ActionEvent event) {
+        LocalDate localDate = dateCreatedField.getValue();
+        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+        Date dateCreated = Date.from(instant);
+
+        localDate = closedDateField.getValue();
+        instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+        Date dateClosed = Date.from(instant);
+
     }
 
     @FXML
@@ -240,6 +256,15 @@ public class startLoginController implements Initializable {
     private void close(ActionEvent event) {
     }
 
-
+    private void accessToCreateCase(boolean editable) {
+        firstNameField.setEditable(editable);
+        lastNameField.setEditable(editable);
+        caseIDField.setEditable(editable);
+        CPRField.setEditable(editable);
+        mainBodyArea.setEditable(editable);
+        dateCreatedField.setEditable(editable);
+        closedDateField.setEditable(editable);
+        inquiryArea.setEditable(editable);
+    }
 
 }

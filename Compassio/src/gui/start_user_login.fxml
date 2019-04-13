@@ -8,9 +8,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -343,7 +340,7 @@
                         </HBox>
                             <HBox alignment="CENTER" spacing="20.0">
                                 <children>
-                                    <Button fx:id="editButton" mnemonicParsing="false" onAction="#editButton" prefWidth="100.0" styleClass="btn" text="Opret sag">
+                                    <Button fx:id="editButton" mnemonicParsing="false" onAction="#createCaseButton" prefWidth="100.0" styleClass="btn" text="Opret sag">
                                         <HBox.margin>
                                             <Insets />
                                         </HBox.margin>
@@ -417,4 +414,3 @@
             </HBox>
         </children>
     </AnchorPane>
-
