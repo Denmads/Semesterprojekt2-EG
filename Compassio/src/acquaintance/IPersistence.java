@@ -13,4 +13,7 @@ import java.util.ArrayList;
  */
 public interface IPersistence {
     public ArrayList<String> retrieveCaseTypeNames ();
+    public String[] getUser(String username, String password);
+    public String getUserType(String userID);
+    public ArrayList<Long> getUserDepartments(String userID);
 }

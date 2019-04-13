@@ -16,4 +16,5 @@ public interface ILogic {
     public void injectPersistence(IPersistence PersistenceLayer);
     
     public ArrayList<String> retrieveCaseTypes ();
+     public boolean login(String username, String password);
 }
