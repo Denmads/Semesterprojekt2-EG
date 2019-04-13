@@ -93,7 +93,7 @@ public class PersistenceFacade implements IPersistence {
 
     public static void main(String[] args) {
         PersistenceFacade virk = new PersistenceFacade();
-        virk.saveCase("test", "af create case", UUID.randomUUID(), (long) 123456789, (long) 76, "dette er en test", new Date(), new Date(), -1, "");
+        virk.saveCase("test", "af create case", UUID.randomUUID(), (long) 1204372878, (long) 1, "dette er en test", new Date(), new Date(), -1, "");
 
     }
 }
