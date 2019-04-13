@@ -34,7 +34,8 @@ public class loginController implements Initializable {
 
     GUIHandler guih = new GUIHandler(){};
 
-    ChangeFXML cng = new ChangeFXML();
+    ChangeFXML cng = new ChangeFXML();{ 
+};
     
     @FXML
     private TextField user_textfield;

@@ -102,9 +102,9 @@ public class startLoginController implements Initializable {
 
 
         ArrayList<Case> testCases = new ArrayList<>();
-        testCases.add(new Case("John", "Lars Larsen", 1234, 1234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
-        testCases.add(new Case("John", "Ole Larsen", 1235, 2234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
-        testCases.add(new Case("Lone", "Borgersen", 1236, 3112191111L, "Ældre", "", Calendar.getInstance().getTime(), new Date(System.currentTimeMillis() + 123456), 1, ""));
+//        testCases.add(new Case("John", "Lars Larsen", 1234, 1234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
+//        testCases.add(new Case("John", "Ole Larsen", 1235, 2234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
+//        testCases.add(new Case("Lone", "Borgersen", 1236, 3112191111L, "Ældre", "", Calendar.getInstance().getTime(), new Date(System.currentTimeMillis() + 123456), 1, ""));
 
         viewableCases = FXCollections.observableArrayList(testCases);
         filteredCases = new FilteredList<>(viewableCases, p -> true);
@@ -136,7 +136,6 @@ public class startLoginController implements Initializable {
 
     private void updateCaseFilter() {
         Predicate<Case> text = c -> {
-
             String input = searchField.getText().trim().toLowerCase();
             String fullName = c.getFirstName().toLowerCase() + " " + c.getLastName().toLowerCase();
             String cpr = "" + c.getCprNumber();
@@ -153,11 +152,10 @@ public class startLoginController implements Initializable {
                 return true;
             }
             
-            return c.getType().equals(caseType.getValue());
+            return c.getType() == (Long.parseLong(caseType.getValue()));
         };
         
         filteredCases.setPredicate(text.and(type));
-
 
     }
 
