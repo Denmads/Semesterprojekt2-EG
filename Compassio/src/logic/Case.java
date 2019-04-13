@@ -120,6 +120,6 @@ public class Case {
     }
 
     public void saveCase() {
-        LogicFacade.getPersistence().saveCase(firstName, lastName, caseID, cprNumber, typeID, mainBody, dateCreated, dateClosed, departmentID, inquiry);
+        LogicFacade.getPersistence().saveCase(caseID, cprNumber, typeID, mainBody, dateCreated, dateClosed, departmentID, inquiry);
     }
 }

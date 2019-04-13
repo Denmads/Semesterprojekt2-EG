@@ -40,16 +40,15 @@ public class PersistenceFacade implements IPersistence {
 //        }
 //    }
     @Override
-    public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, long typeID,
+    public void saveCase(UUID caseID, long cprNumber, long typeID,
             String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement("INSERT INTO \"socialcase\" VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                 PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(caseID) AS total FROM SocialCase WHERE caseID = ?")) {
             existCheck.setString(1, caseID.toString());
             ResultSet tuples = existCheck.executeQuery();
+            tuples.next();
             if (1 > tuples.getInt("total")) {
-                statement.setString(1, firstName);
-                statement.setString(2, lastName);
                 statement.setString(1, caseID.toString());
                 statement.setLong(2, cprNumber);
                 statement.setLong(8, typeID);
@@ -92,7 +91,7 @@ public class PersistenceFacade implements IPersistence {
 
     public static void main(String[] args) {
         PersistenceFacade virk = new PersistenceFacade();
-        virk.saveCase("test", "af create case", UUID.randomUUID(), (long) 1204372878, (long) 1, "dette er en test", new Date(), new Date(), -1, "");
+        virk.saveCase(UUID.randomUUID(), (long) 1204372878, (long) 1, "dette er en test", new Date(), new Date(), -1, "");
 
     }
 }
