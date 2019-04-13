@@ -16,7 +16,7 @@ import java.util.Date;
  */
 public class PersistenceFacade implements IPersistence {
 
-    private String dbIP = "jdbc:postgresql://68.183.68.65:5432/postgres";
+    private String dbIP = "jdbc:compassio://68.183.68.65:5432/postgres";
     private String username = "postgres";
     private String password = "software-f19-4";
 
