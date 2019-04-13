@@ -33,6 +33,9 @@ public class loginController implements Initializable {
     private GridPane start_grid;
 
     GUIHandler guih = new GUIHandler(){};
+
+    ChangeFXML cng = new ChangeFXML();
+    
     @FXML
     private TextField user_textfield;
     @FXML

@@ -5,8 +5,8 @@
  */
 package logic;
 
-import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  *
@@ -15,14 +15,14 @@ import java.util.Date;
 public class Case {
 
     private String firstName;
-    
+
     private String lastName;
 
-    private int caseID;
+    private UUID caseID;
 
     private long cprNumber;
 
-    private String type;
+    private long typeID;
 
     private String mainBody;
 
@@ -33,23 +33,26 @@ public class Case {
     private int departmentID;
 
     private String inquiry;
-    
-    public Case(String firstName, String lastName, int caseID, long cprNumber, String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry ){
-        this.firstName=firstName;
-        this.lastName=lastName;
-        this.caseID=caseID;
-        this.cprNumber=cprNumber;
-        this.type=type;
-        this.mainBody=mainBody;
-        this.dateCreated=dateCreated;
-        this.dateClosed=dateClosed;
-        this.departmentID=departmentID;
-        this.inquiry=inquiry;
+
+
+    public Case(long cprNumber, UUID caseID, Date dateCreated) {
+        this.cprNumber = cprNumber;
+        this.dateCreated = dateCreated;
+        this.caseID = caseID;
     }
 
+    public Case(String firstName, String lastName, UUID caseID, long cprNumber, long typeID, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
+        this(cprNumber, caseID, dateCreated);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.typeID = typeID;
+        this.mainBody = mainBody;
+        this.dateClosed = dateClosed;
+        this.departmentID = departmentID;
+        this.inquiry = inquiry;
+    }
 
-
-    public int getCaseID() {
+    public UUID getCaseID() {
         return caseID;
     }
 
@@ -57,8 +60,8 @@ public class Case {
         return cprNumber;
     }
 
-    public String getType() {
-        return type;
+    public long getType() {
+        return typeID;
     }
 
     public String getMainBody() {
@@ -88,7 +91,40 @@ public class Case {
     public String getLastName() {
         return lastName;
     }
-    
-    
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setCaseID(UUID caseID) {
+        this.caseID = caseID;
+    }
+
+    public void setType(long type) {
+        this.typeID = type;
+    }
+
+    public void setMainBody(String mainBody) {
+        this.mainBody = mainBody;
+    }
+
+    public void setDateClosed(Date dateClosed) {
+        this.dateClosed = dateClosed;
+    }
+
+    public void setDepartmentID(int departmentID) {
+        this.departmentID = departmentID;
+    }
+
+    public void setInquiry(String inquiry) {
+        this.inquiry = inquiry;
+    }
+
+    public void saveCase() {
+        LogicFacade.getPersistence().saveCase(caseID, cprNumber, typeID, mainBody, dateCreated, dateClosed, departmentID, inquiry);
+    }
+    
+    public void addPatientToDatabase(){
+        LogicFacade.getPersistence().insertNewPatient(cprNumber, firstName, lastName);
+    }
 }

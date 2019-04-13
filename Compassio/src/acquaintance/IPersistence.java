@@ -6,6 +6,8 @@
 package acquaintance;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  *
@@ -16,4 +18,11 @@ public interface IPersistence {
     public String[] getUser(String username, String password);
     public String getUserType(String userID);
     public ArrayList<Long> getUserDepartments(String userID);
+    
+    public void saveCase(UUID caseID, long cprNumber, long typeID, String mainBody,
+            Date dateCreated, Date dateClosed, int departmentID, String inquiry);
+    
+    public void saveCaseUserRelation(UUID caseID, int[] userID);
+    
+    public void insertNewPatient(long cpr, String firstName, String lastName);
 }
