@@ -134,14 +134,14 @@ public class PersistenceFacade implements IPersistence {
 //        }
 //    }
     @Override
-    public void saveCase(UUID caseID, long cprNumber, long typeID,
+    public void saveCase(UUID caseID, long cprNumber, String type,
             String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement("INSERT INTO \"socialcase\" VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
             if (1 > checkForCaseID(db, caseID)) {
                 statement.setString(1, caseID.toString());
                 statement.setLong(2, cprNumber);
-                statement.setLong(8, typeID);
+                statement.setLong(8, getTypeID(db, type));
                 statement.setString(3, mainBody);
                 if (dateCreated != null) {
                     statement.setDate(4, new java.sql.Date(dateCreated.getTime()));
@@ -164,12 +164,12 @@ public class PersistenceFacade implements IPersistence {
     }
 
     @Override
-    public void saveCaseUserRelation(UUID caseID, int[] userID) {
+    public void saveCaseUserRelation(UUID caseID, ArrayList<Integer> userID) {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement("INSERT INTO CaseUserRelation VALUES (?, ?)");) {
-            for (int i = 0; i < userID.length; i++) {
+            for (int i = 0; i < userID.size(); i++) {
                 statement.setString(1, caseID.toString());
-                statement.setInt(2, userID[i]);
+                statement.setInt(2, userID.get(i));
                 statement.execute();
             }
 
@@ -209,9 +209,24 @@ public class PersistenceFacade implements IPersistence {
 
     }
 
+    public long getTypeID(Connection db, String type) {
+        ResultSet tuples = null;
+        try (PreparedStatement statement = db.prepareStatement("SELECT typeID AS casetype FROM CaseTypeRelation WHERE name = ?")) {
+            statement.setString(1, type);
+            tuples = statement.executeQuery();
+            tuples.next();
+            return tuples.getLong("casetype");
+        } catch (SQLException ex) {
+            System.out.println("SQL exception");
+            ex.printStackTrace();
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         PersistenceFacade virk = new PersistenceFacade();
-        virk.saveCase(UUID.randomUUID(), (long) 1204372878, (long) 1, "dette er en test", new Date(), new Date(), -1, "");
+        virk.saveCase(UUID.randomUUID(), (long) 1204372878, "noget", "dette er en test", new Date(), new Date(), -1, "");
 
     }
+
 }

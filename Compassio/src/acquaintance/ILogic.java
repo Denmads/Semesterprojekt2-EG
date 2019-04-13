@@ -18,6 +18,6 @@ public interface ILogic {
     
     public ArrayList<String> retrieveCaseTypes ();
      public boolean login(String username, String password);
-    public void createCase(String firstName, String lastName, long cprNumber,  long typeID, String mainBody, 
-            Date dateCreated, Date dateClosed, int departmentID, String inquiry, int[] socialWorkers);
+    public void createCase(String firstName, String lastName, long cprNumber,  String type, String mainBody, 
+            Date dateCreated, Date dateClosed, int departmentID, String inquiry, ArrayList<Integer> socialWorkers);
 }

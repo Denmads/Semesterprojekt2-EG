@@ -19,10 +19,10 @@ public interface IPersistence {
     public String getUserType(String userID);
     public ArrayList<Long> getUserDepartments(String userID);
     
-    public void saveCase(UUID caseID, long cprNumber, long typeID, String mainBody,
+    public void saveCase(UUID caseID, long cprNumber, String type, String mainBody,
             Date dateCreated, Date dateClosed, int departmentID, String inquiry);
     
-    public void saveCaseUserRelation(UUID caseID, int[] userID);
+    public void saveCaseUserRelation(UUID caseID, ArrayList<Integer> userID);
     
     public void insertNewPatient(long cpr, String firstName, String lastName);
 }

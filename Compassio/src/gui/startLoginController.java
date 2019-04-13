@@ -85,9 +85,9 @@ public class startLoginController implements Initializable {
     @FXML
     private TextField CPRField;
     @FXML
-    private ChoiceBox<?> caseTypeChoiceBox;
+    private ChoiceBox<String> caseTypeChoiceBox;
     @FXML
-    private ChoiceBox<?> departmentBox;
+    private ChoiceBox<Integer> departmentBox;
     @FXML
     private Button editButton;
     @FXML
@@ -161,7 +161,7 @@ public class startLoginController implements Initializable {
                 return true;
             }
 
-            return c.getType() == (Long.parseLong(caseType.getValue()));
+            return c.getType().equals(caseType.getValue());
         };
 
         filteredCases.setPredicate(text.and(type));
@@ -245,6 +245,9 @@ public class startLoginController implements Initializable {
         localDate = closedDateField.getValue();
         instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
         Date dateClosed = Date.from(instant);
+        
+        GUIrun.getLogic().createCase(firstNameField.getText(), lastNameField.getText(), Long.parseLong(CPRField.getText()), 
+                caseTypeChoiceBox.getValue(), mainBodyArea.getText(), dateCreated, dateClosed, departmentBox.getValue(), inquiryArea.getText(), null);
 
     }
 

@@ -22,7 +22,7 @@ public class Case {
 
     private long cprNumber;
 
-    private long typeID;
+    private String type;
 
     private String mainBody;
 
@@ -41,11 +41,11 @@ public class Case {
         this.caseID = caseID;
     }
 
-    public Case(String firstName, String lastName, UUID caseID, long cprNumber, long typeID, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
+    public Case(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
         this(cprNumber, caseID, dateCreated);
         this.firstName = firstName;
         this.lastName = lastName;
-        this.typeID = typeID;
+        this.type = type;
         this.mainBody = mainBody;
         this.dateClosed = dateClosed;
         this.departmentID = departmentID;
@@ -60,8 +60,8 @@ public class Case {
         return cprNumber;
     }
 
-    public long getType() {
-        return typeID;
+    public String getType() {
+        return type;
     }
 
     public String getMainBody() {
@@ -100,8 +100,8 @@ public class Case {
         this.caseID = caseID;
     }
 
-    public void setType(long type) {
-        this.typeID = type;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void setMainBody(String mainBody) {
@@ -121,7 +121,7 @@ public class Case {
     }
 
     public void saveCase() {
-        LogicFacade.getPersistence().saveCase(caseID, cprNumber, typeID, mainBody, dateCreated, dateClosed, departmentID, inquiry);
+        LogicFacade.getPersistence().saveCase(caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
     }
     
     public void addPatientToDatabase(){
