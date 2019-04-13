@@ -47,7 +47,6 @@ public class PersistenceFacade implements IPersistence {
                 PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(caseID) AS total FROM SocialCase WHERE caseID = ?")) {
             existCheck.setString(1, caseID.toString());
             ResultSet tuples = existCheck.executeQuery();
-            tuples.next();
             if (1 > tuples.getInt("total")) {
                 statement.setString(1, firstName);
                 statement.setString(2, lastName);
