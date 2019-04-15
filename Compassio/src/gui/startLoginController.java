@@ -86,8 +86,10 @@ public class startLoginController implements Initializable {
     private TextField CPRField;
     @FXML
     private ChoiceBox<String> caseTypeChoiceBox;
+    private ObservableList<String> caseTypeChoices;
     @FXML
-    private ChoiceBox<Integer> departmentBox;
+    private ChoiceBox<String> departmentBox;
+    private ObservableList<String> departmentTypes;
     @FXML
     private Button editButton;
     @FXML
@@ -141,6 +143,11 @@ public class startLoginController implements Initializable {
                 updateCaseFilter();
             }
         });
+        
+        departmentTypes = FXCollections.observableArrayList(GUIrun.getLogic().getDepartmentInfo());
+        departmentBox.setItems(departmentTypes);
+        caseTypeChoices = FXCollections.observableArrayList(GUIrun.getLogic().getCaseTypeInfo());
+        caseTypeChoiceBox.setItems(caseTypeChoices);
     }
 
     private void updateCaseFilter() {
@@ -245,9 +252,12 @@ public class startLoginController implements Initializable {
         localDate = closedDateField.getValue();
         instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
         Date dateClosed = Date.from(instant);
+        String[] departmentInfo = departmentBox.getValue().split(" ");
+        int departmentID = Integer.parseInt(departmentInfo[0]);
         
         GUIrun.getLogic().createCase(firstNameField.getText(), lastNameField.getText(), Long.parseLong(CPRField.getText()), 
-                caseTypeChoiceBox.getValue(), mainBodyArea.getText(), dateCreated, dateClosed, departmentBox.getValue(), inquiryArea.getText(), null);
+                caseTypeChoiceBox.getValue(), mainBodyArea.getText(), dateCreated, dateClosed, departmentID, inquiryArea.getText(), null);
+        accessToCreateCase(false);
 
     }
 
@@ -268,6 +278,8 @@ public class startLoginController implements Initializable {
         dateCreatedField.setEditable(editable);
         closedDateField.setEditable(editable);
         inquiryArea.setEditable(editable);
+        departmentBox.setDisable(!editable);
+        caseTypeChoiceBox.setDisable(!editable);
     }
 
 }

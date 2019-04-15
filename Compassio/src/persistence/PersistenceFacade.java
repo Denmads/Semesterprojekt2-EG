@@ -211,11 +211,11 @@ public class PersistenceFacade implements IPersistence {
 
     public long getTypeID(Connection db, String type) {
         ResultSet tuples = null;
-        try (PreparedStatement statement = db.prepareStatement("SELECT typeID AS casetype FROM CaseTypeRelation WHERE name = ?")) {
+        try (PreparedStatement statement = db.prepareStatement("SELECT \"typeID\" FROM CaseTypeRelation WHERE name = ?")) {
             statement.setString(1, type);
             tuples = statement.executeQuery();
             tuples.next();
-            return tuples.getLong("casetype");
+            return tuples.getLong(1);
         } catch (SQLException ex) {
             System.out.println("SQL exception");
             ex.printStackTrace();
@@ -223,9 +223,55 @@ public class PersistenceFacade implements IPersistence {
         return -1;
     }
 
+    public ArrayList<String> getDepartments() {
+        ArrayList<String> departments = new ArrayList<>();
+        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+                PreparedStatement statement = db.prepareStatement("SELECT departmentid, name FROM Department")) {
+            ResultSet tuples = statement.executeQuery();
+            while(tuples.next()){
+                if(tuples.getLong(1)!= -1){
+                String departmentInfo = tuples.getLong(1) + " " + tuples.getString(2);
+                departments.add(departmentInfo);
+                }
+                else{
+                    String departmentInfo = tuples.getLong(1) + " " + "Ukendt";
+                }
+//                System.out.println(departmentInfo);
+//                String[] wat = departmentInfo.split(" ");
+//                System.out.println(departmentInfo.substring(wat[0].trim().length()));
+            }
+            getTypeID(db, "Misbrug");
+        } catch (SQLException ex) {
+            System.out.println("SQL exception");
+            ex.printStackTrace();
+        }
+        return departments;
+    }
+    
+        public ArrayList<String> getCaseTypes() {
+        ArrayList<String> caseTypes = new ArrayList<>();
+        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+                PreparedStatement statement = db.prepareStatement("SELECT name FROM CaseTypeRelation")) {
+            ResultSet tuples = statement.executeQuery();
+            while(tuples.next()){
+                String departmentInfo = tuples.getString(1);
+                caseTypes.add(departmentInfo);
+//                System.out.println(departmentInfo);
+//                String[] wat = departmentInfo.split(" ");
+//                System.out.println(departmentInfo.substring(wat[0].trim().length()));
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQL exception");
+            ex.printStackTrace();
+        }
+        return caseTypes;
+    }
+
     public static void main(String[] args) {
         PersistenceFacade virk = new PersistenceFacade();
-        virk.saveCase(UUID.randomUUID(), (long) 1204372878, "noget", "dette er en test", new Date(), new Date(), -1, "");
+//        virk.saveCase(UUID.randomUUID(), (long) 1204372878, "noget", "dette er en test", new Date(), new Date(), -1, "");
+        virk.getDepartments();
+        
 
     }
 

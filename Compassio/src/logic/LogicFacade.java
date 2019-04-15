@@ -74,4 +74,14 @@ public class LogicFacade implements ILogic {
             return false;
         }
     }
+
+    @Override
+    public ArrayList<String> getDepartmentInfo() {
+        return persistence.getDepartments();
+    }
+
+    @Override
+    public ArrayList<String> getCaseTypeInfo() {
+        return persistence.getCaseTypes();
+    }
 }
