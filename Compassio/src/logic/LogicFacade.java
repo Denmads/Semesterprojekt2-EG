@@ -118,4 +118,25 @@ public class LogicFacade implements ILogic {
     return user.getUserID();
 }
 
+    
+    /**
+     * @return user first and last name seperated by a space char
+     */
+    @Override
+    public String getUserName() {
+        return this.user.getFirstName() + " " + this.user.getLastName();
+    }
+    
+    /**
+     * @return users given type in all uppercase
+     */
+    @Override
+    public String getUserType() {
+        return this.user.getUserType().toString();
+    }
+    
+    @Override
+     public String getDepartmentNameById(int departmentId){
+        return persistence.getDepartmentNameById(departmentId);
+     }
 }

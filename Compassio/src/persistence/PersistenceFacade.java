@@ -418,11 +418,19 @@ public class PersistenceFacade implements IPersistence {
 
     }
 
-    public static void main(String[] args) {
-        PersistenceFacade virk = new PersistenceFacade();
-//        virk.saveCase(UUID.randomUUID(), (long) 1204372878, "noget", "dette er en test", new Date(), new Date(), -1, "");
-        virk.getDepartments();
-
+    @Override
+    public String getDepartmentNameById(int departmentId) {
+        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
+                PreparedStatement statement = db.prepareStatement("SELECT name FROM department WHERE departmentid=?")) {
+            statement.setInt(1, departmentId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next() == false) {
+                return null;
+            } else {
+                return rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            return null;
+        }
     }
-
 }

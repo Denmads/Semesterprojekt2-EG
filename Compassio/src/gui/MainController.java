@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import java.io.IOException;
@@ -37,7 +32,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -81,6 +75,11 @@ public class MainController implements Initializable {
     private ChoiceBox<String> caseType;
     private ObservableList<String> caseTypes;
     private ArrayList<Case> cases;
+    
+    @FXML
+    private Label user_name;
+    @FXML
+    private Label user_role;
 
     @FXML
     private TextField firstNameField;
@@ -122,8 +121,15 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         visibleMenu();
         visibleCases();
-
+        
         updateCases();
+        
+        //Add first and lastname, and role to hamburger menu. 
+        this.user_name.setText(GUIrun.getLogic().getUserName());
+        String role = GUIrun.getLogic().getUserType();
+        //Capitalize first letter, lowercase the rest
+        role = role.substring(0, 1).toUpperCase() + role.substring(1).toLowerCase();
+        this.user_role.setText(role);
 
         listview_cases.setCellFactory(view -> new GUICaseCell());
 
