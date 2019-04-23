@@ -237,6 +237,7 @@ public class PersistenceFacade implements IPersistence {
                     departments.add(departmentInfo);
                 } else {
                     String departmentInfo = tuples.getLong(1) + " " + "Ukendt";
+                    departments.add(departmentInfo);
                 }
 //                System.out.println(departmentInfo);
 //                String[] wat = departmentInfo.split(" ");

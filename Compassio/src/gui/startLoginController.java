@@ -255,14 +255,32 @@ public class startLoginController implements Initializable {
 
     @FXML
     private void createCaseButton(ActionEvent event) {
-        String[] departmentInfo = departmentBox.getValue().split(" ");
-        int departmentID = Integer.parseInt(departmentInfo[0]);
+        Alert alert = new Alert(AlertType.INFORMATION);
+        try {
+            if (CPRField.getText().trim().length() == 10) {
+                String[] departmentInfo = departmentBox.getValue().split(" ");
+                int departmentID = Integer.parseInt(departmentInfo[0]);
+                if (GUIrun.getLogic().createCase(firstNameField.getText().trim(), lastNameField.getText().trim(), Long.parseLong(CPRField.getText().trim()),
+                        caseTypeChoiceBox.getValue(), mainBodyArea.getText().trim(), new Date(), null, departmentID, inquiryArea.getText().trim(), addedUsers)) {
+                    alert.setContentText("Sag oprettet");
+                    alert.showAndWait();
+                    accessToCreateCase(false);
 
-        if (GUIrun.getLogic().createCase(firstNameField.getText(), lastNameField.getText(), Long.parseLong(CPRField.getText()),
-                caseTypeChoiceBox.getValue(), mainBodyArea.getText(), new Date(), null, departmentID, inquiryArea.getText(), null)) {
-
+                } else {
+                    alert.setContentText("Fejl! Sagen kunne ikke oprettes");
+                    alert.showAndWait();
+                }
+            } else {
+                alert.setContentText("CPR nummer skal være 10 numre langt");
+                alert.showAndWait();
+            }
+        } catch (NumberFormatException ex) {
+            alert.setContentText("CPR må kun indeholde numre");
+            alert.showAndWait();
+        } catch (NullPointerException e) {
+            alert.setContentText("Vælg både bostedsafdeling og sagstype");
+            alert.showAndWait();
         }
-        accessToCreateCase(false);
 
     }
 
@@ -291,9 +309,6 @@ public class startLoginController implements Initializable {
     private void addSocialWorker(ActionEvent event) {
         if (GUIrun.getLogic().checkUserID(userIDTextField.getText())) {
             addedUsers.add(userIDTextField.getText());
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setContentText("virk");
-            alert.showAndWait();
             userIDTextField.setText("Tilføjet socialarbejder");
         } else {
             userIDTextField.setText("Forkert indtastet brugerID");
