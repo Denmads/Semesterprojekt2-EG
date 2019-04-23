@@ -19,400 +19,449 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" stylesheets="@css/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
-        <children>
-            <GridPane prefHeight="636.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="33.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="33.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="33.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                </rowConstraints>
-                <children>
-                    <AnchorPane fx:id="user_menu" prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #3d4956;" visible="false" GridPane.rowSpan="3">
-                        <children>
-                            <VBox alignment="TOP_CENTER" layoutX="3.0" prefHeight="600.0" prefWidth="197.0">
-                                <children>
-                                    <ImageView fx:id="menu_close" fitHeight="32.0" fitWidth="32.0" onMouseClicked="#user_menu_close" pickOnBounds="true" preserveRatio="true" styleClass="btn">
-                                        <image>
-                                            <Image url="@img/icons8_delete_sign_32px.png" />
-                                        </image>
-                                        <VBox.margin>
-                                            <Insets bottom="10.0" left="160.0" top="10.0" />
-                                        </VBox.margin>
-                                    </ImageView>
-                                    <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@img/icons8_user_male_circle_100px.png" />
-                                        </image>
-                                        <VBox.margin>
-                                            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                        </VBox.margin>
-                                    </ImageView>
-                                    <Label text="Name" textAlignment="CENTER" textFill="WHITE">
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" />
-                                        </VBox.margin>
-                                        <font>
-                                            <Font name="System Bold Italic" size="12.0" />
-                                        </font>
-                                    </Label>
-                                    <Label text="Role" textAlignment="CENTER" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold Italic" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Label>
-                                    <Separator prefWidth="200.0">
-                                        <VBox.margin>
-                                            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                        </VBox.margin>
-                                    </Separator>
-                                    <Button mnemonicParsing="false" onAction="#createCase" prefWidth="130.0" styleClass="btn" text="Opret sag" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#seeCases" prefWidth="130.0" styleClass="btn" text="Se sager" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#changePassword" prefWidth="130.0" styleClass="btn" text="Ændre password" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" prefWidth="130.0" styleClass="btn" text="Menu" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" prefWidth="130.0" styleClass="btn" text="Menu" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" prefWidth="130.0" styleClass="btn" text="Menu" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" prefWidth="130.0" styleClass="btn" text="Menu" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#user_logout" prefWidth="130.0" styleClass="btn" text="Log ud" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                </children>
-                            </VBox>
-                        </children>
-                    </AnchorPane>
-                    <AnchorPane fx:id="see_cases_ancher" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowSpan="3">
-                        <GridPane.margin>
-                            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                        </GridPane.margin>
-                        <children>
-                            <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <children>
-                                    <Label styleClass="headline" text="SØG PÅ EN SAG" />
-                                    <HBox spacing="10.0">
-                                        <VBox.margin>
-                                            <Insets bottom="40.0" />
-                                        </VBox.margin>
-                                        <children>
-                                            <TextField fx:id="searchField" HBox.hgrow="ALWAYS" />
-                                            <ChoiceBox fx:id="caseType" prefWidth="150.0" />
-                                        </children>
-                                    </HBox>
-                                    <ListView fx:id="listview_cases" stylesheets="@css/Stylesheet.css" />
-                                </children>
-                            </VBox>
-                        </children>
-                    </AnchorPane>
-                    <AnchorPane fx:id="create_case" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
-                        <children>
-                        
-                    
-                    <VBox layoutX="70.0" layoutY="58.0" prefHeight="534.0" prefWidth="635.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                        <children>
-                        <Label styleClass="headline" text="OPRET SAG" />
-                        <HBox alignment="CENTER_LEFT" spacing="10.0">
-                           <children>
-                                  <Label prefWidth="100.0" text="Fornavn">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </Label>
-                                  <TextField fx:id="firstNameField" editable="false">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </TextField>
-                                  <Label prefHeight="17.0" prefWidth="54.0" text="Efternavn">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="100.0" />
-                                 </HBox.margin>
-                              </Label>
-                                  <TextField fx:id="lastNameField" editable="false">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </TextField>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="10.0">
-                           <children>
-                                  <Label prefWidth="100.0" text="Sagsnummer">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </Label>
-                                  <TextField fx:id="caseIDField" editable="false">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </TextField>
-                           </children>
+    <children>
+        <GridPane prefHeight="636.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="33.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="33.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="33.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <AnchorPane fx:id="create_case" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
+                    <children>
+                        <VBox layoutX="70.0" layoutY="58.0" prefHeight="534.0" prefWidth="635.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <Label styleClass="headline" text="OPRET SAG" />
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="100.0" text="Fornavn">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="firstNameField" editable="false">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </TextField>
+                                        <Label prefHeight="17.0" prefWidth="54.0" text="Efternavn">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="100.0" />
+                                            </HBox.margin>
+                                        </Label>
+                                        <TextField fx:id="lastNameField" editable="false">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="100.0" text="Sagsnummer">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="caseIDField" editable="false">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
 
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="10.0">
-                           <children>
-                                  <Label prefWidth="100.0" text="CPR-nummer">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </Label>
-                                  <TextField fx:id="CPRField" editable="false">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </TextField>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="10.0">
-                           <children>
-                                  <Label prefWidth="100.0" text="Sagstype">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </Label>
-                                  <ChoiceBox fx:id="caseTypeChoiceBox" disable="true" prefHeight="25.0" prefWidth="239.0" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="10.0">
-                           <children>
-                                  <Label prefWidth="100.0" text="Sagsindhold">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </Label>
-                                  <TextArea fx:id="mainBodyArea" editable="false">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </TextArea>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="10.0">
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                           <children>
-                              <Label prefHeight="21.0" prefWidth="100.0" text="SocialArbejdere">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font></Label>
-                              <TextField fx:id="userIDTextField" prefHeight="31.0" prefWidth="241.0">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font></TextField>
-                              <Button fx:id="addSocialWorkerBtn" mnemonicParsing="false" onAction="#addSocialWorker" prefHeight="25.0" prefWidth="70.0" styleClass="btn" text="Tilføj">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font></Button>
-                           </children>
-                        </HBox>
-                        <HBox fx:id="departmentPlace" alignment="CENTER_LEFT" spacing="10.0">
-                           <children>
-                                  <Label prefWidth="100.0" text="Bostedsafdeling">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </Label>
-                                  <ChoiceBox fx:id="departmentBox" disable="true" prefHeight="25.0" prefWidth="239.0" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="10.0">
-                           <children>
-                                  <Label prefWidth="100.0" text="Bostedsansøgning">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </Label>
-                                  <TextArea fx:id="inquiryArea" editable="false">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font>
-                              </TextArea>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
-                            <HBox alignment="CENTER" spacing="20.0">
-                                <children>
-                                    <Button fx:id="editButton" mnemonicParsing="false" onAction="#createCaseButton" prefWidth="100.0" styleClass="btn" text="Opret sag">
-                                        <HBox.margin>
-                                            <Insets />
-                                        </HBox.margin>
-                                    </Button>
-                                    <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButton" prefWidth="100.0" text="Annuller" visible="false">
-                                        <HBox.margin>
-                                            <Insets />
-                                        </HBox.margin>
-                                    </Button>
-                                    <Button fx:id="closeButton" mnemonicParsing="false" onAction="#close" prefWidth="100.0" styleClass="btn" text="Luk">
-                                        <HBox.margin>
-                                            <Insets />
-                                        </HBox.margin>
-                                    </Button>
-                                </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                            </HBox>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="100.0" text="CPR-nummer">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="CPRField" editable="false">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="100.0" text="Sagstype">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <ChoiceBox fx:id="caseTypeChoiceBox" disable="true" prefHeight="25.0" prefWidth="239.0" />
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="100.0" text="Sagsindhold">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <TextArea fx:id="mainBodyArea" editable="false">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </TextArea>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                    <children>
+                                        <Label prefHeight="21.0" prefWidth="100.0" text="SocialArbejdere">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="userIDTextField" prefHeight="31.0" prefWidth="241.0">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </TextField>
+                                        <Button fx:id="addSocialWorkerBtn" mnemonicParsing="false" onAction="#addSocialWorker" prefHeight="25.0" prefWidth="70.0" styleClass="btn" text="Tilføj">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                                <HBox fx:id="departmentPlace" alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="100.0" text="Bostedsafdeling">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <ChoiceBox fx:id="departmentBox" disable="true" prefHeight="25.0" prefWidth="239.0" />
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="100.0" text="Bostedsansøgning">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <TextArea fx:id="inquiryArea" editable="false">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </TextArea>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                </HBox>
+                                <HBox alignment="CENTER" spacing="20.0">
+                                    <children>
+                                        <Button fx:id="editButton" mnemonicParsing="false" onAction="#createCaseButton" prefWidth="100.0" styleClass="btn" text="Opret sag">
+                                            <HBox.margin>
+                                                <Insets />
+                                            </HBox.margin>
+                                        </Button>
+                                        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButton" prefWidth="100.0" text="Annuller" visible="false">
+                                            <HBox.margin>
+                                                <Insets />
+                                            </HBox.margin>
+                                        </Button>
+                                        <Button fx:id="closeButton" mnemonicParsing="false" onAction="#close" prefWidth="100.0" styleClass="btn" text="Luk">
+                                            <HBox.margin>
+                                                <Insets />
+                                            </HBox.margin>
+                                        </Button>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                </HBox>
                             
-                        </children>
-                        <GridPane.margin>
-                            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                        </GridPane.margin>
-                    </VBox>
+                            </children>
+                            <GridPane.margin>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </GridPane.margin>
+                        </VBox>
                     </children>
-                    </AnchorPane>
-                    <ImageView fx:id="menu_click" fitHeight="32.0" fitWidth="32.0" onMouseClicked="#user_menu_slide" pickOnBounds="true" preserveRatio="true" styleClass="btn" GridPane.halignment="LEFT" GridPane.valignment="TOP">
-                        <image>
-                            <Image url="@img/icons8_menu_32px_1.png" />
-                        </image>
-                        <GridPane.margin>
-                            <Insets bottom="10.0" left="15.0" right="10.0" top="10.0" />
-                        </GridPane.margin>
-                    </ImageView>
-                    <ImageView fitHeight="50.0" fitWidth="100.0" onMouseClicked="#buttonBack" pickOnBounds="true" preserveRatio="true" styleClass="btn" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
-                        <image>
-                            <Image url="@img/logoo.png" />
-                        </image>
-                        <GridPane.margin>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                        </GridPane.margin>
-                    </ImageView>
-                </children>
-                <padding>
-                    <Insets top="36.0" />
-                </padding>
-            </GridPane>
-            <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="1024.0" style="-fx-background-color: #2899C2;">
-                <children>
-                    <ImageView fitHeight="22.0" fitWidth="22.0" onMouseClicked="#minimise" pickOnBounds="true" preserveRatio="true" styleClass="btn">
-                        <HBox.margin>
-                            <Insets right="15.0" />
-                        </HBox.margin>
-                        <image>
-                            <Image url="@img/icons8_minimize_window_22px.png" />
-                        </image>
-                    </ImageView>
-                    <ImageView fitHeight="22.0" fitWidth="22.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true" styleClass="btn">
-                        <HBox.margin>
-                            <Insets right="15.0" />
-                        </HBox.margin>
-                        <image>
-                            <Image url="@img/icons8_close_window_22px.png" />
-                        </image>
-                    </ImageView>
-                </children>
-            </HBox>
-        </children>
-    </AnchorPane>
+                </AnchorPane>
+                <ImageView fitHeight="50.0" fitWidth="100.0" onMouseClicked="#buttonBack" pickOnBounds="true" preserveRatio="true" styleClass="btn" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                    <image>
+                        <Image url="@img/logoo.png" />
+                    </image>
+                    <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin>
+                </ImageView>
+            </children>
+            <padding>
+                <Insets top="36.0" />
+            </padding>
+        </GridPane>
+        <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="1024.0" style="-fx-background-color: #2899C2;">
+            <children>
+                <ImageView fitHeight="22.0" fitWidth="22.0" onMouseClicked="#minimise" pickOnBounds="true" preserveRatio="true" styleClass="btn">
+                    <HBox.margin>
+                        <Insets right="15.0" />
+                    </HBox.margin>
+                    <image>
+                        <Image url="@img/icons8_minimize_window_22px.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="22.0" fitWidth="22.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true" styleClass="btn">
+                    <HBox.margin>
+                        <Insets right="15.0" />
+                    </HBox.margin>
+                    <image>
+                        <Image url="@img/icons8_close_window_22px.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </HBox>
+        <GridPane prefHeight="636.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="33.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="33.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="33.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <AnchorPane fx:id="user_menu" prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #3d4956;" visible="false" GridPane.rowSpan="3">
+                    <children>
+                        <VBox alignment="TOP_CENTER" layoutX="3.0" prefHeight="600.0" prefWidth="197.0">
+                            <children>
+                                <ImageView fx:id="menu_close" fitHeight="32.0" fitWidth="32.0" onMouseClicked="#user_menu_close" pickOnBounds="true" preserveRatio="true" styleClass="btn">
+                                    <image>
+                                        <Image url="@img/icons8_delete_sign_32px.png" />
+                                    </image>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" left="160.0" top="10.0" />
+                                    </VBox.margin>
+                                </ImageView>
+                                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@img/icons8_user_male_circle_100px.png" />
+                                    </image>
+                                    <VBox.margin>
+                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                    </VBox.margin>
+                                </ImageView>
+                                <Label text="Name" textAlignment="CENTER" textFill="WHITE">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" />
+                                    </VBox.margin>
+                                    <font>
+                                        <Font name="System Bold Italic" size="12.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Role" textAlignment="CENTER" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold Italic" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </Label>
+                                <Separator prefWidth="200.0">
+                                    <VBox.margin>
+                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                    </VBox.margin>
+                                </Separator>
+                                <Button mnemonicParsing="false" onAction="#createCase" prefWidth="130.0" styleClass="btn" text="Opret sag" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#seeCases" prefWidth="130.0" styleClass="btn" text="Se sager" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#changePassword" prefWidth="130.0" styleClass="btn" text="Ændre password" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" prefWidth="130.0" styleClass="btn" text="Menu" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" prefWidth="130.0" styleClass="btn" text="Menu" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" prefWidth="130.0" styleClass="btn" text="Menu" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" prefWidth="130.0" styleClass="btn" text="Menu" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#user_logout" prefWidth="130.0" styleClass="btn" text="Log ud" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+                <AnchorPane fx:id="see_cases_ancher" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowSpan="3">
+                    <GridPane.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    </GridPane.margin>
+                    <children>
+                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <Label styleClass="headline" text="SØG PÅ EN SAG" />
+                                <HBox spacing="10.0">
+                                    <VBox.margin>
+                                        <Insets bottom="40.0" />
+                                    </VBox.margin>
+                                    <children>
+                                        <TextField fx:id="searchField" HBox.hgrow="ALWAYS" />
+                                        <ChoiceBox fx:id="caseType" prefWidth="150.0" />
+                                    </children>
+                                </HBox>
+                                <ListView fx:id="listview_cases" focusTraversable="false" stylesheets="@css/Stylesheet.css" />
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+                <ImageView fx:id="menu_click" fitHeight="32.0" fitWidth="32.0" onMouseClicked="#user_menu_slide" pickOnBounds="true" preserveRatio="true" styleClass="btn" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                    <image>
+                        <Image url="@img/icons8_menu_32px_1.png" />
+                    </image>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" left="15.0" right="10.0" top="10.0" />
+                    </GridPane.margin>
+                </ImageView>
+                <ImageView fitHeight="50.0" fitWidth="100.0" onMouseClicked="#buttonBack" pickOnBounds="true" preserveRatio="true" styleClass="btn" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                    <image>
+                        <Image url="@img/logoo.png" />
+                    </image>
+                    <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin>
+                </ImageView>
+            </children>
+            <padding>
+                <Insets top="36.0" />
+            </padding>
+        </GridPane>
+        <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="1024.0" style="-fx-background-color: #2899C2;">
+            <children>
+                <ImageView fitHeight="22.0" fitWidth="22.0" onMouseClicked="#minimise" pickOnBounds="true" preserveRatio="true" styleClass="btn">
+                    <HBox.margin>
+                        <Insets right="15.0" />
+                    </HBox.margin>
+                    <image>
+                        <Image url="@img/icons8_minimize_window_22px.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="22.0" fitWidth="22.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true" styleClass="btn">
+                    <HBox.margin>
+                        <Insets right="15.0" />
+                    </HBox.margin>
+                    <image>
+                        <Image url="@img/icons8_close_window_22px.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>
+

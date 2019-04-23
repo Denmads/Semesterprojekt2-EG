@@ -34,6 +34,11 @@ public class Case {
 
     private String inquiry;
 
+    public Case(long cprNumber, UUID caseID) {
+        this.cprNumber = cprNumber;
+        this.dateCreated = new Date();
+        this.caseID = caseID;
+    }
 
     public Case(long cprNumber, UUID caseID, Date dateCreated) {
         this.cprNumber = cprNumber;
@@ -126,5 +131,6 @@ public class Case {
     
     public void addPatientToDatabase(){
         LogicFacade.getPersistence().insertNewPatient(cprNumber, firstName, lastName);
+
     }
 }

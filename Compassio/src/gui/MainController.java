@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import javafx.application.Platform;
@@ -79,6 +80,7 @@ public class MainController implements Initializable {
     @FXML
     private ChoiceBox<String> caseType;
     private ObservableList<String> caseTypes;
+    private ArrayList<Case> cases;
 
     @FXML
     private TextField firstNameField;
@@ -121,14 +123,7 @@ public class MainController implements Initializable {
         visibleMenu();
         visibleCases();
 
-        ArrayList<Case> testCases = new ArrayList<>();
-//        testCases.add(new Case("John", "Lars Larsen", 1234, 1234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
-//        testCases.add(new Case("John", "Ole Larsen", 1235, 2234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
-//        testCases.add(new Case("Lone", "Borgersen", 1236, 3112191111L, "Ældre", "", Calendar.getInstance().getTime(), new Date(System.currentTimeMillis() + 123456), 1, ""));
-
-        viewableCases = FXCollections.observableArrayList(testCases);
-        filteredCases = new FilteredList<>(viewableCases, p -> true);
-        listview_cases.setItems(filteredCases);
+        updateCases();
 
         listview_cases.setCellFactory(view -> new GUICaseCell());
 
@@ -244,6 +239,7 @@ public class MainController implements Initializable {
     @FXML
     private void seeCases(ActionEvent event) {
         visibleCases();
+        updateCases();
         see_cases_ancher.setVisible(true);
         create_case.setVisible(false);
         visibleMenu();
@@ -313,6 +309,17 @@ public class MainController implements Initializable {
         } else {
             userIDTextField.setText("Forkert indtastet brugerID");
         }
+    }
+
+    private void updateCases() {
+        cases = GUIrun.getLogic().getCases();
+
+        viewableCases = FXCollections.observableArrayList(cases);
+        filteredCases = new FilteredList<>(viewableCases, p -> true);
+        listview_cases.setItems(filteredCases);
+    }
+
+    public void openCase(MouseEvent event) {
 
     }
 
