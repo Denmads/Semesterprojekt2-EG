@@ -119,58 +119,57 @@ public class PersistenceFacade implements IPersistence {
                 return null;
             } else {
                 byte[] salt = rs.getBytes("salt");
-                
+
                 try (PreparedStatement checkStatement = db.prepareStatement("SELECT * FROM people WHERE username=? AND hashedpassword=?")) {
                     checkStatement.setString(1, username);
                     checkStatement.setBytes(2, hashPassword(password, salt));
                     ResultSet res = checkStatement.executeQuery();
-                    
+
                     if (res.next()) {
                         user[0] = res.getString("userid");
                         user[1] = res.getString("username");
                         user[2] = res.getString("firstname");
                         user[3] = res.getString("lastname");
                         return user;
-                    }
-                    else {
+                    } else {
                         return null;
                     }
                 } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
                     ex.printStackTrace();
                     return null;
                 }
-                
+
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
         }
     }
-    
-    private byte[] generateSalt () {
+
+    private byte[] generateSalt() {
         SecureRandom secRan = new SecureRandom();
         byte[] salt = new byte[128];
         secRan.nextBytes(salt);
         return salt;
     }
-    
-    private byte [] hashPassword (String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+    private byte[] hashPassword(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 
         return factory.generateSecret(spec).getEncoded();
     }
-    
-    
+
     /**
      * Creates a user with a hashed password
+     *
      * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException 
+     * @throws InvalidKeySpecException
      */
-    public void createUser () throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public void createUser() throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] salt = generateSalt();
         byte[] pass = hashPassword("admin", salt);
-        
+
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement("INSERT INTO people VALUES (?, ?, ?, ?, ?, ?)")) {
             statement.setLong(1, 1L);
@@ -179,9 +178,9 @@ public class PersistenceFacade implements IPersistence {
             statement.setString(4, "admin");
             statement.setBytes(5, pass);
             statement.setBytes(6, salt);
-            
-             System.out.println(statement);
-            
+
+            System.out.println(statement);
+
             statement.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("SQL exception");
@@ -275,5 +274,21 @@ public class PersistenceFacade implements IPersistence {
     @Override
     public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getDepartmentNameById(int departmentId) {
+        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
+                PreparedStatement statement = db.prepareStatement("SELECT name FROM department WHERE departmentid=?")) {
+            statement.setInt(1, departmentId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next() == false) {
+                return null;
+            } else {
+                return rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            return null;
+        }
     }
 }

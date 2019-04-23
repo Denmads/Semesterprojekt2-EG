@@ -103,4 +103,9 @@ public class LogicFacade implements ILogic {
     public String getUserType() {
         return this.user.getUserType().toString();
     }
+    
+    @Override
+     public String getDepartmentNameById(int departmentId){
+        return persistence.getDepartmentNameById(departmentId);
+     }
 }
