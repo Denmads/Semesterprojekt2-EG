@@ -54,7 +54,7 @@
                                             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                         </VBox.margin>
                                     </ImageView>
-                                    <Label text="Name" textAlignment="CENTER" textFill="WHITE">
+                                    <Label fx:id="userName" text="Name" textAlignment="CENTER" textFill="WHITE">
                                         <VBox.margin>
                                             <Insets bottom="5.0" left="5.0" right="5.0" />
                                         </VBox.margin>
@@ -62,7 +62,7 @@
                                             <Font name="System Bold Italic" size="12.0" />
                                         </font>
                                     </Label>
-                                    <Label text="Role" textAlignment="CENTER" textFill="WHITE">
+                                    <Label fx:id="userRole" text="Role" textAlignment="CENTER" textFill="WHITE">
                                         <font>
                                             <Font name="System Bold Italic" size="12.0" />
                                         </font>

@@ -77,9 +77,9 @@ public class MainController implements Initializable {
     private ArrayList<Case> cases;
     
     @FXML
-    private Label user_name;
+    private Label userName;
     @FXML
-    private Label user_role;
+    private Label userRole;
 
     @FXML
     private TextField firstNameField;
@@ -125,11 +125,11 @@ public class MainController implements Initializable {
         updateCases();
         
         //Add first and lastname, and role to hamburger menu. 
-        this.user_name.setText(GUIrun.getLogic().getUserName());
+        this.userName.setText(GUIrun.getLogic().getUserName());
         String role = GUIrun.getLogic().getUserType();
         //Capitalize first letter, lowercase the rest
         role = role.substring(0, 1).toUpperCase() + role.substring(1).toLowerCase();
-        this.user_role.setText(role);
+        this.userRole.setText(role);
 
         listview_cases.setCellFactory(view -> new GUICaseCell());
 
