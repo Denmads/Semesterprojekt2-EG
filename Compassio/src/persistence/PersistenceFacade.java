@@ -272,4 +272,20 @@ public class PersistenceFacade implements IPersistence {
     public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String getDepartmentNameById(int departmentId) {
+        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
+                PreparedStatement statement = db.prepareStatement("SELECT name FROM department WHERE departmentid=?")) {
+            statement.setInt(1, departmentId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next() == false) {
+                return null;
+            } else {
+                return rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
 }
