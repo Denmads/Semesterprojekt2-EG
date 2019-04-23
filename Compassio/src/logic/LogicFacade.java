@@ -14,10 +14,22 @@ public class LogicFacade implements ILogic {
 
     private static IPersistence persistence;
     private User user;
-    
+
     @Override
     public void injectPersistence(IPersistence PersistenceLayer) {
         persistence = PersistenceLayer;
+    }
+
+    public boolean createCase(String firstName, String lastName, long cprNumber,
+            String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers) {
+        UUID caseID = UUID.randomUUID();
+        Case newCase = new Case(firstName, lastName, caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
+        newCase.addPatientToDatabase();
+        boolean caseSaved = newCase.saveCase();
+        socialWorkers.add(user.getUserID());
+        
+        persistence.saveCaseUserRelation(caseID, socialWorkers);
+        return caseSaved;
     }
 
     @Override
@@ -27,8 +39,13 @@ public class LogicFacade implements ILogic {
             ArrayList<String[]> cases = persistence.getCasesByUserID(user.getUserID());
             while (cases.size() > 0) {
                 String[] singleCase = cases.remove(cases.size() - 1);
-                response.add(new Case(singleCase[0], singleCase[1], UUID.fromString(singleCase[2]), Long.parseLong(singleCase[3]),
-                        singleCase[4], singleCase[5], Date.valueOf(singleCase[6]), Date.valueOf(singleCase[7]), Integer.parseInt(singleCase[8]), singleCase[9]));
+                if (singleCase[7] != null) {
+                    response.add(new Case(singleCase[0], singleCase[1], UUID.fromString(singleCase[2]), Long.parseLong(singleCase[3]),
+                            singleCase[4], singleCase[5], Date.valueOf(singleCase[6]), Date.valueOf(singleCase[7]), Integer.parseInt(singleCase[8]), singleCase[9]));
+                } else {
+                    response.add(new Case(singleCase[0], singleCase[1], UUID.fromString(singleCase[2]), Long.parseLong(singleCase[3]),
+                            singleCase[4], singleCase[5], Date.valueOf(singleCase[6]), null, Integer.parseInt(singleCase[8]), singleCase[9]));
+                }
             }
         } else if (this.user.getUserType() == UserType.SOCIALWORKER) {
             ArrayList<Long> departments = this.user.getDepartments();
@@ -50,7 +67,6 @@ public class LogicFacade implements ILogic {
         UUID caseID = UUID.randomUUID();
         Case newCase = new Case(CPR, caseID);
         newCase.saveCase();
-
     }
 
     public static IPersistence getPersistence() {
@@ -65,7 +81,7 @@ public class LogicFacade implements ILogic {
     @Override
     public boolean login(String username, String password) {
         String[] result = this.persistence.getUser(username, password);
-        
+
         if (result != null) {
             switch (this.persistence.getUserType(result[0])) {
                 case "socialworker":
@@ -81,12 +97,27 @@ public class LogicFacade implements ILogic {
                             result[3], this.persistence.getUserDepartments(result[0]), UserType.USER);
                     break;
             }
-                    
+
             return true;
         } else {
             return false;
         }
     }
+
+    @Override
+    public ArrayList<String> getDepartmentInfo() {
+        return persistence.getDepartments();
+    }
+
+    @Override
+    public boolean checkUserID(String userID) {
+        return persistence.validateUserID(userID);
+    }
+    
+    public String getUserID() {
+    return user.getUserID();
+}
+
     
     /**
      * @return user first and last name seperated by a space char

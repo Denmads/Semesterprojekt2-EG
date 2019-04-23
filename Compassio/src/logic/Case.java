@@ -1,7 +1,7 @@
 package logic;
 
-import java.util.UUID;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  *
@@ -35,15 +35,18 @@ public class Case {
         this.caseID = caseID;
     }
 
-    public Case(String firstName, String lastName, UUID caseID, long cprNumber,
-            String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
+    public Case(long cprNumber, UUID caseID, Date dateCreated) {
+        this.cprNumber = cprNumber;
+        this.dateCreated = dateCreated;
+        this.caseID = caseID;
+    }
+
+    public Case(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
+        this(cprNumber, caseID, dateCreated);
         this.firstName = firstName;
         this.lastName = lastName;
-        this.caseID = caseID;
-        this.cprNumber = cprNumber;
         this.type = type;
         this.mainBody = mainBody;
-        this.dateCreated = dateCreated;
         this.dateClosed = dateClosed;
         this.departmentID = departmentID;
         this.inquiry = inquiry;
@@ -117,7 +120,12 @@ public class Case {
         this.inquiry = inquiry;
     }
 
-    public void saveCase() {
-        LogicFacade.getPersistence().saveCase(firstName, lastName, caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
+    public boolean saveCase() {
+        return LogicFacade.getPersistence().saveCase(caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
+    }
+    
+    public void addPatientToDatabase(){
+        LogicFacade.getPersistence().insertNewPatient(cprNumber, firstName, lastName);
+
     }
 }

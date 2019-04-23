@@ -10,9 +10,6 @@ import java.util.UUID;
  */
 public interface IPersistence {
 
-    public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber,
-            String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry);
-
     public ArrayList<String[]> getCasesByUserID(String userID);
 
     public ArrayList<String[]> getCasesByDepartment(long departmentID);
@@ -24,6 +21,17 @@ public interface IPersistence {
     public String getUserType(String userID);
 
     public ArrayList<Long> getUserDepartments(String userID);
+
+    public boolean saveCase(UUID caseID, long cprNumber, String type, String mainBody,
+            Date dateCreated, Date dateClosed, int departmentID, String inquiry);
+
+    public void saveCaseUserRelation(UUID caseID, ArrayList<String> userID);
+
+    public void insertNewPatient(long cpr, String firstName, String lastName);
+
+    public ArrayList<String> getDepartments();
+
+    public boolean validateUserID(String userID);
     
     public String getDepartmentNameById(int departmentId);
 }
