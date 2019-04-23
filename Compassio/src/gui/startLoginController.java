@@ -30,11 +30,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 import javafx.scene.control.Button;
 
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -107,9 +110,9 @@ public class startLoginController implements Initializable {
     private TextField userIDTextField;
     @FXML
     private Button addSocialWorkerBtn;
-    
+
     private ArrayList<String> addedUsers;
-    
+
     /**
      * Initializes the controller class.
      */
@@ -148,7 +151,7 @@ public class startLoginController implements Initializable {
                 updateCaseFilter();
             }
         });
-        
+
         departmentTypes = FXCollections.observableArrayList(GUIrun.getLogic().getDepartmentInfo());
         departmentBox.setItems(departmentTypes);
         caseTypeChoices = FXCollections.observableArrayList(GUIrun.getLogic().retrieveCaseTypes());
@@ -254,9 +257,11 @@ public class startLoginController implements Initializable {
     private void createCaseButton(ActionEvent event) {
         String[] departmentInfo = departmentBox.getValue().split(" ");
         int departmentID = Integer.parseInt(departmentInfo[0]);
-        
-        GUIrun.getLogic().createCase(firstNameField.getText(), lastNameField.getText(), Long.parseLong(CPRField.getText()), 
-                caseTypeChoiceBox.getValue(), mainBodyArea.getText(), new Date(), null, departmentID, inquiryArea.getText(), null);
+
+        if (GUIrun.getLogic().createCase(firstNameField.getText(), lastNameField.getText(), Long.parseLong(CPRField.getText()),
+                caseTypeChoiceBox.getValue(), mainBodyArea.getText(), new Date(), null, departmentID, inquiryArea.getText(), null)) {
+
+        }
         accessToCreateCase(false);
 
     }
@@ -284,14 +289,16 @@ public class startLoginController implements Initializable {
 
     @FXML
     private void addSocialWorker(ActionEvent event) {
-        if(GUIrun.getLogic().checkUserID(userIDTextField.getText())){
+        if (GUIrun.getLogic().checkUserID(userIDTextField.getText())) {
             addedUsers.add(userIDTextField.getText());
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setContentText("virk");
+            alert.showAndWait();
             userIDTextField.setText("Tilføjet socialarbejder");
-        }
-        else{
+        } else {
             userIDTextField.setText("Forkert indtastet brugerID");
         }
-        
+
     }
 
 }

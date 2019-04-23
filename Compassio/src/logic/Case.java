@@ -120,8 +120,8 @@ public class Case {
         this.inquiry = inquiry;
     }
 
-    public void saveCase() {
-        LogicFacade.getPersistence().saveCase(caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
+    public boolean saveCase() {
+        return LogicFacade.getPersistence().saveCase(caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
     }
     
     public void addPatientToDatabase(){

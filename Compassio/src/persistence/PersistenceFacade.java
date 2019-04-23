@@ -134,7 +134,7 @@ public class PersistenceFacade implements IPersistence {
 //        }
 //    }
     @Override
-    public void saveCase(UUID caseID, long cprNumber, String type,
+    public boolean saveCase(UUID caseID, long cprNumber, String type,
             String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement("INSERT INTO \"socialcase\" VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
@@ -156,11 +156,14 @@ public class PersistenceFacade implements IPersistence {
                 statement.setInt(6, departmentID);
                 statement.setString(7, inquiry);
                 statement.execute();
+                return true;
             }
         } catch (SQLException ex) {
             System.out.println("SQL exception");
             ex.printStackTrace();
+            
         }
+        return false;
     }
 
     @Override
@@ -247,12 +250,7 @@ public class PersistenceFacade implements IPersistence {
         return departments;
     }
 
-    public static void main(String[] args) {
-        PersistenceFacade virk = new PersistenceFacade();
-//        virk.saveCase(UUID.randomUUID(), (long) 1204372878, "noget", "dette er en test", new Date(), new Date(), -1, "");
-        virk.getDepartments();
 
-    }
 
     @Override
     public boolean validateUserID(String userID) {
@@ -271,6 +269,13 @@ public class PersistenceFacade implements IPersistence {
             return false;
 
         }
+
+    }
+    
+        public static void main(String[] args) {
+        PersistenceFacade virk = new PersistenceFacade();
+//        virk.saveCase(UUID.randomUUID(), (long) 1204372878, "noget", "dette er en test", new Date(), new Date(), -1, "");
+        virk.getDepartments();
 
     }
 

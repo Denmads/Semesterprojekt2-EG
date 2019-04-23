@@ -27,16 +27,15 @@ public class LogicFacade implements ILogic {
         persistence = PersistenceLayer;
     }
 
-    public void createCase(String firstName, String lastName, long cprNumber,
+    public boolean createCase(String firstName, String lastName, long cprNumber,
             String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers) {
         UUID caseID = UUID.randomUUID();
         Case newCase = new Case(firstName, lastName, caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
         newCase.addPatientToDatabase();
-        newCase.saveCase();
+        boolean caseSaved = newCase.saveCase();
         socialWorkers.add(user.getUserID());
         persistence.saveCaseUserRelation(caseID, socialWorkers);
-        
-
+        return caseSaved;
     }
 
     public static IPersistence getPersistence() {
