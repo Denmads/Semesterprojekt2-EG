@@ -63,6 +63,7 @@ public class MainController implements Initializable {
     @FXML
     private ChoiceBox<String> caseType;
     private ObservableList<String> caseTypes;
+    private ArrayList<Case> cases;
 
     /**
      * Initializes the controller class.
@@ -72,11 +73,7 @@ public class MainController implements Initializable {
         visibleMenu();
         visibleCases();
 
-        ArrayList<Case> cases = GUIrun.getLogic().getCases();
-
-        viewableCases = FXCollections.observableArrayList(cases);
-        filteredCases = new FilteredList<>(viewableCases, p -> true);
-        listview_cases.setItems(filteredCases);
+        updateCases();
 
         listview_cases.setCellFactory(view -> new GUICaseCell());
 
@@ -183,6 +180,7 @@ public class MainController implements Initializable {
     @FXML
     private void seeCases(ActionEvent event) {
         visibleCases();
+        updateCases();
         see_cases_ancher.setVisible(true);
         create_case.setVisible(false);
         visibleMenu();
@@ -190,6 +188,14 @@ public class MainController implements Initializable {
 
     @FXML
     private void changePassword(ActionEvent event) {
+    }
+
+    private void updateCases() {
+        cases = GUIrun.getLogic().getCases();
+
+        viewableCases = FXCollections.observableArrayList(cases);
+        filteredCases = new FilteredList<>(viewableCases, p -> true);
+        listview_cases.setItems(filteredCases);
     }
 
     public void openCase(MouseEvent event) {
