@@ -1,54 +1,71 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logic;
 
-import acquaintance.IPersistence;
+import java.util.ArrayList;
 
 /**
- *
+ * The User class is a representation of the signed in user. A user object is to
+ * be be instantiated when a user logs in. 
+ * 
  * @author Morten Kargo Lyngesen
  */
 public class User {
-    private String userID;
+    private final String userID;
     private final String username;
-    private String firstName;
-    private String lastName;
+    private final String firstName;
+    private final String lastName;
+    private final UserType userType;
+    ArrayList<Long> departments;
+
     
-    public User (String userID, String username, String firstName, String lastName) {
+    public User (String userID, String username, String firstName, 
+                    String lastName, ArrayList<Long> departments, UserType userType) {
         this.username = username;
         this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.userType = userType;
+        this.departments = departments;
     }
 
     /**
-     * @return the userID
+     * @return the users id
      */
     public String getUserID() {
-        return userID;
+        return this.userID;
     }
 
     /**
-     * @return the username
+     * @return the users username
      */
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     /**
-     * @return the firstName
+     * @return the users first name
      */
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     /**
-     * @return the lastName
+     * @return the users last name
      */
     public String getLastName() {
-        return lastName;
+        return this.lastName;
+    }
+    
+    /**
+     * @return the users assigned type
+     */
+    public UserType getUserType() {
+        return this.userType;
+    }
+    
+    /**
+     * @return all the departments the current user is a member of.
+     */
+    public ArrayList<Long> getDepartments(){
+        return departments;
     }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logic;
 
 import acquaintance.ILogic;
@@ -10,7 +5,6 @@ import acquaintance.IPersistence;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.UUID;
-import logic.CaseWorker;
 
 /**
  *
@@ -20,8 +14,7 @@ public class LogicFacade implements ILogic {
 
     private static IPersistence persistence;
     private User user;
-    private String userType;
-
+    
     @Override
     public void injectPersistence(IPersistence PersistenceLayer) {
         persistence = PersistenceLayer;
@@ -30,16 +23,15 @@ public class LogicFacade implements ILogic {
     @Override
     public ArrayList<Case> getCases() {
         ArrayList<Case> response = new ArrayList<>();
-        if (userType.equals("caseworker")) {
+        if (this.user.getUserType() == UserType.CASEWORKER) {
             ArrayList<String[]> cases = persistence.getCasesByUserID(user.getUserID());
             while (cases.size() > 0) {
                 String[] singleCase = cases.remove(cases.size() - 1);
                 response.add(new Case(singleCase[0], singleCase[1], UUID.fromString(singleCase[2]), Long.parseLong(singleCase[3]),
                         singleCase[4], singleCase[5], Date.valueOf(singleCase[6]), Date.valueOf(singleCase[7]), Integer.parseInt(singleCase[8]), singleCase[9]));
             }
-        } else if (userType.equals("socialworker")) {
-            SocialWorker currentUser = (SocialWorker) user;
-            ArrayList<Long> departments = currentUser.getDepartments();
+        } else if (this.user.getUserType() == UserType.SOCIALWORKER) {
+            ArrayList<Long> departments = this.user.getDepartments();
             ArrayList<String[]> cases = new ArrayList<>();
             departments.forEach(d -> {
                 cases.addAll(persistence.getCasesByDepartment(d));
@@ -73,27 +65,23 @@ public class LogicFacade implements ILogic {
     @Override
     public boolean login(String username, String password) {
         String[] result = this.persistence.getUser(username, password);
-
+        
         if (result != null) {
-            String userType = this.persistence.getUserType(result[0]);
-            switch (userType) {
-                case "user":
-                    this.user = new User(result[0], result[1], result[2], result[3]);
-                    this.userType = userType;
+            switch (this.persistence.getUserType(result[0])) {
+                case "socialworker":
+                    this.user = new User(result[0], result[1], result[2],
+                            result[3], this.persistence.getUserDepartments(result[0]), UserType.SOCIALWORKER);
                     break;
                 case "caseworker":
-                    this.user = new CaseWorker(result[0], result[1], result[2],
-                            result[3], this.persistence.getUserDepartments(result[0]));
-                    this.userType = userType;
-                    break;
-                case "socialworker":
-                    this.user = new SocialWorker(result[0], result[1], result[2],
-                            result[3], this.persistence.getUserDepartments(result[0]));
-                    this.userType = userType;
+                    this.user = new User(result[0], result[1], result[2],
+                            result[3], this.persistence.getUserDepartments(result[0]), UserType.CASEWORKER);
                     break;
                 default:
+                    this.user = new User(result[0], result[1], result[2],
+                            result[3], this.persistence.getUserDepartments(result[0]), UserType.USER);
                     break;
             }
+                    
             return true;
         } else {
             return false;
