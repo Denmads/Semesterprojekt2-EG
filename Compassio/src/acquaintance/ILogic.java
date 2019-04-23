@@ -19,7 +19,7 @@ public interface ILogic {
     public ArrayList<String> retrieveCaseTypes ();
      public boolean login(String username, String password);
     public void createCase(String firstName, String lastName, long cprNumber,  String type, String mainBody, 
-            Date dateCreated, Date dateClosed, int departmentID, String inquiry, ArrayList<Integer> socialWorkers);
+            Date dateCreated, Date dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers);
     public ArrayList<String> getDepartmentInfo();
     public ArrayList<String> getCaseTypeInfo();
 }

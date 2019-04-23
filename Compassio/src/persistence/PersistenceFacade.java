@@ -164,12 +164,12 @@ public class PersistenceFacade implements IPersistence {
     }
 
     @Override
-    public void saveCaseUserRelation(UUID caseID, ArrayList<Integer> userID) {
+    public void saveCaseUserRelation(UUID caseID, ArrayList<String> userID) {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement("INSERT INTO CaseUserRelation VALUES (?, ?)");) {
             for (int i = 0; i < userID.size(); i++) {
                 statement.setString(1, caseID.toString());
-                statement.setInt(2, userID.get(i));
+                statement.setString(2, userID.get(i));
                 statement.execute();
             }
 

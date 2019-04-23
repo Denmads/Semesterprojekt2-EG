@@ -22,7 +22,7 @@ public interface IPersistence {
     public void saveCase(UUID caseID, long cprNumber, String type, String mainBody,
             Date dateCreated, Date dateClosed, int departmentID, String inquiry);
     
-    public void saveCaseUserRelation(UUID caseID, ArrayList<Integer> userID);
+    public void saveCaseUserRelation(UUID caseID, ArrayList<String> userID);
     
     public void insertNewPatient(long cpr, String firstName, String lastName);
     

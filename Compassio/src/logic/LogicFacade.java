@@ -28,15 +28,14 @@ public class LogicFacade implements ILogic {
     }
 
     public void createCase(String firstName, String lastName, long cprNumber,
-            String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry, ArrayList<Integer> socialWorkers) {
+            String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers) {
         UUID caseID = UUID.randomUUID();
         Case newCase = new Case(firstName, lastName, caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
         newCase.addPatientToDatabase();
         newCase.saveCase();
-
-        if (socialWorkers != null) {
-            persistence.saveCaseUserRelation(caseID, socialWorkers);
-        }
+        socialWorkers.add(user.getUserID());
+        persistence.saveCaseUserRelation(caseID, socialWorkers);
+        
 
     }
 
