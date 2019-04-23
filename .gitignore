@@ -1,3 +1,11 @@
-Compassio/dist/
-Compassio/build/
+# NetBeans
 Compassio/nbproject/private/
+Compassio/build/
+Compassio/nbbuild/
+Compassio/dist/
+Compassio/nbdist/
+Compassio/nbactions.xml
+Compassio/nb-configuration.xml
+
+# Class Files #
+*.class
