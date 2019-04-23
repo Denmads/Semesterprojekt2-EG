@@ -149,7 +149,7 @@ public class PersistenceFacade implements IPersistence {
     
     private byte[] generateSalt () {
         SecureRandom secRan = new SecureRandom();
-        byte[] salt = new byte[16];
+        byte[] salt = new byte[128];
         secRan.nextBytes(salt);
         return salt;
     }
@@ -161,12 +161,12 @@ public class PersistenceFacade implements IPersistence {
         return factory.generateSecret(spec).getEncoded();
     }
     
-    public static void main (String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        //Used for creating users
-        
-    }
     
-    //Used fro creating users
+    /**
+     * Creates a user with a hashed password
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException 
+     */
     public void createUser () throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] salt = generateSalt();
         byte[] pass = hashPassword("admin", salt);
