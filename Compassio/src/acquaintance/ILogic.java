@@ -28,4 +28,6 @@ public interface ILogic {
     public ArrayList<String> getDepartmentInfo();
     
     public boolean checkUserID(String userID);
+    
+    public String getUserID();
 }

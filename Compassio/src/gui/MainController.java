@@ -260,12 +260,14 @@ public class MainController implements Initializable {
                         caseTypeChoiceBox.getValue(), mainBodyArea.getText().trim(), new Date(), null, departmentID, inquiryArea.getText().trim(), addedUsers)) {
                     alert.setContentText("Sag oprettet");
                     alert.showAndWait();
-                    accessToCreateCase(false);
+                    clearCreateCase();
+//                    accessToCreateCase(false);
 
                 } else {
                     alert.setContentText("Fejl! Sagen kunne ikke oprettes");
                     alert.showAndWait();
                 }
+
             } else {
                 alert.setContentText("CPR nummer skal være 10 numre langt");
                 alert.showAndWait();
@@ -280,18 +282,11 @@ public class MainController implements Initializable {
 
     }
 
-    @FXML
-    private void cancelButton(ActionEvent event) {
-    }
 
-    @FXML
-    private void close(ActionEvent event) {
-    }
 
     private void accessToCreateCase(boolean editable) {
         firstNameField.setEditable(editable);
         lastNameField.setEditable(editable);
-        caseIDField.setEditable(editable);
         CPRField.setEditable(editable);
         mainBodyArea.setEditable(editable);
         inquiryArea.setEditable(editable);
@@ -303,7 +298,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void addSocialWorker(ActionEvent event) {
-        if (GUIrun.getLogic().checkUserID(userIDTextField.getText())) {
+        if (GUIrun.getLogic().checkUserID(userIDTextField.getText()) && !userIDTextField.getText().equals(GUIrun.getLogic().getUserID())) {
             addedUsers.add(userIDTextField.getText());
             userIDTextField.setText("Tilføjet socialarbejder");
         } else {
@@ -320,6 +315,18 @@ public class MainController implements Initializable {
     }
 
     public void openCase(MouseEvent event) {
+
+    }
+
+    private void clearCreateCase() {
+        firstNameField.clear();
+        lastNameField.clear();
+        CPRField.clear();
+        mainBodyArea.clear();
+        inquiryArea.clear();
+        userIDTextField.clear();
+        caseTypeChoiceBox.getSelectionModel().clearSelection();
+        departmentBox.getSelectionModel().clearSelection();
 
     }
 

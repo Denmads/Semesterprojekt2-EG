@@ -255,8 +255,12 @@ public class PersistenceFacade implements IPersistence {
                 singleCase[3] = rs.getString("cprnumber");
                 singleCase[4] = rs.getString("name");
                 singleCase[5] = rs.getString("mainBody");
-                singleCase[6] = rs.getString("datecreated").substring(0, 10);
-                singleCase[7] = rs.getString("dateclosed").substring(0, 10);
+                if (rs.getString("datecreated") != null) {
+                    singleCase[6] = rs.getString("datecreated").substring(0, 10);
+                }
+                if (rs.getString("dateclosed") != (null)) {
+                    singleCase[7] = rs.getString("dateclosed").substring(0, 10);
+                }
                 singleCase[8] = rs.getString("departmentid");
                 singleCase[9] = rs.getString("inquiry");
                 cases.add(singleCase);
@@ -309,15 +313,13 @@ public class PersistenceFacade implements IPersistence {
             statement.setString(3, lastName);
             statement.execute();
         } catch (SQLException ex) {
-            System.out.println("SQL exception");
-            ex.printStackTrace();
         }
 
     }
 
     public long getTypeID(Connection db, String type) {
         ResultSet tuples = null;
-        try (PreparedStatement statement = db.prepareStatement("SELECT \"typeID\" FROM CaseTypeRelation WHERE name = ?")) {
+        try (PreparedStatement statement = db.prepareStatement("SELECT typeid FROM CaseTypeRelation WHERE name = ?")) {
             statement.setString(1, type);
             tuples = statement.executeQuery();
             tuples.next();
@@ -330,8 +332,6 @@ public class PersistenceFacade implements IPersistence {
 
     }
 
-    
-
     /**
      * Get the cases connected to the departmentID
      *
@@ -340,7 +340,7 @@ public class PersistenceFacade implements IPersistence {
      * the case
      */
     @Override
-        public ArrayList<String[]> getCasesByDepartment(long departmentID) {
+    public ArrayList<String[]> getCasesByDepartment(long departmentID) {
         ArrayList<String[]> cases = new ArrayList<>();
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement(
@@ -355,8 +355,12 @@ public class PersistenceFacade implements IPersistence {
                 singleCase[3] = rs.getString("cprnumber");
                 singleCase[4] = rs.getString("name");
                 singleCase[5] = rs.getString("mainBody");
-                singleCase[6] = rs.getString("datecreated");
-                singleCase[7] = rs.getString("dateclosed");
+                if (!rs.getString("datecreated").equals("")) {
+                    singleCase[6] = rs.getString("datecreated");
+                }
+                if (!rs.getString("dateclosed").equals("")) {
+                    singleCase[7] = rs.getString("dateclosed");
+                }
                 singleCase[8] = rs.getString("departmentid");
                 singleCase[9] = rs.getString("inquiry");
                 cases.add(singleCase);
@@ -365,8 +369,7 @@ public class PersistenceFacade implements IPersistence {
             System.out.println("SQL exception");
             ex.printStackTrace();
         }
-        
-        
+
         return cases;
     }
 
@@ -396,7 +399,7 @@ public class PersistenceFacade implements IPersistence {
     }
 
     @Override
-        public boolean validateUserID(String userID) {
+    public boolean validateUserID(String userID) {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(userID) AS total FROM People WHERE userID = ?")) {
             existCheck.setLong(1, Long.parseLong(userID));
@@ -421,6 +424,5 @@ public class PersistenceFacade implements IPersistence {
         virk.getDepartments();
 
     }
-
 
 }
