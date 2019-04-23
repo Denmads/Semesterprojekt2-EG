@@ -81,12 +81,23 @@ public class GUICaseCell extends ListCell<Case> {
 
     @FXML
     private void btnOpenCase(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("case.fxml"));
-        Stage stage = new Stage();
-        stage.setScene(new Scene(loader.load()));
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.show();
-        CaseController controller = loader.getController();
-        controller.injectCase(currentCase);
+
+        if (GUIrun.getLogic().getUserType().equals("CASEWORKER")) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("case.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.show();
+            CaseController controller = loader.getController();
+            controller.injectCase(currentCase);
+        } else if (GUIrun.getLogic().getUserType().equals("SOCIALWORKER")) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("socialWorkerCase.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.show();
+            CaseController controller = loader.getController();
+            controller.injectCase(currentCase);
+        }
     }
 }
