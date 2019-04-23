@@ -34,7 +34,7 @@ public class Compassio extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static void main(String[] args) {
         
         IGUI gui = new GUIrun();
         ILogic logic = new LogicFacade();
