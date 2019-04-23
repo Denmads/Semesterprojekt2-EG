@@ -80,7 +80,8 @@ public class LogicFacade implements ILogic {
     }
 
     @Override
-    public ArrayList<String> getCaseTypeInfo() {
-        return persistence.getCaseTypes();
+    public boolean checkUserID(String userID) {
+        return persistence.validateUserID(userID);
     }
+
 }

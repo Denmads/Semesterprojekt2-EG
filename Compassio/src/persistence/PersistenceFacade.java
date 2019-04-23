@@ -169,7 +169,7 @@ public class PersistenceFacade implements IPersistence {
                 PreparedStatement statement = db.prepareStatement("INSERT INTO CaseUserRelation VALUES (?, ?)");) {
             for (int i = 0; i < userID.size(); i++) {
                 statement.setString(1, caseID.toString());
-                statement.setString(2, userID.get(i));
+                statement.setLong(2, Long.parseLong(userID.get(i)));
                 statement.execute();
             }
 
@@ -228,12 +228,11 @@ public class PersistenceFacade implements IPersistence {
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
                 PreparedStatement statement = db.prepareStatement("SELECT departmentid, name FROM Department")) {
             ResultSet tuples = statement.executeQuery();
-            while(tuples.next()){
-                if(tuples.getLong(1)!= -1){
-                String departmentInfo = tuples.getLong(1) + " " + tuples.getString(2);
-                departments.add(departmentInfo);
-                }
-                else{
+            while (tuples.next()) {
+                if (tuples.getLong(1) != -1) {
+                    String departmentInfo = tuples.getLong(1) + " " + tuples.getString(2);
+                    departments.add(departmentInfo);
+                } else {
                     String departmentInfo = tuples.getLong(1) + " " + "Ukendt";
                 }
 //                System.out.println(departmentInfo);
@@ -247,31 +246,31 @@ public class PersistenceFacade implements IPersistence {
         }
         return departments;
     }
-    
-        public ArrayList<String> getCaseTypes() {
-        ArrayList<String> caseTypes = new ArrayList<>();
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
-                PreparedStatement statement = db.prepareStatement("SELECT name FROM CaseTypeRelation")) {
-            ResultSet tuples = statement.executeQuery();
-            while(tuples.next()){
-                String departmentInfo = tuples.getString(1);
-                caseTypes.add(departmentInfo);
-//                System.out.println(departmentInfo);
-//                String[] wat = departmentInfo.split(" ");
-//                System.out.println(departmentInfo.substring(wat[0].trim().length()));
-            }
-        } catch (SQLException ex) {
-            System.out.println("SQL exception");
-            ex.printStackTrace();
-        }
-        return caseTypes;
-    }
 
     public static void main(String[] args) {
         PersistenceFacade virk = new PersistenceFacade();
 //        virk.saveCase(UUID.randomUUID(), (long) 1204372878, "noget", "dette er en test", new Date(), new Date(), -1, "");
         virk.getDepartments();
-        
+
+    }
+
+    @Override
+    public boolean validateUserID(String userID) {
+        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+                PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(userID) AS total FROM People WHERE userID = ?")) {
+            existCheck.setLong(1, Long.parseLong(userID));
+            ResultSet tuples = existCheck.executeQuery();
+            tuples.next();
+            if (0 < tuples.getInt("total")) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (SQLException | NumberFormatException ex) {
+            return false;
+
+        }
 
     }
 

@@ -41,6 +41,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import logic.Case;
 
@@ -99,12 +100,16 @@ public class startLoginController implements Initializable {
     @FXML
     private TextArea mainBodyArea;
     @FXML
-    private DatePicker dateCreatedField;
-    @FXML
-    private DatePicker closedDateField;
-    @FXML
     private TextArea inquiryArea;
-
+    @FXML
+    private HBox departmentPlace;
+    @FXML
+    private TextField userIDTextField;
+    @FXML
+    private Button addSocialWorkerBtn;
+    
+    private ArrayList<String> addedUsers;
+    
     /**
      * Initializes the controller class.
      */
@@ -146,8 +151,9 @@ public class startLoginController implements Initializable {
         
         departmentTypes = FXCollections.observableArrayList(GUIrun.getLogic().getDepartmentInfo());
         departmentBox.setItems(departmentTypes);
-        caseTypeChoices = FXCollections.observableArrayList(GUIrun.getLogic().getCaseTypeInfo());
+        caseTypeChoices = FXCollections.observableArrayList(GUIrun.getLogic().retrieveCaseTypes());
         caseTypeChoiceBox.setItems(caseTypeChoices);
+        addedUsers = new ArrayList<>();
     }
 
     private void updateCaseFilter() {
@@ -228,6 +234,7 @@ public class startLoginController implements Initializable {
         create_case.setVisible(true);
         visibleMenu();
         accessToCreateCase(true);
+        addedUsers.clear();
 
     }
 
@@ -245,18 +252,11 @@ public class startLoginController implements Initializable {
 
     @FXML
     private void createCaseButton(ActionEvent event) {
-        LocalDate localDate = dateCreatedField.getValue();
-        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-        Date dateCreated = Date.from(instant);
-
-        localDate = closedDateField.getValue();
-        instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-        Date dateClosed = Date.from(instant);
         String[] departmentInfo = departmentBox.getValue().split(" ");
         int departmentID = Integer.parseInt(departmentInfo[0]);
         
         GUIrun.getLogic().createCase(firstNameField.getText(), lastNameField.getText(), Long.parseLong(CPRField.getText()), 
-                caseTypeChoiceBox.getValue(), mainBodyArea.getText(), dateCreated, dateClosed, departmentID, inquiryArea.getText(), null);
+                caseTypeChoiceBox.getValue(), mainBodyArea.getText(), new Date(), null, departmentID, inquiryArea.getText(), null);
         accessToCreateCase(false);
 
     }
@@ -275,11 +275,23 @@ public class startLoginController implements Initializable {
         caseIDField.setEditable(editable);
         CPRField.setEditable(editable);
         mainBodyArea.setEditable(editable);
-        dateCreatedField.setEditable(editable);
-        closedDateField.setEditable(editable);
         inquiryArea.setEditable(editable);
         departmentBox.setDisable(!editable);
         caseTypeChoiceBox.setDisable(!editable);
+        userIDTextField.setDisable(!editable);
+        addSocialWorkerBtn.setDisable(!editable);
+    }
+
+    @FXML
+    private void addSocialWorker(ActionEvent event) {
+        if(GUIrun.getLogic().checkUserID(userIDTextField.getText())){
+            addedUsers.add(userIDTextField.getText());
+            userIDTextField.setText("Tilføjet socialarbejder");
+        }
+        else{
+            userIDTextField.setText("Forkert indtastet brugerID");
+        }
+        
     }
 
 }

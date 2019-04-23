@@ -27,5 +27,6 @@ public interface IPersistence {
     public void insertNewPatient(long cpr, String firstName, String lastName);
     
     public ArrayList<String> getDepartments();
-    public ArrayList<String> getCaseTypes();
+    
+    public boolean validateUserID(String userID);
 }

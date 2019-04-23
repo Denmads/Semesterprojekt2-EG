@@ -21,5 +21,6 @@ public interface ILogic {
     public void createCase(String firstName, String lastName, long cprNumber,  String type, String mainBody, 
             Date dateCreated, Date dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers);
     public ArrayList<String> getDepartmentInfo();
-    public ArrayList<String> getCaseTypeInfo();
+    
+    public boolean checkUserID(String userID);
 }
