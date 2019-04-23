@@ -53,7 +53,7 @@ import logic.Case;
  *
  * @author L530
  */
-public class startLoginController implements Initializable {
+public class MainController implements Initializable {
 
     @FXML
     private AnchorPane user_menu;
