@@ -6,6 +6,7 @@
 package acquaintance;
 
 import java.util.ArrayList;
+import logic.Case;
 
 /**
  *
@@ -14,7 +15,11 @@ import java.util.ArrayList;
 public interface ILogic {
 
     public void injectPersistence(IPersistence PersistenceLayer);
-    
+
+    public ArrayList<Case> getCases();
+
+    public void createCase(long CPR, int[] socialWorkers);
+
     public ArrayList<String> retrieveCaseTypes ();
      public boolean login(String username, String password);
 }

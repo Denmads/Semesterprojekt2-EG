@@ -21,5 +21,9 @@ public class SocialWorker extends User {
         this.departments = departments;
     }
     
+    public ArrayList<Long> getDepartments(){
+        return departments;
+    }
+    
     
 }

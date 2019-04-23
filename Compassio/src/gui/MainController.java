@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.function.Predicate;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -37,7 +38,7 @@ import logic.Case;
  *
  * @author L530
  */
-public class startLoginController implements Initializable {
+public class MainController implements Initializable {
 
     @FXML
     private AnchorPane user_menu;
@@ -62,6 +63,7 @@ public class startLoginController implements Initializable {
     @FXML
     private ChoiceBox<String> caseType;
     private ObservableList<String> caseTypes;
+    private ArrayList<Case> cases;
 
     /**
      * Initializes the controller class.
@@ -71,14 +73,7 @@ public class startLoginController implements Initializable {
         visibleMenu();
         visibleCases();
 
-        ArrayList<Case> testCases = new ArrayList<>();
-        testCases.add(new Case("John", "Lars Larsen", 1234, 1234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
-        testCases.add(new Case("John", "Ole Larsen", 1235, 2234569999L, "Handicap", "", Calendar.getInstance().getTime(), null, 1, ""));
-        testCases.add(new Case("Lone", "Borgersen", 1236, 3112191111L, "Ældre", "", Calendar.getInstance().getTime(), new Date(System.currentTimeMillis() + 123456), 1, ""));
-
-        viewableCases = FXCollections.observableArrayList(testCases);
-        filteredCases = new FilteredList<>(viewableCases, p -> true);
-        listview_cases.setItems(filteredCases);
+        updateCases();
 
         listview_cases.setCellFactory(view -> new GUICaseCell());
 
@@ -109,21 +104,21 @@ public class startLoginController implements Initializable {
             String fullName = c.getFirstName().toLowerCase() + " " + c.getLastName().toLowerCase();
             String cpr = "" + c.getCprNumber();
             String caseNumber = "" + c.getCaseID();
-            
+
             if (searchField.getText().trim().length() == 0) {
                 return true;
             }
-            
+
             return fullName.startsWith(input) || cpr.startsWith(input) || caseNumber.startsWith(input);
         };
         Predicate<Case> type = c -> {
             if (caseType.getSelectionModel().getSelectedIndex() == 0) {
                 return true;
             }
-            
+
             return c.getType().equals(caseType.getValue());
         };
-        
+
         filteredCases.setPredicate(text.and(type));
 
     }
@@ -169,7 +164,6 @@ public class startLoginController implements Initializable {
         //are u sure u want to log out.. then cng.changeFXMLAction("/gui/login.fxml", event); or change to front page start_user_login.fxml
     }
 
-    
     @FXML
     private void user_logout(ActionEvent event) throws IOException {
         guih.changeFXMLAction("/gui/login.fxml", event);
@@ -180,11 +174,13 @@ public class startLoginController implements Initializable {
         visibleCases();
         see_cases_ancher.setVisible(false);
         create_case.setVisible(true);
+        visibleMenu();
     }
 
     @FXML
     private void seeCases(ActionEvent event) {
         visibleCases();
+        updateCases();
         see_cases_ancher.setVisible(true);
         create_case.setVisible(false);
         visibleMenu();
@@ -192,6 +188,18 @@ public class startLoginController implements Initializable {
 
     @FXML
     private void changePassword(ActionEvent event) {
+    }
+
+    private void updateCases() {
+        cases = GUIrun.getLogic().getCases();
+
+        viewableCases = FXCollections.observableArrayList(cases);
+        filteredCases = new FilteredList<>(viewableCases, p -> true);
+        listview_cases.setItems(filteredCases);
+    }
+
+    public void openCase(MouseEvent event) {
+
     }
 
 }

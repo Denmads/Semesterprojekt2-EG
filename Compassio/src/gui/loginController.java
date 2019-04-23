@@ -89,7 +89,7 @@ public class loginController implements Initializable {
             label_check.setText("Ugyldigt brugernavn/password!");
             label_check.setTextFill(Color.rgb(210, 39, 30));
         } else {
-            guih.changeFXMLAction("/gui/start_user_login.fxml", event);
+            guih.changeFXMLAction("/gui/main.fxml", event);
             
         }
     }
