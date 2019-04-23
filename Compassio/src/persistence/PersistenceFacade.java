@@ -8,28 +8,27 @@ package persistence;
 import java.sql.*;
 import acquaintance.IPersistence;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 
 /**
  *
  * @author Peterzxcvbnm
+ * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
  */
 public class PersistenceFacade implements IPersistence {
 
     private String dbIP = "jdbc:postgresql://68.183.68.65:5432/compassio";
     private String username = "postgres";
     private String password = "software-f19-4";
+    private PasswordTool passTool;
 
     public PersistenceFacade() {
+        passTool = new PasswordTool();
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
@@ -107,7 +106,30 @@ public class PersistenceFacade implements IPersistence {
             return "user";
         }
     }
-
+    
+        /**
+     * Creates a user with a hashed password
+     *
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
+    public void createUser(PersistenceFacade persistenceFacade) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] salt = this.passTool.generateSalt();
+        byte[] pass = this.passTool.hashPassword("admin", salt);
+        try (final Connection db = DriverManager.getConnection(persistenceFacade.dbIP, persistenceFacade.username, persistenceFacade.password);final PreparedStatement statement = db.prepareStatement("INSERT INTO people VALUES (?, ?, ?, ?, ?, ?)")) {
+            statement.setLong(1, 1L);
+            statement.setString(2, "admin");
+            statement.setString(3, "admin");
+            statement.setString(4, "admin");
+            statement.setBytes(5, pass);
+            statement.setBytes(6, salt);
+            System.out.println(statement);
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     @Override
     public String[] getUser(String username, String password) {
         String[] user = new String[4];
@@ -123,7 +145,7 @@ public class PersistenceFacade implements IPersistence {
 
                 try (PreparedStatement checkStatement = db.prepareStatement("SELECT * FROM people WHERE username=? AND hashedpassword=?")) {
                     checkStatement.setString(1, username);
-                    checkStatement.setBytes(2, hashPassword(password, salt));
+                    checkStatement.setBytes(2, this.passTool.hashPassword(password, salt));
                     ResultSet res = checkStatement.executeQuery();
 
                     if (res.next()) {
@@ -147,59 +169,6 @@ public class PersistenceFacade implements IPersistence {
         }
     }
 
-    private byte[] generateSalt() {
-        SecureRandom secRan = new SecureRandom();
-        byte[] salt = new byte[128];
-        secRan.nextBytes(salt);
-        return salt;
-    }
-
-    private byte[] hashPassword(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-
-        return factory.generateSecret(spec).getEncoded();
-    }
-
-    /**
-     * Creates a user with a hashed password
-     *
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
-     */
-    public void createUser() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] salt = generateSalt();
-        byte[] pass = hashPassword("admin", salt);
-
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
-                PreparedStatement statement = db.prepareStatement("INSERT INTO people VALUES (?, ?, ?, ?, ?, ?)")) {
-            statement.setLong(1, 1L);
-            statement.setString(2, "admin");
-            statement.setString(3, "admin");
-            statement.setString(4, "admin");
-            statement.setBytes(5, pass);
-            statement.setBytes(6, salt);
-
-            System.out.println(statement);
-
-            statement.executeUpdate();
-        } catch (SQLException ex) {
-            System.out.println("SQL exception");
-            ex.printStackTrace();
-        }
-    }
-
-//    public void example() {
-//         try (Connection db = DriverManager.getConnection(dbIP, username, password);
-//                PreparedStatement statement = db.prepareStatement("INSERT INTO test VALUES (?, ?)")) {
-//            statement.setString(1, "Peter");
-//            statement.setInt(2, 2);
-//            statement.execute();
-//        } catch (SQLException ex) {
-//            System.out.println("SQL exception");
-//            ex.printStackTrace();
-//        }
-//    }
     @Override
     public boolean saveCase(UUID caseID, long cprNumber, String type,
             String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
