@@ -96,7 +96,7 @@ public class GUICaseCell extends ListCell<Case> {
             stage.setScene(new Scene(loader.load()));
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.show();
-            CaseController controller = loader.getController();
+            SocialWorkerCaseController controller = loader.getController();
             controller.injectCase(currentCase);
         }
     }
