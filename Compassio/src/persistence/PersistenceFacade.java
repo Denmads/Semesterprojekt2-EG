@@ -222,8 +222,12 @@ public class PersistenceFacade implements IPersistence {
                 singleCase[3] = rs.getString("cprnumber");
                 singleCase[4] = rs.getString("name");
                 singleCase[5] = rs.getString("mainBody");
-                singleCase[6] = rs.getString("datecreated").substring(0, 10);
-                singleCase[7] = rs.getString("dateclosed").substring(0, 10);
+                if (!rs.getString("datecreated").equals("")) {
+                    singleCase[6] = rs.getString("datecreated").substring(0, 10);
+                }
+                if (!rs.getString("dateclosed").equals("")) {
+                    singleCase[7] = rs.getString("dateclosed").substring(0, 10);
+                }
                 singleCase[8] = rs.getString("departmentid");
                 singleCase[9] = rs.getString("inquiry");
                 cases.add(singleCase);
