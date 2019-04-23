@@ -36,6 +36,7 @@ public class PersistenceFacade implements IPersistence {
         }
     }
 
+    @Override
     public ArrayList<String> retrieveCaseTypeNames() {
         ArrayList<String> types = new ArrayList<>();
 
@@ -53,6 +54,12 @@ public class PersistenceFacade implements IPersistence {
         return types;
     }
 
+    /**
+     * Returns a list of departments associated with a user.
+     *
+     * @param userID user to find associated departments.
+     * @return list of departments. Will return <code>null</code> if none are found.
+     */
     @Override
     public ArrayList<Long> getUserDepartments(String userID) {
         ArrayList<Long> departments = new ArrayList();
@@ -107,16 +114,16 @@ public class PersistenceFacade implements IPersistence {
         }
     }
     
-        /**
+     /**
      * Creates a user with a hashed password
      *
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
      */
-    public void createUser(PersistenceFacade persistenceFacade) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public void createUser() throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] salt = this.passTool.generateSalt();
         byte[] pass = this.passTool.hashPassword("admin", salt);
-        try (final Connection db = DriverManager.getConnection(persistenceFacade.dbIP, persistenceFacade.username, persistenceFacade.password);final PreparedStatement statement = db.prepareStatement("INSERT INTO people VALUES (?, ?, ?, ?, ?, ?)")) {
+        try (final Connection db = DriverManager.getConnection(dbIP, username, password);final PreparedStatement statement = db.prepareStatement("INSERT INTO people VALUES (?, ?, ?, ?, ?, ?)")) {
             statement.setLong(1, 1L);
             statement.setString(2, "admin");
             statement.setString(3, "admin");
@@ -298,7 +305,6 @@ public class PersistenceFacade implements IPersistence {
             ex.printStackTrace();
         }
         return -1;
-
     }
 
     /**
@@ -342,6 +348,7 @@ public class PersistenceFacade implements IPersistence {
         return cases;
     }
 
+    @Override
     public ArrayList<String> getDepartments() {
         ArrayList<String> departments = new ArrayList<>();
         try (Connection db = DriverManager.getConnection(dbIP, username, password);
@@ -355,11 +362,7 @@ public class PersistenceFacade implements IPersistence {
                     String departmentInfo = tuples.getLong(1) + " " + "Ukendt";
                     departments.add(departmentInfo);
                 }
-//                System.out.println(departmentInfo);
-//                String[] wat = departmentInfo.split(" ");
-//                System.out.println(departmentInfo.substring(wat[0].trim().length()));
             }
-            getTypeID(db, "Misbrug");
         } catch (SQLException ex) {
             System.out.println("SQL exception");
             ex.printStackTrace();
@@ -374,11 +377,7 @@ public class PersistenceFacade implements IPersistence {
             existCheck.setLong(1, Long.parseLong(userID));
             ResultSet tuples = existCheck.executeQuery();
             tuples.next();
-            if (0 < tuples.getInt("total")) {
-                return true;
-            } else {
-                return false;
-            }
+            return 0 < tuples.getInt("total");
 
         } catch (SQLException | NumberFormatException ex) {
             return false;
@@ -387,6 +386,12 @@ public class PersistenceFacade implements IPersistence {
 
     }
 
+    /**
+     * Returns the name of name of the department
+     * 
+     * @param departmentId The ID of the department to return the name of.
+     * @return name of the department. Will return <code>null</code> if department doesn't exist
+     */
     @Override
     public String getDepartmentNameById(int departmentId) {
         try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
