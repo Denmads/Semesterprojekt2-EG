@@ -6,7 +6,11 @@
 package persistence;
 
 import java.sql.*;
+import org.apache.commons.dbcp2.BasicDataSource;
+
 import acquaintance.IPersistence;
+import java.beans.PropertyVetoException;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
@@ -25,32 +29,30 @@ public class PersistenceFacade implements IPersistence {
     private String dbIP = "jdbc:postgresql://68.183.68.65:5432/compassio";
     private String username = "postgres";
     private String password = "software-f19-4";
-    private PasswordTool passTool;
+    private final PasswordTool passTool;
+    private final BasicDataSource connectionPool;
 
     public PersistenceFacade() {
         passTool = new PasswordTool();
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        connectionPool = new BasicDataSource();
+        connectionPool.setUsername(this.username);
+        connectionPool.setPassword(this.password);
+        connectionPool.setDriverClassName("org.postgresql.Driver");
+        connectionPool.setUrl(this.dbIP);
+        connectionPool.setInitialSize(10);
     }
 
     @Override
     public ArrayList<String> retrieveCaseTypeNames() {
         ArrayList<String> types = new ArrayList<>();
-
-        try (Connection db = DriverManager.getConnection(dbIP, username, password)) {
-
+        try (Connection db = connectionPool.getConnection()) {
             ResultSet result = db.prepareStatement("SELECT name FROM casetyperelation").executeQuery();
-
             while (result.next()) {
                 types.add(result.getString("name"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(PersistenceFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return types;
     }
 
@@ -58,16 +60,16 @@ public class PersistenceFacade implements IPersistence {
      * Returns a list of departments associated with a user.
      *
      * @param userID user to find associated departments.
-     * @return list of departments. Will return <code>null</code> if none are found.
+     * @return list of departments. Will return <code>null</code> if none are
+     * found.
      */
     @Override
     public ArrayList<Long> getUserDepartments(String userID) {
         ArrayList<Long> departments = new ArrayList();
-        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
+        try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("SELECT * FROM employeesofdepartment WHERE userID=?")) {
             statement.setLong(1, Long.parseLong(userID));
             ResultSet rs = statement.executeQuery();
-
             if (rs.next() == false) {
                 return null;
             } else {
@@ -88,7 +90,7 @@ public class PersistenceFacade implements IPersistence {
         if (departments == null) {
             return "user";
         }
-        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
+        try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("SELECT type FROM institution "
                         + "WHERE institutionID=?");
                 PreparedStatement getInstitutionID = db.prepareStatement("SELECT institutionID FROM "
@@ -113,8 +115,8 @@ public class PersistenceFacade implements IPersistence {
             return "user";
         }
     }
-    
-     /**
+
+    /**
      * Creates a user with a hashed password
      *
      * @throws NoSuchAlgorithmException
@@ -123,7 +125,9 @@ public class PersistenceFacade implements IPersistence {
     public void createUser() throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] salt = this.passTool.generateSalt();
         byte[] pass = this.passTool.hashPassword("admin", salt);
-        try (final Connection db = DriverManager.getConnection(dbIP, username, password);final PreparedStatement statement = db.prepareStatement("INSERT INTO people VALUES (?, ?, ?, ?, ?, ?)")) {
+        try (
+                final Connection db = connectionPool.getConnection();
+                final PreparedStatement statement = db.prepareStatement("INSERT INTO people VALUES (?, ?, ?, ?, ?, ?)")) {
             statement.setLong(1, 1L);
             statement.setString(2, "admin");
             statement.setString(3, "admin");
@@ -136,15 +140,14 @@ public class PersistenceFacade implements IPersistence {
             ex.printStackTrace();
         }
     }
-    
+
     @Override
     public String[] getUser(String username, String password) {
         String[] user = new String[4];
-        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
+        try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("SELECT salt FROM people WHERE username=?")) {
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
-
             if (rs.next() == false) {
                 return null;
             } else {
@@ -154,7 +157,6 @@ public class PersistenceFacade implements IPersistence {
                     checkStatement.setString(1, username);
                     checkStatement.setBytes(2, this.passTool.hashPassword(password, salt));
                     ResultSet res = checkStatement.executeQuery();
-
                     if (res.next()) {
                         user[0] = res.getString("userid");
                         user[1] = res.getString("username");
@@ -179,7 +181,7 @@ public class PersistenceFacade implements IPersistence {
     @Override
     public boolean saveCase(UUID caseID, long cprNumber, String type,
             String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+        try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("INSERT INTO \"socialcase\" VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
             if (1 > checkForCaseID(db, caseID)) {
                 statement.setString(1, caseID.toString());
@@ -218,11 +220,12 @@ public class PersistenceFacade implements IPersistence {
     @Override
     public ArrayList<String[]> getCasesByUserID(String userID) {
         ArrayList<String[]> cases = new ArrayList<>();
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+        try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement(
                         "SELECT * FROM SocialCase NATURAL JOIN CaseUserRelation NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE userID=(?)")) {
             statement.setLong(1, Long.parseLong(userID));
             ResultSet rs = statement.executeQuery();
+           
             while (rs.next()) {
                 String[] singleCase = new String[10];
                 singleCase[0] = rs.getString("firstname");
@@ -251,14 +254,13 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public void saveCaseUserRelation(UUID caseID, ArrayList<String> userID) {
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+        try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("INSERT INTO CaseUserRelation VALUES (?, ?)");) {
             for (int i = 0; i < userID.size(); i++) {
                 statement.setString(1, caseID.toString());
                 statement.setLong(2, Long.parseLong(userID.get(i)));
                 statement.execute();
             }
-
         } catch (SQLException ex) {
             System.out.println("SQL exception");
             ex.printStackTrace();
@@ -282,7 +284,7 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public void insertNewPatient(long cpr, String firstName, String lastName) {
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+        try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("INSERT INTO cpr VALUES (?, ?, ?)")) {
             statement.setLong(1, cpr);
             statement.setString(2, firstName);
@@ -317,7 +319,7 @@ public class PersistenceFacade implements IPersistence {
     @Override
     public ArrayList<String[]> getCasesByDepartment(long departmentID) {
         ArrayList<String[]> cases = new ArrayList<>();
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+        try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement(
                         "SELECT * FROM SocialCase NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE 'departmentID'=(?)")) {
             statement.setLong(1, departmentID);
@@ -351,7 +353,7 @@ public class PersistenceFacade implements IPersistence {
     @Override
     public ArrayList<String> getDepartments() {
         ArrayList<String> departments = new ArrayList<>();
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+        try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("SELECT departmentid, name FROM Department")) {
             ResultSet tuples = statement.executeQuery();
             while (tuples.next()) {
@@ -372,7 +374,7 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public boolean validateUserID(String userID) {
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
+        try (Connection db = connectionPool.getConnection();
                 PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(userID) AS total FROM People WHERE userID = ?")) {
             existCheck.setLong(1, Long.parseLong(userID));
             ResultSet tuples = existCheck.executeQuery();
@@ -388,13 +390,14 @@ public class PersistenceFacade implements IPersistence {
 
     /**
      * Returns the name of name of the department
-     * 
+     *
      * @param departmentId The ID of the department to return the name of.
-     * @return name of the department. Will return <code>null</code> if department doesn't exist
+     * @return name of the department. Will return <code>null</code> if
+     * department doesn't exist
      */
     @Override
     public String getDepartmentNameById(int departmentId) {
-        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
+        try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("SELECT name FROM department WHERE departmentid=?")) {
             statement.setInt(1, departmentId);
             ResultSet rs = statement.executeQuery();
