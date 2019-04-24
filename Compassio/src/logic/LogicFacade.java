@@ -27,7 +27,7 @@ public class LogicFacade implements ILogic {
         newCase.addPatientToDatabase();
         boolean caseSaved = newCase.saveCase();
         socialWorkers.add(user.getUserID());
-        
+
         persistence.saveCaseUserRelation(caseID, socialWorkers);
         return caseSaved;
     }
@@ -81,23 +81,21 @@ public class LogicFacade implements ILogic {
     @Override
     public boolean login(String username, String password) {
         String[] result = this.persistence.getUser(username, password);
-
+        UserType userType;
+        switch (result[4]) {
+            case "socialworker":
+                userType = UserType.SOCIALWORKER;
+                break;
+            case "caseworker":
+                userType = UserType.CASEWORKER;
+                break;
+            default:
+                userType = UserType.USER;
+                break;
+        }
         if (result != null) {
-            switch (this.persistence.getUserType(result[0])) {
-                case "socialworker":
-                    this.user = new User(result[0], result[1], result[2],
-                            result[3], this.persistence.getUserDepartments(result[0]), UserType.SOCIALWORKER);
-                    break;
-                case "caseworker":
-                    this.user = new User(result[0], result[1], result[2],
-                            result[3], this.persistence.getUserDepartments(result[0]), UserType.CASEWORKER);
-                    break;
-                default:
-                    this.user = new User(result[0], result[1], result[2],
-                            result[3], this.persistence.getUserDepartments(result[0]), UserType.USER);
-                    break;
-            }
-
+            this.user = new User(result[0], result[1], result[2],
+                    result[3], LogicFacade.persistence.getUserDepartments(result[0]), userType);
             return true;
         } else {
             return false;
@@ -113,12 +111,11 @@ public class LogicFacade implements ILogic {
     public boolean checkUserID(String userID) {
         return persistence.validateUserID(userID);
     }
-    
-    public String getUserID() {
-    return user.getUserID();
-}
 
-    
+    public String getUserID() {
+        return user.getUserID();
+    }
+
     /**
      * @return user first and last name seperated by a space char
      */
@@ -126,7 +123,7 @@ public class LogicFacade implements ILogic {
     public String getUserName() {
         return this.user.getFirstName() + " " + this.user.getLastName();
     }
-    
+
     /**
      * @return users given type in all uppercase
      */
@@ -134,9 +131,9 @@ public class LogicFacade implements ILogic {
     public String getUserType() {
         return this.user.getUserType().toString();
     }
-    
+
     @Override
-     public String getDepartmentNameById(int departmentId){
+    public String getDepartmentNameById(int departmentId) {
         return persistence.getDepartmentNameById(departmentId);
-     }
+    }
 }
