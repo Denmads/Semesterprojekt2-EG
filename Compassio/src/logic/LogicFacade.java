@@ -20,15 +20,15 @@ public class LogicFacade implements ILogic {
         persistence = PersistenceLayer;
     }
 
+    @Override
     public boolean createCase(String firstName, String lastName, long cprNumber,
             String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers) {
-        UUID caseID = UUID.randomUUID();
-        Case newCase = new Case(firstName, lastName, caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
+        Case newCase = new Case(firstName, lastName, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
         newCase.addPatientToDatabase();
         boolean caseSaved = newCase.saveCase();
         socialWorkers.add(user.getUserID());
 
-        persistence.saveCaseUserRelation(caseID, socialWorkers);
+        persistence.saveCaseUserRelation(newCase.getCaseID(), socialWorkers);
         return caseSaved;
     }
 
@@ -64,9 +64,7 @@ public class LogicFacade implements ILogic {
 
     @Override
     public void createCase(long CPR, int[] socialWorkers) {
-        UUID caseID = UUID.randomUUID();
-        Case newCase = new Case(CPR, caseID);
-        newCase.saveCase();
+        new Case(CPR).saveCase();
     }
 
     public static IPersistence getPersistence() {
@@ -117,7 +115,7 @@ public class LogicFacade implements ILogic {
     }
 
     /**
-     * @return user first and last name seperated by a space char
+     * @return user first and last name separated by a space char
      */
     @Override
     public String getUserName() {

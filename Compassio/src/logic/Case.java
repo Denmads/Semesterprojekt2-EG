@@ -29,10 +29,10 @@ public class Case {
 
     private String inquiry;
 
-    public Case(long cprNumber, UUID caseID) {
+    public Case(long cprNumber) {
         this.cprNumber = cprNumber;
         this.dateCreated = new Date();
-        this.caseID = caseID;
+        this.caseID = UUID.randomUUID();
     }
 
     public Case(long cprNumber, UUID caseID, Date dateCreated) {
@@ -43,6 +43,17 @@ public class Case {
 
     public Case(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
         this(cprNumber, caseID, dateCreated);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.type = type;
+        this.mainBody = mainBody;
+        this.dateClosed = dateClosed;
+        this.departmentID = departmentID;
+        this.inquiry = inquiry;
+    }
+    
+    public Case(String firstName, String lastName, long cprNumber, String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
+        this(cprNumber, UUID.randomUUID(), dateCreated);
         this.firstName = firstName;
         this.lastName = lastName;
         this.type = type;
@@ -126,6 +137,5 @@ public class Case {
     
     public void addPatientToDatabase(){
         LogicFacade.getPersistence().insertNewPatient(cprNumber, firstName, lastName);
-
     }
 }
