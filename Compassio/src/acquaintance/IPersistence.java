@@ -7,8 +7,12 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
+ * The purpose of this interface is to provide access to the persistent storage.
+ * The methods provided in this interface are for creating, retrieving,
+ * updating, and deleting data.
  *
  * @author Peterzxcvbnm
+ * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
  */
 public interface IPersistence {
 
@@ -67,30 +71,33 @@ public interface IPersistence {
     public ArrayList<Long> getUserDepartments(String userID);
 
     /**
+     * Saves the the information associated with a case to persistent storage.
      *
-     * @param caseID
-     * @param cprNumber
-     * @param type
+     * @param caseID ID of the case
+     * @param cprNumber CPR number of citizen
+     * @param type case type
      * @param mainBody notes entered by the user
-     * @param dateCreated
-     * @param dateClosed
-     * @param departmentID
-     * @param inquiry
-     * @return
+     * @param dateCreated date of case creation
+     * @param dateClosed date of case closure
+     * @param departmentID id of assigned department
+     * @param inquiry message to institution
+     * @return returns <code>true</code> on successful save. Returns
+     * <code>false</code> on failure.
      */
     public boolean saveCase(UUID caseID, long cprNumber, String type, String mainBody,
             Date dateCreated, Date dateClosed, int departmentID, String inquiry);
 
     /**
+     * Adds the assigned caseworkers to the case.
      *
-     * @param caseID 
-     * @param userID 
+     * @param caseID ID of case.
+     * @param userID user ID's of assigned caseworkers.
      */
     public void saveCaseUserRelation(UUID caseID, ArrayList<String> userID);
 
     /**
      * Inserts a new patient into the CPR register.
-     * 
+     *
      * @param cpr the patients CPR number
      * @param firstName the patients first name
      * @param lastName the patients last name
@@ -99,14 +106,14 @@ public interface IPersistence {
 
     /**
      * Returns a list of all departments.
-     * 
+     *
      * @return a list of all departments.
      */
     public ArrayList<String> getDepartments();
 
     /**
-     * Returns if the specified user is valid  
-     * 
+     * Returns if the specified user is valid
+     *
      * @param userID The user to check for
      * @return returns <code>true</code> if user exists or <code>false</code> if
      * they don't
