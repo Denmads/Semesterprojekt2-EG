@@ -4,8 +4,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import logic.UserType;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
@@ -77,7 +79,7 @@ public class UserDAO {
     public String[] getUser(String username, String password) {
         String[] user = new String[5];
         try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("SELECT salt FROM people WHERE username=?")) {
+                PreparedStatement statement = db.prepareStatement("SELECT salt FROM people WHERE username=? AND deleted=false")) {
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
             if (rs.next() == false) {
@@ -112,33 +114,51 @@ public class UserDAO {
     }
     
     private String getUserType(String userID) {
-        ArrayList<Long> departments = this.getUserDepartments(userID);
-        if (departments == null) {
-            return "user";
-        }
         try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("SELECT type FROM institution "
-                        + "WHERE institutionID=?");
-                PreparedStatement getInstitutionID = db.prepareStatement("SELECT institutionID FROM "
-                        + "InstitutionDeparmentRelatition "
-                        + "WHERE deparmentID=?")) {
-            getInstitutionID.setLong(1, departments.get(0));
-            ResultSet institutionID = getInstitutionID.executeQuery();
-            institutionID.next();
-            statement.setLong(1, institutionID.getLong(1));
-            ResultSet rs = statement.executeQuery();
-
-            if (rs.next() == false) {
-                return "user";
-            } else if (rs.getString("type").equals("Kommune")) {
-                return "caseworker";
-            } else {
-                return "socialworker";
+                PreparedStatement getUserType = db.prepareStatement("SELECT name FROM "
+                        + "people, usertyperelation "
+                        + "WHERE people.typeID = usertyperelation.typeID AND userid=?")) {
+            
+            getUserType.setLong(1, Long.parseLong(userID));
+            
+            ResultSet rs = getUserType.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getString("name");
             }
-
+            else {
+                return null;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return "user";
+            return null;
+        }
+    }
+    
+    public String[] getUserTypes () {
+        try (Connection db = connectionPool.getConnection();
+                PreparedStatement getUserType = db.prepareStatement("SELECT name FROM usertyperelation")) {
+            
+            ResultSet rs = getUserType.executeQuery();
+            
+            
+            if (rs.next()) {
+                ArrayList<String> names = new ArrayList<>();
+                do {
+                    names.add(rs.getString("name"));
+                } while (rs.next());
+                String[] nameArray = new String[names.size()];
+                names.toArray(nameArray);
+                return nameArray;
+            }
+            else {
+                return null;
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
 }

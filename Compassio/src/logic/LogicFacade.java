@@ -4,6 +4,7 @@ import acquaintance.ILogic;
 import acquaintance.IPersistence;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -14,12 +15,19 @@ public class LogicFacade implements ILogic {
 
     private static IPersistence persistence;
     private User user;
+    private UserType userType;
 
+    
     @Override
     public void injectPersistence(IPersistence PersistenceLayer) {
         persistence = PersistenceLayer;
+        loadUserTypes();
     }
 
+    public void loadUserTypes() {
+        userType = new UserType(persistence.getUserTypes());
+    }
+    
     @Override
     public boolean createCase(String firstName, String lastName, long cprNumber,
             String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers) {
@@ -35,7 +43,7 @@ public class LogicFacade implements ILogic {
     @Override
     public ArrayList<Case> getCases() {
         ArrayList<Case> response = new ArrayList<>();
-        if (this.user.getUserType() == UserType.CASEWORKER) {
+        if (this.user.getUserType() == this.userType.get("CASEWORKER")) {
             ArrayList<String[]> cases = persistence.getCasesByUserID(user.getUserID());
             while (cases.size() > 0) {
                 String[] singleCase = cases.remove(cases.size() - 1);
@@ -47,7 +55,7 @@ public class LogicFacade implements ILogic {
                             singleCase[4], singleCase[5], Date.valueOf(singleCase[6]), null, Integer.parseInt(singleCase[8]), singleCase[9]));
                 }
             }
-        } else if (this.user.getUserType() == UserType.SOCIALWORKER) {
+        } else if (this.user.getUserType() == this.userType.get("SOCIALWORKER")) {
             ArrayList<Long> departments = this.user.getDepartments();
             ArrayList<String[]> cases = new ArrayList<>();
             departments.forEach(d -> {
@@ -80,19 +88,11 @@ public class LogicFacade implements ILogic {
     public boolean login(String username, String password) {
         String[] result = this.persistence.getUser(username, password);
 
-        UserType userType;
+        int userType = this.userType.get("UNKNOWN");
 
         if (result != null) {
-            switch (result[4]) {
-                case "socialworker":
-                    userType = UserType.SOCIALWORKER;
-                    break;
-                case "caseworker":
-                    userType = UserType.CASEWORKER;
-                    break;
-                default:
-                    userType = UserType.USER;
-                    break;
+            if (result[4] != null) {
+                userType = this.userType.get(result[4]);
             }
             this.user = new User(result[0], result[1], result[2],
                     result[3], LogicFacade.persistence.getUserDepartments(result[0]), userType);
@@ -129,7 +129,7 @@ public class LogicFacade implements ILogic {
      */
     @Override
     public String getUserType() {
-        return this.user.getUserType().toString();
+        return this.userType.stringOf(this.userType.getName(this.user.getUserType()));
     }
 
     @Override

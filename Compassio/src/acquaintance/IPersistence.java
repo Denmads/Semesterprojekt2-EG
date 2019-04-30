@@ -128,4 +128,10 @@ public interface IPersistence {
      * department doesn't exist
      */
     public String getDepartmentNameById(int departmentId);
+    
+    /**
+     * Returns an array of user type names
+     * @return names of all user types
+     */
+    public String[] getUserTypes ();
 }

@@ -109,4 +109,9 @@ public class PersistenceFacade implements IPersistence {
     public boolean validateUserID(String userID) {
         return this.userDao.validateUserID(userID);
     }
+
+    @Override
+    public String[] getUserTypes() {
+        return this.userDao.getUserTypes();
+    }
 }

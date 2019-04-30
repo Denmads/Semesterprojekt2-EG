@@ -11,7 +11,8 @@ import logic.Case;
 public interface ILogic {
 
     public void injectPersistence(IPersistence PersistenceLayer);
-
+    public void loadUserTypes();
+    
     public ArrayList<Case> getCases();
 
     public void createCase(long CPR, int[] socialWorkers);
