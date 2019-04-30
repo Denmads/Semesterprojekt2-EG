@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The User class is a representation of the signed in user. A user object is to

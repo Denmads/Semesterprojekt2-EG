@@ -1,295 +1,112 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
-import java.sql.*;
+import org.apache.commons.dbcp2.BasicDataSource;
+
 import acquaintance.IPersistence;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
+import java.util.Date;
+import persistence.dataaccessobjects.*;
 
 /**
+ * Provides a facade to interact with the database through Data Access Objects.
  *
  * @author Peterzxcvbnm
+ * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
  */
 public class PersistenceFacade implements IPersistence {
 
-    private String dbIP = "jdbc:postgresql://68.183.68.65:5432/compassio";
-    private String username = "postgres";
-    private String password = "software-f19-4";
+    //Database connection parameters
+    //#TODO: Move to a secure location
+    private final String dbIP = "jdbc:postgresql://68.183.68.65:5432/compassio";
+    private final String username = "postgres";
+    private final String password = "software-f19-4";
+
+    private final BasicDataSource connectionPool;
+
+    //Data Access Objects
+    private final UserDAO userDao;
+    private final CaseDAO caseDao;
 
     public PersistenceFacade() {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        //Configure connection pool
+        connectionPool = new BasicDataSource();
+        connectionPool.setUsername(this.username);
+        connectionPool.setPassword(this.password);
+        connectionPool.setDriverClassName("org.postgresql.Driver");
+        connectionPool.setUrl(this.dbIP);
+        connectionPool.setInitialSize(10);
+
+        userDao = new UserDAO(this.connectionPool);
+        caseDao = new CaseDAO(this.connectionPool);
     }
 
+    //==========================================================================
+    // Case methods
+    //==========================================================================
+    @Override
     public ArrayList<String> retrieveCaseTypeNames() {
-        ArrayList<String> types = new ArrayList<>();
-
-        try (Connection db = DriverManager.getConnection(dbIP, username, password)) {
-
-            ResultSet result = db.prepareStatement("SELECT name FROM casetyperelation").executeQuery();
-
-            while (result.next()) {
-                types.add(result.getString("name"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(PersistenceFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return types;
+        return this.caseDao.retrieveCaseTypeNames();
     }
 
     @Override
-    public ArrayList<Long> getUserDepartments(String userID) {
-        ArrayList<Long> departments = new ArrayList();
-        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
-                PreparedStatement statement = db.prepareStatement("SELECT * FROM employeesofdepartment WHERE userID=?")) {
-            statement.setLong(1, Long.parseLong(userID));
-            ResultSet rs = statement.executeQuery();
-
-            if (rs.next() == false) {
-                return null;
-            } else {
-                do {
-                    departments.add(rs.getLong("departmentID"));
-                } while (rs.next());
-                return departments;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
-        }
+    public boolean saveCase(UUID caseID, long cprNumber, String type,
+            String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
+        return this.caseDao.saveCase(caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
     }
 
-    @Override
-    public String getUserType(String userID) {
-        ArrayList<Long> departments = this.getUserDepartments(userID);
-        if (departments == null) {
-            return "user";
-        }
-        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
-                PreparedStatement statement = db.prepareStatement("SELECT type FROM institution "
-                        + "WHERE institutionID=?");
-                PreparedStatement getInstitutionID = db.prepareStatement("SELECT institutionID FROM "
-                        + "InstitutionDeparmentRelatition "
-                        + "WHERE deparmentID=?")) {
-            getInstitutionID.setLong(1, departments.get(0));
-            ResultSet institutionID = getInstitutionID.executeQuery();
-            institutionID.next();
-            statement.setLong(1, institutionID.getLong(1));
-            ResultSet rs = statement.executeQuery();
-
-            if (rs.next() == false) {
-                return "user";
-            } else if (rs.getString("type").equals("Kommune")) {
-                return "caseworker";
-            } else {
-                return "socialworker";
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return "user";
-        }
-    }
-
-    @Override
-    public String[] getUser(String username, String password) {
-        String[] user = new String[4];
-        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
-                PreparedStatement statement = db.prepareStatement("SELECT salt FROM people WHERE username=?")) {
-            statement.setString(1, username);
-            ResultSet rs = statement.executeQuery();
-
-            if (rs.next() == false) {
-                return null;
-            } else {
-                byte[] salt = rs.getBytes("salt");
-
-                try (PreparedStatement checkStatement = db.prepareStatement("SELECT * FROM people WHERE username=? AND hashedpassword=?")) {
-                    checkStatement.setString(1, username);
-                    checkStatement.setBytes(2, hashPassword(password, salt));
-                    ResultSet res = checkStatement.executeQuery();
-
-                    if (res.next()) {
-                        user[0] = res.getString("userid");
-                        user[1] = res.getString("username");
-                        user[2] = res.getString("firstname");
-                        user[3] = res.getString("lastname");
-                        return user;
-                    } else {
-                        return null;
-                    }
-                } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
-                    ex.printStackTrace();
-                    return null;
-                }
-
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-    }
-
-    private byte[] generateSalt() {
-        SecureRandom secRan = new SecureRandom();
-        byte[] salt = new byte[128];
-        secRan.nextBytes(salt);
-        return salt;
-    }
-
-    private byte[] hashPassword(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-
-        return factory.generateSecret(spec).getEncoded();
-    }
-
-    /**
-     * Creates a user with a hashed password
-     *
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
-     */
-    public void createUser() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] salt = generateSalt();
-        byte[] pass = hashPassword("admin", salt);
-
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
-                PreparedStatement statement = db.prepareStatement("INSERT INTO people VALUES (?, ?, ?, ?, ?, ?)")) {
-            statement.setLong(1, 1L);
-            statement.setString(2, "admin");
-            statement.setString(3, "admin");
-            statement.setString(4, "admin");
-            statement.setBytes(5, pass);
-            statement.setBytes(6, salt);
-
-            System.out.println(statement);
-
-            statement.executeUpdate();
-        } catch (SQLException ex) {
-            System.out.println("SQL exception");
-            ex.printStackTrace();
-        }
-    }
-
-//    public void example() {
-//         try (Connection db = DriverManager.getConnection(dbIP, username, password);
-//                PreparedStatement statement = db.prepareStatement("INSERT INTO test VALUES (?, ?)")) {
-//            statement.setString(1, "Peter");
-//            statement.setInt(2, 2);
-//            statement.execute();
-//        } catch (SQLException ex) {
-//            System.out.println("SQL exception");
-//            ex.printStackTrace();
-//        }
-//    }
-    /**
-     * Get the cases connected to the userID
-     *
-     * @param userID The userID for which all the cases are connected to
-     * @return An ArrayList with a String array containing all the attributes of
-     * the case
-     */
     @Override
     public ArrayList<String[]> getCasesByUserID(String userID) {
-        ArrayList<String[]> cases = new ArrayList<>();
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
-                PreparedStatement statement = db.prepareStatement(
-                        "SELECT * FROM SocialCase NATURAL JOIN CaseUserRelation NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE userID=(?)")) {
-            statement.setLong(1, Long.parseLong(userID));
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                String[] singleCase = new String[10];
-                singleCase[0] = rs.getString("firstname");
-                singleCase[1] = rs.getString("lastname");
-                singleCase[2] = rs.getString("caseid");
-                singleCase[3] = rs.getString("cprnumber");
-                singleCase[4] = rs.getString("name");
-                singleCase[5] = rs.getString("mainBody");
-                if (rs.getString("datecreated") != null) {
-                    singleCase[6] = rs.getString("datecreated").substring(0, 10);
-                }
-                if (rs.getString("dateclosed") != null) {
-                    singleCase[7] = rs.getString("dateclosed").substring(0, 10);
-                }
-                singleCase[8] = rs.getString("departmentid");
-                singleCase[9] = rs.getString("inquiry");
-                cases.add(singleCase);
-            }
-        } catch (SQLException ex) {
-            System.out.println("SQL exception");
-            ex.printStackTrace();
-        }
-        return cases;
+        return this.caseDao.getCasesByUserID(userID);
     }
 
-    /**
-     * Get the cases connected to the departmentID
-     *
-     * @param departmentID The userID for which all the cases are connected to
-     * @return An ArrayList with a String array containing all the attributes of
-     * the case
-     */
+    @Override
+    public void saveCaseUserRelation(UUID caseID, ArrayList<String> userID) {
+        this.caseDao.saveCaseUserRelation(caseID, userID);
+    }
+
+    @Override
+    public void insertNewPatient(long cpr, String firstName, String lastName) {
+        this.caseDao.insertNewPatient(cpr, firstName, lastName);
+    }
+
     @Override
     public ArrayList<String[]> getCasesByDepartment(long departmentID) {
-        ArrayList<String[]> cases = new ArrayList<>();
-        try (Connection db = DriverManager.getConnection(dbIP, username, password);
-                PreparedStatement statement = db.prepareStatement(
-                        "SELECT firstname, lastname, caseid, cprnumber, name, departmentid, inquiry FROM SocialCase NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE 'departmentID'=(?)")) {
-            statement.setLong(1, departmentID);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                String[] singleCase = new String[10];
-                singleCase[0] = rs.getString("firstname");
-                singleCase[1] = rs.getString("lastname");
-                singleCase[2] = rs.getString("caseid");
-                singleCase[3] = rs.getString("cprnumber");
-                singleCase[4] = rs.getString("name");
-                singleCase[5] = rs.getString("departmentid");
-                singleCase[6] = rs.getString("inquiry");
-                cases.add(singleCase);
-            }
-        } catch (SQLException ex) {
-            System.out.println("SQL exception");
-            ex.printStackTrace();
-        }
-        return cases;
+        return this.caseDao.getCasesByDepartment(departmentID);
     }
 
     @Override
-    public void saveCase(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<String> getDepartments() {
+        return this.caseDao.getDepartments();
     }
 
     @Override
     public String getDepartmentNameById(int departmentId) {
-        try (Connection db = DriverManager.getConnection(dbIP, this.username, this.password);
-                PreparedStatement statement = db.prepareStatement("SELECT name FROM department WHERE departmentid=?")) {
-            statement.setInt(1, departmentId);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next() == false) {
-                return null;
-            } else {
-                return rs.getString(1);
-            }
-        } catch (SQLException ex) {
-            return null;
-        }
+        return this.caseDao.getDepartmentNameById(departmentId);
+    }
+
+    //==========================================================================
+    // User methods
+    //==========================================================================
+    @Override
+    public ArrayList<Long> getUserDepartments(String userID) {
+        return userDao.getUserDepartments(userID);
+    }
+
+    @Override
+    public void createUser(String userName, String firstName, String lastName, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        this.userDao.createUser(userName, firstName, lastName, password);
+    }
+
+    @Override
+    public String[] getUser(String username, String password) {
+        return this.userDao.getUser(username, password);
+    }
+
+    @Override
+    public boolean validateUserID(String userID) {
+        return this.userDao.validateUserID(userID);
     }
 }
