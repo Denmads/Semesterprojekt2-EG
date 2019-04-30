@@ -26,12 +26,6 @@ public class UserType {
         public String getName (int index) {
             return list.get(index);
         }
-    
-        
-        public String stringOf (String type) {
-            String name = list.get(list.indexOf(type));
-            return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-        }
         
 //    /**
 //     * This is the default user. This user has no editing rights and can only

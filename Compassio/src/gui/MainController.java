@@ -1,6 +1,8 @@
 package gui;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -14,6 +16,8 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Platform;
 
@@ -23,6 +27,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -40,6 +45,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.Case;
 
@@ -96,6 +102,8 @@ public class MainController implements Initializable {
     private ChoiceBox<String> departmentBox;
     private ObservableList<String> departmentTypes;
     @FXML
+    private VBox buttons;
+    @FXML
     private Button editButton;
     @FXML
     private Button cancelButton;
@@ -122,6 +130,7 @@ public class MainController implements Initializable {
         visibleMenu();
         visibleCases();
         
+        loadButtons();
         updateCases();
         
         //Add first and lastname, and role to hamburger menu. 
@@ -160,6 +169,61 @@ public class MainController implements Initializable {
         addedUsers = new ArrayList<>();
     }
 
+    private void loadButtons () {
+        try {
+            //Buttons
+            Button btnCreateCase = createButton("Opret sag", "createCase");
+            Button btnSeeCases = createButton("Se sager", "seeCases");
+            Button btnChangePassword = createButton("Ændre password", null);
+            Button btnCreateUser = createButton("Opret bruger", null);
+            Button btnEditUsers = createButton("Rediger brugere", null);
+            
+            //Won't do buttons
+            Button btnPlanning = createButton("Planlægning", null);
+            Button btnDiary = createButton("Dagbog", null);
+            Button btnSeeInformation = createButton("Se Oplysninger", null);
+            Button btnRequestCase = createButton("Anmod om sag", null);
+            
+            String type = GUIrun.getLogic().getUserType();
+            
+            if (type.equals("ADMIN")) {
+                buttons.getChildren().addAll(btnCreateUser, btnEditUsers, btnChangePassword, btnSeeInformation);
+            }
+            else if (type.equals("CASEWORKER")) {
+                buttons.getChildren().addAll(btnCreateCase, btnSeeCases, btnChangePassword, btnSeeInformation);
+            }
+            else if (type.equals("SOCIALWORKER")) {
+                buttons.getChildren().addAll(btnSeeCases, btnChangePassword, btnPlanning, btnDiary, btnSeeInformation);
+            }
+            else if (type.equals("USER")) {
+                buttons.getChildren().addAll(btnSeeInformation, btnRequestCase);
+            }
+            
+        } catch (NoSuchMethodException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            Platform.exit();
+        }
+    }
+    
+    private Button createButton (String text, String methodName) throws NoSuchMethodException {
+            Button newBtn = new Button(text);
+            newBtn.getStyleClass().add("btn");
+            newBtn.setPrefWidth(130);
+            
+            if (methodName != null) {
+                Method m = getClass().getMethod(methodName);
+                newBtn.setOnAction(event -> {
+                    try {
+                        m.invoke(this);
+                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                        Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                        Platform.exit();
+                    }
+                });
+            }
+            return newBtn;
+    }
+    
     private void updateCaseFilter() {
         Predicate<Case> text = c -> {
             String input = searchField.getText().trim().toLowerCase();
@@ -231,8 +295,7 @@ public class MainController implements Initializable {
         guih.changeFXMLAction("/gui/login.fxml", event);
     }
 
-    @FXML
-    private void createCase(ActionEvent event) {
+    public void createCase() {
         visibleCases();
         see_cases_ancher.setVisible(false);
         create_case.setVisible(true);
@@ -242,8 +305,7 @@ public class MainController implements Initializable {
 
     }
 
-    @FXML
-    private void seeCases(ActionEvent event) {
+    public void seeCases() {
         visibleCases();
         updateCases();
         see_cases_ancher.setVisible(true);

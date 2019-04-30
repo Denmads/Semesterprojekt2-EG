@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" stylesheets="@css/Stylesheet.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" stylesheets="@css/Stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
         <children>
             <GridPane prefHeight="636.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <columnConstraints>
@@ -75,70 +75,7 @@
                                             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                         </VBox.margin>
                                     </Separator>
-                                    <Button mnemonicParsing="false" onAction="#createCase" prefWidth="130.0" styleClass="btn" text="Opret sag" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#seeCases" prefWidth="130.0" styleClass="btn" text="Se sager" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#changePassword" prefWidth="130.0" styleClass="btn" text="Ændre password" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" prefWidth="130.0" styleClass="btn" text="Menu" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" prefWidth="130.0" styleClass="btn" text="Menu" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" prefWidth="130.0" styleClass="btn" text="Menu" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" prefWidth="130.0" styleClass="btn" text="Menu" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#user_logout" prefWidth="130.0" styleClass="btn" text="Log ud" textFill="WHITE">
-                                        <font>
-                                            <Font name="System Bold" size="12.0" />
-                                        </font>
-                                        <VBox.margin>
-                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                        </VBox.margin>
-                                    </Button>
+                        <VBox fx:id="buttons" alignment="TOP_CENTER" spacing="15.0" />
                                 </children>
                             </VBox>
                         </children>

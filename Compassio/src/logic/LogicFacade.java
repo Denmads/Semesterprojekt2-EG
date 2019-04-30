@@ -129,7 +129,7 @@ public class LogicFacade implements ILogic {
      */
     @Override
     public String getUserType() {
-        return this.userType.stringOf(this.userType.getName(this.user.getUserType()));
+        return this.userType.getName(this.user.getUserType());
     }
 
     @Override
