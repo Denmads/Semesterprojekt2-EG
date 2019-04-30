@@ -20,15 +20,15 @@ public class LogicFacade implements ILogic {
         persistence = PersistenceLayer;
     }
 
+    @Override
     public boolean createCase(String firstName, String lastName, long cprNumber,
             String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers) {
-        UUID caseID = UUID.randomUUID();
-        Case newCase = new Case(firstName, lastName, caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
+        Case newCase = new Case(firstName, lastName, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
         newCase.addPatientToDatabase();
         boolean caseSaved = newCase.saveCase();
         socialWorkers.add(user.getUserID());
-        
-        persistence.saveCaseUserRelation(caseID, socialWorkers);
+
+        persistence.saveCaseUserRelation(newCase.getCaseID(), socialWorkers);
         return caseSaved;
     }
 
@@ -64,9 +64,7 @@ public class LogicFacade implements ILogic {
 
     @Override
     public void createCase(long CPR, int[] socialWorkers) {
-        UUID caseID = UUID.randomUUID();
-        Case newCase = new Case(CPR, caseID);
-        newCase.saveCase();
+        new Case(CPR).saveCase();
     }
 
     public static IPersistence getPersistence() {
@@ -81,23 +79,21 @@ public class LogicFacade implements ILogic {
     @Override
     public boolean login(String username, String password) {
         String[] result = this.persistence.getUser(username, password);
-
+        UserType userType;
+        switch (result[4]) {
+            case "socialworker":
+                userType = UserType.SOCIALWORKER;
+                break;
+            case "caseworker":
+                userType = UserType.CASEWORKER;
+                break;
+            default:
+                userType = UserType.USER;
+                break;
+        }
         if (result != null) {
-            switch (this.persistence.getUserType(result[0])) {
-                case "socialworker":
-                    this.user = new User(result[0], result[1], result[2],
-                            result[3], this.persistence.getUserDepartments(result[0]), UserType.SOCIALWORKER);
-                    break;
-                case "caseworker":
-                    this.user = new User(result[0], result[1], result[2],
-                            result[3], this.persistence.getUserDepartments(result[0]), UserType.CASEWORKER);
-                    break;
-                default:
-                    this.user = new User(result[0], result[1], result[2],
-                            result[3], this.persistence.getUserDepartments(result[0]), UserType.USER);
-                    break;
-            }
-
+            this.user = new User(result[0], result[1], result[2],
+                    result[3], LogicFacade.persistence.getUserDepartments(result[0]), userType);
             return true;
         } else {
             return false;
@@ -113,20 +109,19 @@ public class LogicFacade implements ILogic {
     public boolean checkUserID(String userID) {
         return persistence.validateUserID(userID);
     }
-    
-    public String getUserID() {
-    return user.getUserID();
-}
 
-    
+    public String getUserID() {
+        return user.getUserID();
+    }
+
     /**
-     * @return user first and last name seperated by a space char
+     * @return user first and last name separated by a space char
      */
     @Override
     public String getUserName() {
         return this.user.getFirstName() + " " + this.user.getLastName();
     }
-    
+
     /**
      * @return users given type in all uppercase
      */
@@ -134,9 +129,9 @@ public class LogicFacade implements ILogic {
     public String getUserType() {
         return this.user.getUserType().toString();
     }
-    
+
     @Override
-     public String getDepartmentNameById(int departmentId){
+    public String getDepartmentNameById(int departmentId) {
         return persistence.getDepartmentNameById(departmentId);
-     }
+    }
 }
