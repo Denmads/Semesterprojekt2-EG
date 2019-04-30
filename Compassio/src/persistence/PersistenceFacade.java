@@ -12,7 +12,7 @@ import persistence.dataaccessobjects.*;
 
 /**
  * Provides a facade to interact with the database through Data Access Objects.
- * 
+ *
  * @author Peterzxcvbnm
  * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
  */
@@ -50,7 +50,7 @@ public class PersistenceFacade implements IPersistence {
     public ArrayList<String> retrieveCaseTypeNames() {
         return this.caseDao.retrieveCaseTypeNames();
     }
-    
+
     @Override
     public boolean saveCase(UUID caseID, long cprNumber, String type,
             String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {

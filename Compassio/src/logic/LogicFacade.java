@@ -56,7 +56,7 @@ public class LogicFacade implements ILogic {
             while (cases.size() > 0) {
                 String[] singleCase = cases.remove(cases.size() - 1);
                 response.add(new Case(singleCase[0], singleCase[1], UUID.fromString(singleCase[2]), Long.parseLong(singleCase[3]),
-                        singleCase[4], singleCase[5], Date.valueOf(singleCase[6]), Date.valueOf(singleCase[7]), Integer.parseInt(singleCase[8]), singleCase[9]));
+                        singleCase[4], null, null, null, Integer.parseInt(singleCase[5]), singleCase[6]));
             }
         }
         return response;
@@ -79,19 +79,21 @@ public class LogicFacade implements ILogic {
     @Override
     public boolean login(String username, String password) {
         String[] result = this.persistence.getUser(username, password);
+
         UserType userType;
-        switch (result[4]) {
-            case "socialworker":
-                userType = UserType.SOCIALWORKER;
-                break;
-            case "caseworker":
-                userType = UserType.CASEWORKER;
-                break;
-            default:
-                userType = UserType.USER;
-                break;
-        }
+
         if (result != null) {
+            switch (result[4]) {
+                case "socialworker":
+                    userType = UserType.SOCIALWORKER;
+                    break;
+                case "caseworker":
+                    userType = UserType.CASEWORKER;
+                    break;
+                default:
+                    userType = UserType.USER;
+                    break;
+            }
             this.user = new User(result[0], result[1], result[2],
                     result[3], LogicFacade.persistence.getUserDepartments(result[0]), userType);
             return true;
