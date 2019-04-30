@@ -39,6 +39,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -46,6 +47,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import logic.Case;
 
@@ -81,7 +83,7 @@ public class MainController implements Initializable {
     private ChoiceBox<String> caseType;
     private ObservableList<String> caseTypes;
     private ArrayList<Case> cases;
-    
+
     @FXML
     private Label userName;
     @FXML
@@ -91,8 +93,6 @@ public class MainController implements Initializable {
     private TextField firstNameField;
     @FXML
     private TextField lastNameField;
-    @FXML
-    private TextField caseIDField;
     @FXML
     private TextField CPRField;
     @FXML
@@ -106,10 +106,6 @@ public class MainController implements Initializable {
     @FXML
     private Button editButton;
     @FXML
-    private Button cancelButton;
-    @FXML
-    private Button closeButton;
-    @FXML
     private TextArea mainBodyArea;
     @FXML
     private TextArea inquiryArea;
@@ -121,6 +117,20 @@ public class MainController implements Initializable {
     private Button addSocialWorkerBtn;
 
     private ArrayList<String> addedUsers;
+    @FXML
+    private AnchorPane changePasswordAnchor;
+    @FXML
+    private PasswordField newPasswordField;
+    @FXML
+    private PasswordField repeatPasswordField;
+    @FXML
+    private PasswordField oldPasswordField;
+    @FXML
+    private Label changePasswordErrorLabel;
+    @FXML
+    private Button clearButton;
+    @FXML
+    private Button changePasswordButton;
 
     /**
      * Initializes the controller class.
@@ -129,10 +139,10 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         visibleMenu();
         visibleCases();
-        
+ 
         loadButtons();
         updateCases();
-        
+
         //Add first and lastname, and role to hamburger menu. 
         this.userName.setText(GUIrun.getLogic().getUserName());
         String role = GUIrun.getLogic().getUserType();
@@ -315,6 +325,11 @@ public class MainController implements Initializable {
 
     @FXML
     private void changePassword(ActionEvent event) {
+        clearButton(event);
+        create_case.setVisible(false);
+        see_cases_ancher.setVisible(false);
+        visibleMenu();
+        changePasswordAnchor.setVisible(true);
     }
 
     @FXML
@@ -349,8 +364,6 @@ public class MainController implements Initializable {
         }
 
     }
-
-
 
     private void accessToCreateCase(boolean editable) {
         firstNameField.setEditable(editable);
@@ -396,6 +409,35 @@ public class MainController implements Initializable {
         caseTypeChoiceBox.getSelectionModel().clearSelection();
         departmentBox.getSelectionModel().clearSelection();
 
+    }
+
+    @FXML
+    private void clearButton(ActionEvent event) {
+        changePasswordErrorLabel.setTextFill(Color.RED);
+        newPasswordField.clear();
+        repeatPasswordField.clear();
+        oldPasswordField.clear();
+        changePasswordErrorLabel.setText("");
+    }
+
+    @FXML
+    private void changePasswordButton(ActionEvent event) {
+        changePasswordErrorLabel.setTextFill(Color.RED);
+        if (newPasswordField.getText().length() < 8) {
+            changePasswordErrorLabel.setText("Adganskode skal være minimum 8 karakterer");
+            return;
+        }
+        if (!newPasswordField.getText().equals(repeatPasswordField.getText())) {
+            changePasswordErrorLabel.setText("De nye adgangskoder er ikke ens");
+            return;
+        }
+        if (GUIrun.getLogic().changePassword(newPasswordField.getText(), oldPasswordField.getText())) {
+            clearButton(event);
+            changePasswordErrorLabel.setTextFill(Color.BLACK);
+            changePasswordErrorLabel.setText("Adgangskode er blevet ændret");
+        } else {
+            changePasswordErrorLabel.setText("Forkert adgangskode");
+        }
     }
 
 }

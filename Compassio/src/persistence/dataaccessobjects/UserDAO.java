@@ -60,7 +60,7 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public boolean validateUserID(String userID) {
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(userID) AS total FROM People WHERE userID = ?")) {
@@ -75,7 +75,7 @@ public class UserDAO {
 
         }
     }
-    
+
     public String[] getUser(String username, String password) {
         String[] user = new String[5];
         try (Connection db = connectionPool.getConnection();
@@ -112,7 +112,7 @@ public class UserDAO {
             return null;
         }
     }
-    
+
     private String getUserType(String userID) {
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement getUserType = db.prepareStatement("SELECT name FROM "
@@ -160,5 +160,19 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+
+    public boolean changePassword(String newPassword, String username) {
+        byte[] salt = passTool.generateSalt();
+        try (Connection db = connectionPool.getConnection();
+                PreparedStatement statement = db.prepareStatement("UPDATE people SET hashedpassword=?, salt=? WHERE username=?");) {
+            statement.setBytes(1, passTool.hashPassword(newPassword, salt));
+            statement.setBytes(2, salt);
+            statement.setString(3, username);
+            statement.execute();
+        } catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            return false;
+        }
+        return true;
     }
 }
