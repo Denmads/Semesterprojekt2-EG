@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -50,7 +51,7 @@ public class SeeCasesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         updateCases();
-        
+
         listview_cases.setCellFactory(view -> new GUICaseCell());
 
         searchField.textProperty().addListener(new ChangeListener<String>() {
@@ -59,7 +60,7 @@ public class SeeCasesController implements Initializable {
                 updateCaseFilter();
             }
         });
-        
+
         caseTypes = FXCollections.observableArrayList();
         caseTypes.add("All");
         caseTypes.addAll(GUIrun.getLogic().retrieveCaseTypes());
@@ -72,8 +73,8 @@ public class SeeCasesController implements Initializable {
                 updateCaseFilter();
             }
         });
-    }    
-    
+    }
+
     private void updateCaseFilter() {
         Predicate<Case> text = c -> {
             String input = searchField.getText().trim().toLowerCase();
@@ -98,12 +99,16 @@ public class SeeCasesController implements Initializable {
         filteredCases.setPredicate(text.and(type));
 
     }
-    
-    private void updateCases() {
-        cases = GUIrun.getLogic().getCases();
 
-        viewableCases = FXCollections.observableArrayList(cases);
-        filteredCases = new FilteredList<>(viewableCases, p -> true);
-        listview_cases.setItems(filteredCases);
+    private void updateCases() {
+        new Thread(() -> {
+            cases = GUIrun.getLogic().getCases();
+
+            viewableCases = FXCollections.observableArrayList(cases);
+            filteredCases = new FilteredList<>(viewableCases, p -> true);
+            Platform.runLater(() -> {
+                listview_cases.setItems(filteredCases);
+            });
+        });
     }
 }
