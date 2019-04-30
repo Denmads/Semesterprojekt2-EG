@@ -62,6 +62,17 @@ public class Case {
         this.departmentID = departmentID;
         this.inquiry = inquiry;
     }
+    
+    public Case(String firstName, String lastName, long cprNumber, String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry, UUID caseID) {
+        this(cprNumber, caseID, dateCreated);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.type = type;
+        this.mainBody = mainBody;
+        this.dateClosed = dateClosed;
+        this.departmentID = departmentID;
+        this.inquiry = inquiry;
+    }
 
     public UUID getCaseID() {
         return caseID;
