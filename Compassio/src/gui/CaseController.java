@@ -110,7 +110,6 @@ public class CaseController implements Initializable {
         currentCase.setMainBody(this.mainBodyArea.getText());
         currentCase.setInquiry(this.inquiryArea.getText());
         currentCase.setType(this.caseTypeChoiceBox.getSelectionModel().getSelectedItem());
-        
     }
     
     @FXML
