@@ -3,6 +3,7 @@ package acquaintance;
 import java.util.ArrayList;
 import java.util.Date;
 import logic.Case;
+import logic.UserInfo;
 
 /**
  *
@@ -33,6 +34,10 @@ public interface ILogic {
     public String getUserName();
 
     public String getUserType();
+    
+    public String[] getUserTypes ();
+    
+    public ArrayList<UserInfo> getAllUsers ();
 
     public String getDepartmentNameById(int departmentId);
 

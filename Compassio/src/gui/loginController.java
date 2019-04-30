@@ -127,12 +127,6 @@ public class loginController implements Initializable {
             
             }
             
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(loginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
             Platform.runLater(() -> {
                 setLoadingOverlay(false);
             });

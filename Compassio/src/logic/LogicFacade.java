@@ -28,6 +28,10 @@ public class LogicFacade implements ILogic {
         userType = new UserType(persistence.getUserTypes());
     }
     
+    public String[] getUserTypes () {
+       return userType.getTypes();
+    }
+    
     @Override
     public boolean createCase(String firstName, String lastName, long cprNumber,
             String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers) {
@@ -140,5 +144,17 @@ public class LogicFacade implements ILogic {
     @Override
     public Boolean changePassword(String newPassword, String oldPassword) {
         return persistence.changePassword(newPassword, oldPassword, user.getUsername());
+    }
+
+    @Override
+    public ArrayList<UserInfo> getAllUsers() {
+        ArrayList<UserInfo> users = new ArrayList<>();
+        ArrayList<String[]> usersInfo = persistence.getAllUsers();
+        
+        for (String[] info : usersInfo) {
+            users.add(new UserInfo(Long.parseLong(info[0]), info[1], info[2] + " " +  info[3], userType.getName(Integer.parseInt(info[4])), Boolean.parseBoolean(info[5])));
+        }
+        
+        return users;
     }
 }

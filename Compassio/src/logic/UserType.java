@@ -1,6 +1,8 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents the roles/type any given user could be.
@@ -9,22 +11,41 @@ import java.util.ArrayList;
  */
 public class UserType {
     
-        private ArrayList<String> list;
+        private HashMap<Integer, String> types;
     
         public UserType (String[] names) {
-            list = new ArrayList<>();
+            types = new HashMap<>();
             
             for (String n : names) {
-                list.add(n);
+                String[] tokens = n.split(",");
+                
+                types.put(Integer.parseInt(tokens[0]), tokens[1]);
             }
         }
         
         public int get (String type) {
-            return list.indexOf(type);
+            for (Map.Entry<Integer, String> ent : types.entrySet() ) {
+                if (ent.getValue().equals(type)) {
+                    return ent.getKey();
+                }
+            }
+            
+            return -1;
         }
         
         public String getName (int index) {
-            return list.get(index);
+            return types.get(index);
+        }
+        
+        public String[] getTypes () {
+            String[] allTypes = new String[types.size()];
+            int count = 0;
+            
+            for (Map.Entry<Integer, String> ent : types.entrySet() ) {
+                allTypes[count++] = ent.getValue();
+            } 
+            
+            return allTypes;
         }
         
 //    /**

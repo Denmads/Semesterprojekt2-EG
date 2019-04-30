@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="editUsers" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.innercontent.EditUsersController">
+<AnchorPane fx:id="editUsers" prefHeight="478.0" prefWidth="526.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.innercontent.EditUsersController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -49,10 +49,11 @@
                </rowConstraints>
                <children>
                   <Label text="Valgt bruger:" />
-                  <Label fx:id="userInformation" text="Bruger" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                  <Label fx:id="userInformation" GridPane.columnIndex="1" GridPane.columnSpan="2" />
                   <Label text="Rolle:" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#changeUserState" style="-fx-background-color: #cc0000;" styleClass="btn" text="Aktiver/Deaktiver" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+                  <Button fx:id="btnUserState" mnemonicParsing="false" onAction="#changeUserState" style="-fx-background-color: #cc0000;" styleClass="btn" text="Aktiver/Deaktiver" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
                   <ChoiceBox fx:id="chbUserRole" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
+                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#save" styleClass="btn" text="Gem" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>

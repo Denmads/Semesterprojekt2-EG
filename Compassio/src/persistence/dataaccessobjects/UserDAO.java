@@ -137,7 +137,7 @@ public class UserDAO {
     
     public String[] getUserTypes () {
         try (Connection db = connectionPool.getConnection();
-                PreparedStatement getUserType = db.prepareStatement("SELECT name FROM usertyperelation")) {
+                PreparedStatement getUserType = db.prepareStatement("SELECT * FROM usertyperelation")) {
             
             ResultSet rs = getUserType.executeQuery();
             
@@ -145,7 +145,7 @@ public class UserDAO {
             if (rs.next()) {
                 ArrayList<String> names = new ArrayList<>();
                 do {
-                    names.add(rs.getString("name"));
+                    names.add(rs.getInt("typeid") + "," + rs.getString("name"));
                 } while (rs.next());
                 String[] nameArray = new String[names.size()];
                 names.toArray(nameArray);
@@ -174,5 +174,34 @@ public class UserDAO {
             return false;
         }
         return true;
+    }
+    
+    public ArrayList<String[]> getAllUsers () {
+        try (Connection db = connectionPool.getConnection();
+                PreparedStatement getUserType = db.prepareStatement("SELECT userid, username, firstname, lastname, typeid, inactive FROM people")) {
+            
+            ResultSet rs = getUserType.executeQuery();
+            
+            
+            ArrayList<String[]> users = new ArrayList<>();
+            
+            while (rs.next()) {
+                String[] user = new String[]{
+                    rs.getLong("userid")+"",
+                    rs.getString("username"),
+                    rs.getString("firstname"),
+                    rs.getString("lastname"),
+                    rs.getInt("typeid") + "",
+                    rs.getBoolean("inactive") + ""                    
+                };
+                
+                users.add(user);
+            }
+            
+            return users;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 }

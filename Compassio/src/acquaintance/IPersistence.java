@@ -134,6 +134,12 @@ public interface IPersistence {
      * @return names of all user types
      */
     public String[] getUserTypes ();
+    
+    /**
+     * Returns a list of all the users in the system
+     * @return info of all users
+     */
+    public ArrayList<String[]> getAllUsers ();
 
     /**
      * Method to change a users password

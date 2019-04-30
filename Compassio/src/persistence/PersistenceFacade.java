@@ -116,6 +116,11 @@ public class PersistenceFacade implements IPersistence {
     }
 
     @Override
+    public ArrayList<String[]> getAllUsers() {
+        return this.userDao.getAllUsers();
+    }
+    
+    @Override
     public boolean changePassword(String newPassword, String oldPassword, String username) {
         if (getUser(username, oldPassword) != null) {
             return userDao.changePassword(newPassword, username);
@@ -123,4 +128,5 @@ public class PersistenceFacade implements IPersistence {
             return false;
         }
     }
+
 }
