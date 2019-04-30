@@ -79,7 +79,7 @@ public class UserDAO {
     public String[] getUser(String username, String password) {
         String[] user = new String[5];
         try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("SELECT salt FROM people WHERE username=? AND deleted=false")) {
+                PreparedStatement statement = db.prepareStatement("SELECT salt FROM people WHERE username=? AND inactive=false")) {
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
             if (rs.next() == false) {
