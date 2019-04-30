@@ -136,4 +136,9 @@ public class LogicFacade implements ILogic {
     public String getDepartmentNameById(int departmentId) {
         return persistence.getDepartmentNameById(departmentId);
     }
+
+    @Override
+    public Boolean changePassword(String newPassword, String oldPassword) {
+        return persistence.changePassword(newPassword, oldPassword, user.getUsername());
+    }
 }
