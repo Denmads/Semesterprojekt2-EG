@@ -81,18 +81,19 @@ public class LogicFacade implements ILogic {
         String[] result = this.persistence.getUser(username, password);
 
         UserType userType;
-        switch (result[4]) {
-            case "socialworker":
-                userType = UserType.SOCIALWORKER;
-                break;
-            case "caseworker":
-                userType = UserType.CASEWORKER;
-                break;
-            default:
-                userType = UserType.USER;
-                break;
-        }
+
         if (result != null) {
+            switch (result[4]) {
+                case "socialworker":
+                    userType = UserType.SOCIALWORKER;
+                    break;
+                case "caseworker":
+                    userType = UserType.CASEWORKER;
+                    break;
+                default:
+                    userType = UserType.USER;
+                    break;
+            }
             this.user = new User(result[0], result[1], result[2],
                     result[3], LogicFacade.persistence.getUserDepartments(result[0]), userType);
             return true;
