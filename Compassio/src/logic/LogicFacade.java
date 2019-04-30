@@ -112,6 +112,7 @@ public class LogicFacade implements ILogic {
         return persistence.validateUserID(userID);
     }
 
+    @Override
     public String getUserID() {
         return user.getUserID();
     }

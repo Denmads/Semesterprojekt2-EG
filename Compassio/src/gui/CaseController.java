@@ -99,10 +99,18 @@ public class CaseController implements Initializable {
             
             cancelButton.setVisible(true);
         } else if (source.getText().equals("Gem")) {
-            currentCase.setDateClosed(java.util.Date.from(closedDateField.getValue().atStartOfDay()
-                    .atZone(ZoneId.systemDefault()).toInstant()));
+            //currentCase.setDateClosed(java.util.Date.from(closedDateField.getValue().atStartOfDay()
+            //        .atZone(ZoneId.systemDefault()).toInstant()));
+            saveCase();
             currentCase.saveCase();
         }
+    }
+    
+    private void saveCase(){
+        currentCase.setMainBody(this.mainBodyArea.getText());
+        currentCase.setInquiry(this.inquiryArea.getText());
+        currentCase.setType(this.caseTypeChoiceBox.getSelectionModel().getSelectedItem());
+        
     }
     
     @FXML

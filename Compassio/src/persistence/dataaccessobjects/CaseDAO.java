@@ -39,12 +39,14 @@ public class CaseDAO {
     public boolean saveCase(UUID caseID, long cprNumber, String type,
             String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
         try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("INSERT INTO \"socialcase\" VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
-            if (1 > checkForCaseID(db, caseID)) {
+                PreparedStatement statement = db.prepareStatement("INSERT INTO socialcase VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT (caseid) DO UPDATE SET (mainbody, departmentid, inquiry, typeid) = (?, ?, ?, ?)")) {
                 statement.setString(1, caseID.toString());
                 statement.setLong(2, cprNumber);
                 statement.setLong(8, getTypeID(db, type));
+                statement.setLong(12, getTypeID(db, type));
                 statement.setString(3, mainBody);
+                statement.setString(9, mainBody);
+                
                 if (dateCreated != null) {
                     statement.setDate(4, new java.sql.Date(dateCreated.getTime()));
                 } else {
@@ -56,10 +58,12 @@ public class CaseDAO {
                     statement.setDate(5, null);
                 }
                 statement.setInt(6, departmentID);
+                statement.setInt(10, departmentID);
                 statement.setString(7, inquiry);
+                statement.setString(11, inquiry);
                 statement.execute();
                 return true;
-            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
