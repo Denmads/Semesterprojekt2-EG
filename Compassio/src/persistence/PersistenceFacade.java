@@ -109,6 +109,11 @@ public class PersistenceFacade implements IPersistence {
     public boolean validateUserID(String userID) {
         return this.userDao.validateUserID(userID);
     }
+    
+    @Override
+    public boolean validateUserPassword(long userID, String password) {
+        return this.userDao.validateUserPassword(userID, password);
+    }
 
     @Override
     public String[] getUserTypes() {
@@ -127,6 +132,11 @@ public class PersistenceFacade implements IPersistence {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void updateUserInfo(long userID, int role, boolean inactive) {
+        this.userDao.updateInfo(userID, role, inactive);
     }
 
 }

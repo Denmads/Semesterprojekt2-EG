@@ -109,6 +109,6 @@ public class SeeCasesController implements Initializable {
             Platform.runLater(() -> {
                 listview_cases.setItems(filteredCases);
             });
-        });
+        }).start();
     }
 }

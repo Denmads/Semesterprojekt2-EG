@@ -119,6 +119,16 @@ public interface IPersistence {
      * they don't
      */
     public boolean validateUserID(String userID);
+    
+    /**
+     * Returns if the specified password si valid for the user
+     *
+     * @param userID The user to check for
+     * @param password Tha password to check
+     * @return returns <code>true</code> if password is correct or <code>false</code> if
+     * it isn't
+     */
+    public boolean validateUserPassword(long userID, String password);
 
     /**
      * Returns the name of name of the department
@@ -151,4 +161,12 @@ public interface IPersistence {
      * wrong
      */
     public boolean changePassword(String newPassword, String oldPassword, String username);
+    
+    /**
+     * Method to update the user info in the database
+     * @param userID The user to update
+     * @param role The new role
+     * @param inactive The new inactive state
+     */
+    public void updateUserInfo(long userID, int role, boolean inactive); 
 }

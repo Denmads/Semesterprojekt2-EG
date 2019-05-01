@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="editUsers" prefHeight="478.0" prefWidth="526.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.innercontent.EditUsersController">
+<AnchorPane fx:id="editUsers" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.innercontent.EditUsersController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -27,7 +27,7 @@
                   <Insets bottom="20.0" />
                </VBox.margin>
                <children>
-                  <TextField fx:id="searchField1" HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="searchField" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <ListView fx:id="usersListview" prefHeight="200.0" prefWidth="300.0" stylesheets="@../css/Stylesheet.css" />

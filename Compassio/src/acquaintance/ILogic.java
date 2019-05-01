@@ -12,7 +12,6 @@ import logic.UserInfo;
 public interface ILogic {
 
     public void injectPersistence(IPersistence PersistenceLayer);
-    public void loadUserTypes();
     
     public ArrayList<Case> getCases();
 
@@ -28,6 +27,13 @@ public interface ILogic {
     public ArrayList<String> getDepartmentInfo();
 
     public boolean checkUserID(String userID);
+    
+    /**
+     * Used for validating a entered password
+     * @param password The password to validate
+     * @return <code>True</code> if the password is correct and <code>false</code> if it is wrong
+     */
+    public boolean checkUserPassword(String password);
 
     public String getUserID();
 
@@ -46,7 +52,15 @@ public interface ILogic {
      *
      * @param newPassword The password the user wants to change to
      * @param oldPassword The users old password
-     * @return True if the password was change and false if the old password is wrong
+     * @return <code>True</code> if the password was change and <code>false</code> if the old password is wrong
      */
     public Boolean changePassword(String newPassword, String oldPassword);
+    
+    /**
+     * Mathod to update the role and inactive state of a user
+     * @param userID The id of the user to update
+     * @param newRole The new role of the user
+     * @param newInactiveState the state of the user
+     */
+    public void updateUserState (long userID, String newRole, boolean newInactiveState);
 }

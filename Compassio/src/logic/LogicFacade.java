@@ -115,6 +115,10 @@ public class LogicFacade implements ILogic {
     public boolean checkUserID(String userID) {
         return persistence.validateUserID(userID);
     }
+    
+    public boolean checkUserPassword(String password) {
+        return persistence.validateUserPassword(Long.parseLong(user.getUserID()), password);
+    }
 
     public String getUserID() {
         return user.getUserID();
@@ -146,6 +150,11 @@ public class LogicFacade implements ILogic {
         return persistence.changePassword(newPassword, oldPassword, user.getUsername());
     }
 
+    @Override
+    public void updateUserState (long userID, String newRole, boolean newInactiveState) {
+        persistence.updateUserInfo(userID, userType.get(newRole), newInactiveState);
+    }
+    
     @Override
     public ArrayList<UserInfo> getAllUsers() {
         ArrayList<UserInfo> users = new ArrayList<>();

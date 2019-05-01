@@ -16,9 +16,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
+<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" style="-fx-border-color: #515151; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
     <children>
-        <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="1024.0" style="-fx-background-color: #2899C2;">
+        <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="1024.0" style="-fx-background-color: #2899C2;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <ImageView fitHeight="22.0" fitWidth="22.0" onMouseClicked="#minimise" pickOnBounds="true" preserveRatio="true" styleClass="btn">
                     <HBox.margin>
