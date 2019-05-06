@@ -8,9 +8,7 @@ package gui;
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -119,7 +117,6 @@ public class CaseController implements Initializable {
         currentCase.setInquiry(this.inquiryArea.getText());
         currentCase.setType(this.caseTypeChoiceBox.getSelectionModel().getSelectedItem());
         currentCase.setDateClosed(closedDateField.getValue());
-        currentCase.getDateClosed();
     }
 
     @FXML
