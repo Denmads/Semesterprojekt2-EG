@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -263,7 +262,7 @@ public class MainController implements Initializable {
                 String[] departmentInfo = departmentBox.getValue().split(" ");
                 int departmentID = Integer.parseInt(departmentInfo[0]);
                 if (GUIrun.getLogic().createCase(firstNameField.getText().trim(), lastNameField.getText().trim(), Long.parseLong(CPRField.getText().trim()),
-                        caseTypeChoiceBox.getValue(), mainBodyArea.getText().trim(), new Date(), null, departmentID, inquiryArea.getText().trim(), addedUsers)) {
+                        caseTypeChoiceBox.getValue(), mainBodyArea.getText().trim(), LocalDate.now(), null, departmentID, inquiryArea.getText().trim(), addedUsers)) {
                     alert.setContentText("Sag oprettet");
                     alert.showAndWait();
                     clearCreateCase();
