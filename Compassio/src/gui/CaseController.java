@@ -6,10 +6,11 @@
 package gui;
 
 import java.net.URL;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -49,7 +50,9 @@ public class CaseController implements Initializable {
     @FXML
     private DatePicker closedDateField;
     @FXML
-    private ChoiceBox<Integer> departmentBox;
+    private ChoiceBox<String> departmentBox;
+    private ObservableList<String> departmentTypes;
+
     @FXML
     private TextArea inquiryArea;
     @FXML
@@ -73,7 +76,6 @@ public class CaseController implements Initializable {
         editableFields.add(closedDateField);
         editableFields.add(departmentBox);
         editableFields.add(inquiryArea);
-
     }
 
     @FXML
@@ -117,6 +119,7 @@ public class CaseController implements Initializable {
         currentCase.setInquiry(this.inquiryArea.getText());
         currentCase.setType(this.caseTypeChoiceBox.getSelectionModel().getSelectedItem());
         currentCase.setDateClosed(closedDateField.getValue());
+        currentCase.setDepartmentID(Integer.parseInt(departmentBox.getValue().split(" ")[0]));
     }
 
     @FXML
@@ -155,8 +158,9 @@ public class CaseController implements Initializable {
             LocalDate date = LocalDate.parse(currentCase.getDateClosed().toString());
             closedDateField.setValue(date);
         }
-        departmentBox.getItems().add(currentCase.getDepartmentID());
-        departmentBox.getSelectionModel().selectFirst();
+        departmentTypes = FXCollections.observableArrayList(GUIrun.getLogic().getDepartmentInfo());
+        departmentBox.setItems(departmentTypes);
+        departmentBox.getSelectionModel().select(currentCase.getDepartmentID());
         inquiryArea.setText(currentCase.getInquiry());
     }
 
