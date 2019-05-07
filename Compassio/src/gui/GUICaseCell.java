@@ -6,7 +6,7 @@
 package gui;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
@@ -62,11 +62,11 @@ public class GUICaseCell extends ListCell<Case> {
                 caseCPR.setText((int) Math.floor(item.getCprNumber() / 10000) + " - " + (item.getCprNumber() - (long) Math.floor(item.getCprNumber() / 10000) * 10000));
                 caseType.setText(item.getType() + " sag");
 
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
-                caseDateCreated.setText(sdf.format(item.getDateCreated()));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy");
+                caseDateCreated.setText(formatter.format(item.getDateCreated()));
 
                 if (item.getDateClosed() != null) {
-                    caseDateClosed.setText(sdf.format(item.getDateClosed()));
+                    caseDateClosed.setText(formatter.format(item.getDateClosed()));
                     caseDateClosedLabel.setVisible(true);
                     caseDateClosed.setVisible(true);
                 }
