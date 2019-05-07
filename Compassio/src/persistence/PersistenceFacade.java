@@ -109,4 +109,13 @@ public class PersistenceFacade implements IPersistence {
     public boolean validateUserID(String userID) {
         return this.userDao.validateUserID(userID);
     }
+
+    @Override
+    public boolean changePassword(String newPassword, String oldPassword, String username) {
+        if (getUser(username, oldPassword) != null) {
+            return userDao.changePassword(newPassword, username);
+        } else {
+            return false;
+        }
+    }
 }

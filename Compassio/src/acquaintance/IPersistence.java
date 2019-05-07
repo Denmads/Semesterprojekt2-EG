@@ -128,4 +128,15 @@ public interface IPersistence {
      * department doesn't exist
      */
     public String getDepartmentNameById(int departmentId);
+
+    /**
+     * Method to change a users password
+     *
+     * @param userID The user whose password is to be changed
+     * @param newPassword The password the user wants to change to
+     * @param oldPassword The users old password
+     * @return True if the password was change and false if the old password is
+     * wrong
+     */
+    public boolean changePassword(String newPassword, String oldPassword, String username);
 }
