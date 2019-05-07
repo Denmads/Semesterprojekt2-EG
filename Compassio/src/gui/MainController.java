@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -198,7 +196,6 @@ public class MainController implements Initializable {
     private void user_logout(ActionEvent event) throws IOException {
         guih.changeFXMLAction("/gui/login.fxml", event);
     }
-
     
     public void loadContent (String fxmlName) throws IOException {
         lblWelcome.setVisible(false);

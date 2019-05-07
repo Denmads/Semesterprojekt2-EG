@@ -5,9 +5,9 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import acquaintance.IPersistence;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.Date;
 import persistence.dataaccessobjects.*;
 
 /**
@@ -53,7 +53,7 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public boolean saveCase(UUID caseID, long cprNumber, String type,
-            String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
+            String mainBody, LocalDate dateCreated, LocalDate dateClosed, int departmentID, String inquiry) {
         return this.caseDao.saveCase(caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
     }
 

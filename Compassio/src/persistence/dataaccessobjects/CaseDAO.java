@@ -4,16 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
- * @author 
- * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
+ * @author @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
  */
 public class CaseDAO {
 
@@ -37,29 +36,35 @@ public class CaseDAO {
     }
 
     public boolean saveCase(UUID caseID, long cprNumber, String type,
-            String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
+            String mainBody, LocalDate dateCreated, LocalDate dateClosed, int departmentID, String inquiry) {
         try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("INSERT INTO \"socialcase\" VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
-            if (1 > checkForCaseID(db, caseID)) {
-                statement.setString(1, caseID.toString());
-                statement.setLong(2, cprNumber);
-                statement.setLong(8, getTypeID(db, type));
-                statement.setString(3, mainBody);
-                if (dateCreated != null) {
-                    statement.setDate(4, new java.sql.Date(dateCreated.getTime()));
-                } else {
-                    statement.setDate(4, null);
-                }
-                if (dateClosed != null) {
-                    statement.setDate(5, new java.sql.Date(dateClosed.getTime()));
-                } else {
-                    statement.setDate(5, null);
-                }
-                statement.setInt(6, departmentID);
-                statement.setString(7, inquiry);
-                statement.execute();
-                return true;
+                PreparedStatement statement = db.prepareStatement("INSERT INTO socialcase VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT (caseid) DO UPDATE SET (mainbody, departmentid, inquiry, typeid, dateclosed) = (?, ?, ?, ?, ?)")) {
+            statement.setString(1, caseID.toString());
+            statement.setLong(2, cprNumber);
+            statement.setLong(8, getTypeID(db, type));
+            statement.setLong(12, getTypeID(db, type));
+            statement.setString(3, mainBody);
+            statement.setString(9, mainBody);
+
+            if (dateCreated != null) {
+                statement.setDate(4, java.sql.Date.valueOf(dateCreated));
+            } else {
+                statement.setDate(4, null);
             }
+            if (dateClosed != null) {
+                statement.setDate(5, java.sql.Date.valueOf(dateClosed));
+                statement.setDate(13, java.sql.Date.valueOf(dateClosed));
+            } else {
+                statement.setDate(5, null);
+                statement.setDate(13, null);
+            }
+            statement.setInt(6, departmentID);
+            statement.setInt(10, departmentID);
+            statement.setString(7, inquiry);
+            statement.setString(11, inquiry);
+            statement.execute();
+            return true;
+
         } catch (SQLException ex) {
             Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -168,7 +173,7 @@ public class CaseDAO {
             Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void insertNewPatient(long cpr, String firstName, String lastName) {
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("INSERT INTO cpr VALUES (?, ?, ?)")) {
@@ -180,7 +185,7 @@ public class CaseDAO {
             Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public ArrayList<String> getDepartments() {
         ArrayList<String> departments = new ArrayList<>();
         try (Connection db = connectionPool.getConnection();
@@ -200,7 +205,7 @@ public class CaseDAO {
         }
         return departments;
     }
-    
+
     public String getDepartmentNameById(int departmentId) {
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("SELECT name FROM department WHERE departmentid=?")) {

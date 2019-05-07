@@ -2,8 +2,8 @@ package acquaintance;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -85,7 +85,7 @@ public interface IPersistence {
      * <code>false</code> on failure.
      */
     public boolean saveCase(UUID caseID, long cprNumber, String type, String mainBody,
-            Date dateCreated, Date dateClosed, int departmentID, String inquiry);
+            LocalDate dateCreated, LocalDate dateClosed, int departmentID, String inquiry);
 
     /**
      * Adds the assigned caseworkers to the case.
