@@ -14,7 +14,7 @@ import persistence.dataaccessobjects.*;
  * Provides a facade to interact with the database through Data Access Objects.
  *
  * @author Peterzxcvbnm
- * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
+ * @author Morten Kargo Lyngesen
  */
 public class PersistenceFacade implements IPersistence {
 

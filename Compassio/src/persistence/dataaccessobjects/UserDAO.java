@@ -13,7 +13,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
  *
- * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
+ * @author Morten Kargo Lyngesen
  */
 public class UserDAO {
 
