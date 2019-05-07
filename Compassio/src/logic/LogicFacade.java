@@ -38,9 +38,10 @@ public class LogicFacade implements ILogic {
         Case newCase = new Case(firstName, lastName, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
         newCase.addPatientToDatabase();
         boolean caseSaved = newCase.saveCase();
-        socialWorkers.add(user.getUserID());
-
-        persistence.saveCaseUserRelation(newCase.getCaseID(), socialWorkers);
+        if (caseSaved) {
+            socialWorkers.add(user.getUserID());
+            persistence.saveCaseUserRelation(newCase.getCaseID(), socialWorkers);
+        }
         return caseSaved;
     }
 
