@@ -15,7 +15,7 @@ import java.util.UUID;
  * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
  */
 public interface IPersistence {
-
+    
     /**
      * Get the cases connected to the userID
      *
@@ -119,6 +119,16 @@ public interface IPersistence {
      * they don't
      */
     public boolean validateUserID(String userID);
+    
+    /**
+     * Returns if the specified password si valid for the user
+     *
+     * @param userID The user to check for
+     * @param password Tha password to check
+     * @return returns <code>true</code> if password is correct or <code>false</code> if
+     * it isn't
+     */
+    public boolean validateUserPassword(long userID, String password);
 
     /**
      * Returns the name of name of the department
@@ -128,15 +138,36 @@ public interface IPersistence {
      * department doesn't exist
      */
     public String getDepartmentNameById(int departmentId);
+    
+    /**
+     * Returns an array of user type names
+     * @return names of all user types
+     */
+    public String[] getUserTypes ();
+    
+    /**
+     * Returns a list of all the users in the given departments
+     * @param departmentIDs ids of all the departments to which the user is connected
+     * @return info of all users
+     */
+    public ArrayList<String[]> getAllUsers (ArrayList<Long> departmentIDs);
 
     /**
      * Method to change a users password
      *
-     * @param userID The user whose password is to be changed
      * @param newPassword The password the user wants to change to
      * @param oldPassword The users old password
+     * @param username The username of the user
      * @return True if the password was change and false if the old password is
      * wrong
      */
     public boolean changePassword(String newPassword, String oldPassword, String username);
+    
+    /**
+     * Method to update the user info in the database
+     * @param userID The user to update
+     * @param role The new role
+     * @param inactive The new inactive state
+     */
+    public void updateUserInfo(long userID, int role, boolean inactive); 
 }

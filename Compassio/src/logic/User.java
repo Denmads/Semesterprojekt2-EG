@@ -14,12 +14,12 @@ public class User {
     private final String username;
     private final String firstName;
     private final String lastName;
-    private final UserType userType;
-    ArrayList<Long> departments;
+    private final int userType;
+    private ArrayList<Long> departments;
 
     
     public User (String userID, String username, String firstName, 
-                    String lastName, ArrayList<Long> departments, UserType userType) {
+                    String lastName, ArrayList<Long> departments, int userType) {
         this.username = username;
         this.userID = userID;
         this.firstName = firstName;
@@ -59,7 +59,7 @@ public class User {
     /**
      * @return the users assigned type
      */
-    public UserType getUserType() {
+    public int getUserType() {
         return this.userType;
     }
     

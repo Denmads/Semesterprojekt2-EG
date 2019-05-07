@@ -109,7 +109,22 @@ public class PersistenceFacade implements IPersistence {
     public boolean validateUserID(String userID) {
         return this.userDao.validateUserID(userID);
     }
+    
+    @Override
+    public boolean validateUserPassword(long userID, String password) {
+        return this.userDao.validateUserPassword(userID, password);
+    }
 
+    @Override
+    public String[] getUserTypes() {
+        return this.userDao.getUserTypes();
+    }
+
+    @Override
+    public ArrayList<String[]> getAllUsers(ArrayList<Long> departments) {
+        return this.userDao.getAllUsers(departments);
+    }
+    
     @Override
     public boolean changePassword(String newPassword, String oldPassword, String username) {
         if (getUser(username, oldPassword) != null) {
@@ -118,4 +133,10 @@ public class PersistenceFacade implements IPersistence {
             return false;
         }
     }
+
+    @Override
+    public void updateUserInfo(long userID, int role, boolean inactive) {
+        this.userDao.updateInfo(userID, role, inactive);
+    }
+
 }
