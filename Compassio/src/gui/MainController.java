@@ -144,11 +144,10 @@ public class MainController implements Initializable {
             newBtn.setPrefWidth(130);
             
             if (fxmlName != null) {
-                Method m = getClass().getMethod("loadContent", String.class);
                 newBtn.setOnAction(event -> {
                     try {
-                        m.invoke(this, fxmlName + ".fxml");
-                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                        loadContent(fxmlName + ".fxml");
+                    } catch (IOException ex) {
                         Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
                         Platform.exit();
                     }
