@@ -160,7 +160,7 @@ public class CaseController implements Initializable {
         }
         departmentTypes = FXCollections.observableArrayList(GUIrun.getLogic().getDepartmentInfo());
         departmentBox.setItems(departmentTypes);
-        departmentBox.getSelectionModel().select(currentCase.getDepartmentID());
+        departmentBox.getSelectionModel().select(currentCase.getDepartmentID() - 1);
         inquiryArea.setText(currentCase.getInquiry());
     }
 
