@@ -52,7 +52,7 @@ public interface ILogic {
      * @return <code>True</code> if the case is saved successful, else <code>false</code>
      */
     public boolean createCase(String firstName, String lastName, long cprNumber, String type, String mainBody,
-            Date dateCreated, Date dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers);
+            LocalDate dateCreated, LocalDate dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers);
 
     /**
      * Gets a list of department names, with their respective id
