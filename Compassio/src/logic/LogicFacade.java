@@ -74,11 +74,6 @@ public class LogicFacade implements ILogic {
         return response;
     }
 
-    @Override
-    public void createCase(long CPR, int[] socialWorkers) {
-        new Case(CPR).saveCase();
-    }
-
     public static IPersistence getPersistence() {
         return persistence;
     }

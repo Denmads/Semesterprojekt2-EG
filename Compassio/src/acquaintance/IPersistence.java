@@ -15,7 +15,7 @@ import java.util.UUID;
  * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
  */
 public interface IPersistence {
-
+    
     /**
      * Get the cases connected to the userID
      *

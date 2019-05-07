@@ -11,21 +11,60 @@ import logic.UserInfo;
  */
 public interface ILogic {
 
+    /**
+     * Injects the persistence object into the logic layer
+     * @param PersistenceLayer The persistence object
+     */
     public void injectPersistence(IPersistence PersistenceLayer);
     
+    /**
+     * Retrieves all the cases, that are avaiable for the current user
+     * @return A list of all cases available to the user
+     */
     public ArrayList<Case> getCases();
 
-    public void createCase(long CPR, int[] socialWorkers);
-
+    /**
+     * Retrieves all the names of the types of cases
+     * @return A list of names
+     */
     public ArrayList<String> retrieveCaseTypes();
 
+    /**
+     * Tries to login a user, with a username and password
+     * @param username The username of the user
+     * @param password The password of the user
+     * @return <code>True</code> if the login is successful, else <code>false</code>
+     */
     public boolean login(String username, String password);
 
+    /**
+     * Creates a new case from the given parameters
+     * @param firstName The firstname of the patient
+     * @param lastName The lastname of the patient
+     * @param cprNumber The CPR number of the patient
+     * @param type The type of the case
+     * @param mainBody The main body of the case
+     * @param dateCreated The date at which the case was created
+     * @param dateClosed The date at which the case was closed. <code>Null</code> if not closed
+     * @param departmentID The id of the department, to which the case belong
+     * @param inquiry The inquiry of the case
+     * @param socialWorkers A list of the casewokers, who are working on the case
+     * @return <code>True</code> if the case is saved successful, else <code>false</code>
+     */
     public boolean createCase(String firstName, String lastName, long cprNumber, String type, String mainBody,
             Date dateCreated, Date dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers);
 
+    /**
+     * Gets a list of department names, with their respective id
+     * @return A list of department info
+     */
     public ArrayList<String> getDepartmentInfo();
 
+    /**
+     * Checks if the given user id exists
+     * @param userID The user id to check
+     * @return <code>True</code> if the id exists, else <code>false</code>
+     */
     public boolean checkUserID(String userID);
     
     /**
@@ -35,16 +74,41 @@ public interface ILogic {
      */
     public boolean checkUserPassword(String password);
 
+    /**
+     * Gets the current users id
+     * @return the users id
+     */
     public String getUserID();
 
+    /**
+     * Gets the current users name
+     * @return The current users name
+     */
     public String getUserName();
 
+    /**
+     * Gets the current users type
+     * @return The current users type
+     */
     public String getUserType();
     
+    /**
+     * Gets an array of all possible user types
+     * @return an array of user types
+     */
     public String[] getUserTypes ();
     
+    /**
+     * Returns a list of all users
+     * @return a list of all users
+     */
     public ArrayList<UserInfo> getAllUsers ();
 
+    /**
+     * Gets the name of a department from the id
+     * @param departmentId The id of the department
+     * @return The name of the department
+     */
     public String getDepartmentNameById(int departmentId);
 
     /**
