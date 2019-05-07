@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import acquaintance.IGUI;
 import acquaintance.ILogic;
+import java.io.IOException;
 import javafx.scene.image.Image;
 import javafx.stage.StageStyle;
 
@@ -24,6 +25,8 @@ public class GUIrun extends Application implements IGUI {
     private static ILogic logic;
 
     private static IGUI guiRun;
+    
+    private static GUIHandler guih;
 
     @Override
     public void injectLogic(ILogic LogicLayer) {
@@ -36,6 +39,10 @@ public class GUIrun extends Application implements IGUI {
 
     public static ILogic getLogic() {
         return logic;
+    }
+    
+    public static void changeFxml (String fxml) throws IOException {
+        guih.changeFXMLAction(fxml);
     }
 
     @Override
@@ -53,9 +60,11 @@ public class GUIrun extends Application implements IGUI {
 
         Scene scene = new Scene(root);
 
+        guih = new GUIHandler(stage);
+        guih.moves(stage, scene);
+        
         stage.setResizable(true);
         stage.setScene(scene);
-        controller.setupDragWindow(stage);
         stage.show();
     }
 

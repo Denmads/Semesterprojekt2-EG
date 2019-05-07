@@ -37,7 +37,6 @@ public class loginController implements Initializable {
     @FXML
     private GridPane start_grid;
 
-    private GUIHandler guih = new GUIHandler();
     @FXML
     private TextField user_textfield;
     @FXML
@@ -54,10 +53,6 @@ public class loginController implements Initializable {
         visible();
         password_passwordsFiled.setPromptText("Din adgangskode");
         user_textfield.setPromptText("Dit brugernavn");
-    }
-
-    public void setupDragWindow(Stage stage) {
-        guih.moves(stage, stage.getScene());
     }
 
     @FXML
@@ -80,7 +75,7 @@ public class loginController implements Initializable {
 
     @FXML
     private void buttonBack(MouseEvent event) throws IOException {
-        guih.changeFXMLMouse("/gui/login.fxml", event);
+        GUIrun.changeFxml("/gui/login.fxml");
     }
 
     @FXML
@@ -117,7 +112,7 @@ public class loginController implements Initializable {
             } else {
                 Platform.runLater(() -> {
                     try {
-                        guih.changeFXMLAction("/gui/main.fxml", event);
+                        GUIrun.changeFxml("/gui/main.fxml");
                     } catch (IOException ex) {
                         Logger.getLogger(loginController.class.getName()).log(Level.SEVERE, null, ex);
                     }

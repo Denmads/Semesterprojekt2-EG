@@ -130,6 +130,7 @@ public class EditUsersController implements Initializable {
     private void updateList() {
         new Thread(() -> {
             ArrayList<UserInfo> u = GUIrun.getLogic().getAllUsers();
+            
             Platform.runLater(() -> {
                 users.clear();
                 users.addAll(u);

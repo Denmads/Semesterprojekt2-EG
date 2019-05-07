@@ -68,8 +68,6 @@ public class MainController implements Initializable {
     @FXML
     private VBox buttons;
 
-    GUIHandler guih = new GUIHandler();
-
     @FXML
     private Label userName;
     @FXML
@@ -129,6 +127,18 @@ public class MainController implements Initializable {
             else if (type.equals("USER")) {
                 buttons.getChildren().addAll(btnSeeInformation, btnRequestCase);
             }
+            
+            Button btnLogout = createButton("Logout", null);
+            btnLogout.setOnAction(event -> {
+                GUIrun.getLogic().logout();
+                try {
+                    GUIrun.changeFxml("/gui/login.fxml");
+                } catch (IOException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                    Platform.exit();
+                }
+            });
+            buttons.getChildren().add(btnLogout);
             
         } catch (NoSuchMethodException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -190,11 +200,6 @@ public class MainController implements Initializable {
     @FXML
     private void buttonBack(MouseEvent event) {
         //are u sure u want to log out.. then cng.changeFXMLAction("/gui/login.fxml", event); or change to front page start_user_login.fxml
-    }
-
-    @FXML
-    private void user_logout(ActionEvent event) throws IOException {
-        guih.changeFXMLAction("/gui/login.fxml", event);
     }
     
     public void loadContent (String fxmlName) throws IOException {

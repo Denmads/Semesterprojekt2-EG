@@ -201,7 +201,7 @@ public class UserDAO {
     
     public ArrayList<String[]> getAllUsers (ArrayList<Long> departments) {
         try (Connection db = connectionPool.getConnection();
-                PreparedStatement getUserType = db.prepareStatement("SELECT userid, username, firstname, lastname, typeid, inactive, departmentid FROM people, employeesofdepartment")) {
+                PreparedStatement getUserType = db.prepareStatement("SELECT people.userid, username, firstname, lastname, typeid, inactive, departmentid FROM people NATURAL JOIN employeesofdepartment")) {
             
             ResultSet rs = getUserType.executeQuery();
             
@@ -226,7 +226,7 @@ public class UserDAO {
             return users;
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return new ArrayList<>();
         }
     }
 

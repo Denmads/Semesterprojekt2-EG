@@ -36,6 +36,11 @@ public interface ILogic {
      * @return <code>True</code> if the login is successful, else <code>false</code>
      */
     public boolean login(String username, String password);
+    
+    /**
+     * Logs out the user
+     */
+    public void logout();
 
     /**
      * Creates a new case from the given parameters

@@ -103,6 +103,11 @@ public class LogicFacade implements ILogic {
     }
 
     @Override
+    public void logout () {
+        user = null;
+    }
+    
+    @Override
     public ArrayList<String> getDepartmentInfo() {
         return persistence.getDepartments();
     }

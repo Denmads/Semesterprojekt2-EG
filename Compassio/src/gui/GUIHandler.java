@@ -23,38 +23,22 @@ public class GUIHandler {
 
     private double xOffset = 0;
     private double yOffset = 0;
+    
+    private Stage window;
 
-    /**
-     *
-     * @param fxml Takes the attribute fxml as a String
-     * @param event Does an event when the ActionEvent is triggered
-     * @throws IOException Throws an Exception Changes the fxml scene you are in
-     * Sets a new Scene in the new location
-     */
-    public void changeFXMLAction(String fxml, ActionEvent event) throws IOException {
-        Parent gameDisplay = FXMLLoader.load(getClass().getResource(fxml));
-        Scene gameDisplays = new Scene(gameDisplay);
-
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        window.setScene(gameDisplays);
-        moves(window, gameDisplays);
-
-        window.show();
+    public GUIHandler(Stage window) {
+        this.window = window;
     }
 
     /**
      *
      * @param fxml Takes the attribute fxml as a String
-     * @param event Does an event when the MouseEvent is triggered
      * @throws IOException Throws an Exception Changes the fxml scene you are in
      * Sets a new Scene in the new location
      */
-    public void changeFXMLMouse(String fxml, MouseEvent event) throws IOException {
+    public void changeFXMLAction(String fxml) throws IOException {
         Parent gameDisplay = FXMLLoader.load(getClass().getResource(fxml));
         Scene gameDisplays = new Scene(gameDisplay);
-
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         window.setScene(gameDisplays);
         moves(window, gameDisplays);
