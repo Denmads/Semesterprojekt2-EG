@@ -199,9 +199,9 @@ public class UserDAO {
         return true;
     }
     
-    public ArrayList<String[]> getAllUsers () {
+    public ArrayList<String[]> getAllUsers (ArrayList<Long> departments) {
         try (Connection db = connectionPool.getConnection();
-                PreparedStatement getUserType = db.prepareStatement("SELECT userid, username, firstname, lastname, typeid, inactive FROM people")) {
+                PreparedStatement getUserType = db.prepareStatement("SELECT userid, username, firstname, lastname, typeid, inactive, departmentid FROM people, employeesofdepartment")) {
             
             ResultSet rs = getUserType.executeQuery();
             
@@ -209,16 +209,18 @@ public class UserDAO {
             ArrayList<String[]> users = new ArrayList<>();
             
             while (rs.next()) {
-                String[] user = new String[]{
-                    rs.getLong("userid")+"",
-                    rs.getString("username"),
-                    rs.getString("firstname"),
-                    rs.getString("lastname"),
-                    rs.getInt("typeid") + "",
-                    rs.getBoolean("inactive") + ""                    
-                };
-                
-                users.add(user);
+                if (departments.contains(rs.getLong("departmentid"))) {
+                    String[] user = new String[]{
+                        rs.getLong("userid")+"",
+                        rs.getString("username"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
+                        rs.getInt("typeid") + "",
+                        rs.getBoolean("inactive") + ""                    
+                    };
+
+                    users.add(user);
+                }
             }
             
             return users;

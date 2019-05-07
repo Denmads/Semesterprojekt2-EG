@@ -146,17 +146,18 @@ public interface IPersistence {
     public String[] getUserTypes ();
     
     /**
-     * Returns a list of all the users in the system
+     * Returns a list of all the users in the given departments
+     * @param departmentIDs ids of all the departments to which the user is connected
      * @return info of all users
      */
-    public ArrayList<String[]> getAllUsers ();
+    public ArrayList<String[]> getAllUsers (ArrayList<Long> departmentIDs);
 
     /**
      * Method to change a users password
      *
-     * @param userID The user whose password is to be changed
      * @param newPassword The password the user wants to change to
      * @param oldPassword The users old password
+     * @param username The username of the user
      * @return True if the password was change and false if the old password is
      * wrong
      */

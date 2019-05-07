@@ -99,7 +99,7 @@ public interface ILogic {
     public String[] getUserTypes ();
     
     /**
-     * Returns a list of all users
+     * Returns a list of all users within the users departments
      * @return a list of all users
      */
     public ArrayList<UserInfo> getAllUsers ();

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Represents the roles/type any given user could be.
+ * A utillity class, for representing all usertypes in the database, converting between id and name
  * 
  * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
  */
@@ -23,6 +23,11 @@ public class UserType {
             }
         }
         
+        /**
+         * Gets the id of a type from the type name
+         * @param type The name of the type
+         * @return The id of the type
+         */
         public int get (String type) {
             for (Map.Entry<Integer, String> ent : types.entrySet() ) {
                 if (ent.getValue().equals(type)) {
@@ -33,10 +38,19 @@ public class UserType {
             return -1;
         }
         
+        /**
+         * Gets the name of a type from an id
+         * @param index The id of the type
+         * @return The name of the type
+         */
         public String getName (int index) {
             return types.get(index);
         }
         
+        /**
+         * Gets an array of all the types
+         * @return An array of all types
+         */
         public String[] getTypes () {
             String[] allTypes = new String[types.size()];
             int count = 0;

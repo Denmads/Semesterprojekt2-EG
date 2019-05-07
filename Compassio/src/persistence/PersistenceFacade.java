@@ -121,8 +121,8 @@ public class PersistenceFacade implements IPersistence {
     }
 
     @Override
-    public ArrayList<String[]> getAllUsers() {
-        return this.userDao.getAllUsers();
+    public ArrayList<String[]> getAllUsers(ArrayList<Long> departments) {
+        return this.userDao.getAllUsers(departments);
     }
     
     @Override

@@ -15,7 +15,7 @@ public class User {
     private final String firstName;
     private final String lastName;
     private final int userType;
-    ArrayList<Long> departments;
+    private ArrayList<Long> departments;
 
     
     public User (String userID, String username, String firstName, 

@@ -153,7 +153,7 @@ public class LogicFacade implements ILogic {
     @Override
     public ArrayList<UserInfo> getAllUsers() {
         ArrayList<UserInfo> users = new ArrayList<>();
-        ArrayList<String[]> usersInfo = persistence.getAllUsers();
+        ArrayList<String[]> usersInfo = persistence.getAllUsers(user.getDepartments());
         
         for (String[] info : usersInfo) {
             users.add(new UserInfo(Long.parseLong(info[0]), info[1], info[2] + " " +  info[3], userType.getName(Integer.parseInt(info[4])), Boolean.parseBoolean(info[5])));
