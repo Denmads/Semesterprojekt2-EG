@@ -1,6 +1,6 @@
 package logic;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 /**
@@ -21,9 +21,9 @@ public class Case {
 
     private String mainBody;
 
-    private Date dateCreated;
+    private LocalDate dateCreated;
 
-    private Date dateClosed;
+    private LocalDate dateClosed;
 
     private int departmentID;
 
@@ -31,17 +31,17 @@ public class Case {
 
     public Case(long cprNumber) {
         this.cprNumber = cprNumber;
-        this.dateCreated = new Date();
+        this.dateCreated = LocalDate.now();
         this.caseID = UUID.randomUUID();
     }
 
-    public Case(long cprNumber, UUID caseID, Date dateCreated) {
+    public Case(long cprNumber, UUID caseID, LocalDate dateCreated) {
         this.cprNumber = cprNumber;
         this.dateCreated = dateCreated;
         this.caseID = caseID;
     }
 
-    public Case(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
+    public Case(String firstName, String lastName, UUID caseID, long cprNumber, String type, String mainBody, LocalDate	 dateCreated, LocalDate dateClosed, int departmentID, String inquiry) {
         this(cprNumber, caseID, dateCreated);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -52,7 +52,7 @@ public class Case {
         this.inquiry = inquiry;
     }
     
-    public Case(String firstName, String lastName, long cprNumber, String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry) {
+    public Case(String firstName, String lastName, long cprNumber, String type, String mainBody, LocalDate dateCreated, LocalDate dateClosed, int departmentID, String inquiry) {
         this(cprNumber, UUID.randomUUID(), dateCreated);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -63,7 +63,7 @@ public class Case {
         this.inquiry = inquiry;
     }
     
-    public Case(String firstName, String lastName, long cprNumber, String type, String mainBody, Date dateCreated, Date dateClosed, int departmentID, String inquiry, UUID caseID) {
+    public Case(String firstName, String lastName, long cprNumber, String type, String mainBody, LocalDate dateCreated, LocalDate dateClosed, int departmentID, String inquiry, UUID caseID) {
         this(cprNumber, caseID, dateCreated);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -90,11 +90,11 @@ public class Case {
         return mainBody;
     }
 
-    public Date getDateCreated() {
+    public LocalDate getDateCreated() {
         return dateCreated;
     }
 
-    public Date getDateClosed() {
+    public LocalDate getDateClosed() {
         return dateClosed;
     }
 
@@ -130,7 +130,7 @@ public class Case {
         this.mainBody = mainBody;
     }
 
-    public void setDateClosed(Date dateClosed) {
+    public void setDateClosed(LocalDate dateClosed) {
         this.dateClosed = dateClosed;
     }
 

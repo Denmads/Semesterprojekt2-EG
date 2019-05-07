@@ -1,7 +1,7 @@
 package acquaintance;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import logic.Case;
 import logic.UserInfo;
 

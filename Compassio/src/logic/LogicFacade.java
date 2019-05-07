@@ -2,7 +2,7 @@ package logic;
 
 import acquaintance.ILogic;
 import acquaintance.IPersistence;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
@@ -34,7 +34,7 @@ public class LogicFacade implements ILogic {
     
     @Override
     public boolean createCase(String firstName, String lastName, long cprNumber,
-            String type, String mainBody, java.util.Date dateCreated, java.util.Date dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers) {
+            String type, String mainBody, LocalDate dateCreated, LocalDate dateClosed, int departmentID, String inquiry, ArrayList<String> socialWorkers) {
         Case newCase = new Case(firstName, lastName, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
         newCase.addPatientToDatabase();
         boolean caseSaved = newCase.saveCase();
@@ -54,10 +54,10 @@ public class LogicFacade implements ILogic {
                 String[] singleCase = cases.remove(cases.size() - 1);
                 if (singleCase[7] != null) {
                     response.add(new Case(singleCase[0], singleCase[1], UUID.fromString(singleCase[2]), Long.parseLong(singleCase[3]),
-                            singleCase[4], singleCase[5], Date.valueOf(singleCase[6]), Date.valueOf(singleCase[7]), Integer.parseInt(singleCase[8]), singleCase[9]));
+                            singleCase[4], singleCase[5], LocalDate.parse(singleCase[6]), LocalDate.parse(singleCase[7]), Integer.parseInt(singleCase[8]), singleCase[9]));
                 } else {
                     response.add(new Case(singleCase[0], singleCase[1], UUID.fromString(singleCase[2]), Long.parseLong(singleCase[3]),
-                            singleCase[4], singleCase[5], Date.valueOf(singleCase[6]), null, Integer.parseInt(singleCase[8]), singleCase[9]));
+                            singleCase[4], singleCase[5], LocalDate.parse(singleCase[6]), null, Integer.parseInt(singleCase[8]), singleCase[9]));
                 }
             }
         } else if (this.user.getUserType() == this.userType.get("SOCIALWORKER")) {
@@ -116,6 +116,7 @@ public class LogicFacade implements ILogic {
         return persistence.validateUserPassword(Long.parseLong(user.getUserID()), password);
     }
 
+    @Override
     public String getUserID() {
         return user.getUserID();
     }

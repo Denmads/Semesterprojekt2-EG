@@ -7,14 +7,15 @@ package gui;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -31,7 +32,7 @@ import logic.Case;
  * @author Peterzxcvbnm
  */
 public class CaseController implements Initializable {
-    
+
     @FXML
     private TextField firstNameField;
     @FXML
@@ -49,7 +50,9 @@ public class CaseController implements Initializable {
     @FXML
     private DatePicker closedDateField;
     @FXML
-    private ChoiceBox<Integer> departmentBox;
+    private ChoiceBox<String> departmentBox;
+    private ObservableList<String> departmentTypes;
+
     @FXML
     private TextArea inquiryArea;
     @FXML
@@ -58,7 +61,7 @@ public class CaseController implements Initializable {
     private Button cancelButton;
     @FXML
     private Button closeButton;
-    
+
     ArrayList<Node> editableFields;
     Case currentCase;
 
@@ -73,53 +76,73 @@ public class CaseController implements Initializable {
         editableFields.add(closedDateField);
         editableFields.add(departmentBox);
         editableFields.add(inquiryArea);
-        
     }
-    
+
     @FXML
     private void minimise(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
-    
+
     @FXML
     private void close(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
-    
+
     @FXML
     private void editButton(ActionEvent event) {
-        Button source = (Button) event.getSource();
-        if (source.getText().equals("Rediger")) {
-            source.setText("Gem");
+        if (editButton.getText().equals("Rediger")) {
+            editButton.setText("Gem");
             editableFields.forEach(nodes -> {
                 nodes.setDisable(false);
             });
-            
+
             cancelButton.setVisible(true);
-        } else if (source.getText().equals("Gem")) {
-            currentCase.setDateClosed(java.util.Date.from(closedDateField.getValue().atStartOfDay()
-                    .atZone(ZoneId.systemDefault()).toInstant()));
-            currentCase.saveCase();
+        } else if (editButton.getText().equals("Gem")) {
+
+            if (currentCase.saveCase()) {
+                saveCase();
+                editButton.setText("Rediger");
+                editableFields.forEach(nodes -> {
+                    nodes.setDisable(true);
+                });
+                cancelButton.setVisible(false);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Sagen blev gemt");
+                alert.showAndWait();
+            }
         }
     }
-    
+
+    private void saveCase() {
+        currentCase.setMainBody(this.mainBodyArea.getText());
+        currentCase.setInquiry(this.inquiryArea.getText());
+        currentCase.setType(this.caseTypeChoiceBox.getSelectionModel().getSelectedItem());
+        currentCase.setDateClosed(closedDateField.getValue());
+        currentCase.setDepartmentID(Integer.parseInt(departmentBox.getValue().split(" ")[0]));
+    }
+
     @FXML
     private void cancelButton(ActionEvent event) {
+        editButton.setText("Rediger");
+        this.setupCase();
+        editableFields.forEach(nodes -> {
+            nodes.setDisable(true);
+        });
+        cancelButton.setVisible(true);
     }
-    
+
     @FXML
     private void closeButton(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
-    
+
     public void injectCase(Case currentCase) {
         this.currentCase = currentCase;
         setupCase();
     }
-    
+
     private void setupCase() {
         firstNameField.setText(currentCase.getFirstName());
         lastNameField.setText(currentCase.getLastName());
@@ -129,15 +152,16 @@ public class CaseController implements Initializable {
         mainBodyArea.setText(currentCase.getMainBody());
         if (currentCase.getDateCreated() != null) {
             LocalDate date = LocalDate.parse(currentCase.getDateCreated().toString());
-            dateCreatedField.setValue(date); //.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+            dateCreatedField.setValue(date);
         }
-        if (currentCase.getDateClosed() != null) {
+        if (currentCase.getDateClosed() != null) {     
             LocalDate date = LocalDate.parse(currentCase.getDateClosed().toString());
-            closedDateField.setValue(date);//.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+            closedDateField.setValue(date);
         }
-        departmentBox.getItems().add(currentCase.getDepartmentID());
-        departmentBox.getSelectionModel().selectFirst();
+        departmentTypes = FXCollections.observableArrayList(GUIrun.getLogic().getDepartmentInfo());
+        departmentBox.setItems(departmentTypes);
+        departmentBox.getSelectionModel().select(currentCase.getDepartmentID() - 1);
         inquiryArea.setText(currentCase.getInquiry());
     }
-    
+
 }
