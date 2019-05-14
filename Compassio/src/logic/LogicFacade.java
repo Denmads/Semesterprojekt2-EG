@@ -2,10 +2,14 @@ package logic;
 
 import acquaintance.ILogic;
 import acquaintance.IPersistence;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -167,5 +171,15 @@ public class LogicFacade implements ILogic {
         }
         
         return users;
+    }
+
+    @Override
+    public void createUser(String firstName, String lastName, String username, String password, String type, int departmentid) {
+        try {
+            int typeid = userType.get(type);
+            persistence.createUser(username, firstName, lastName, password, typeid, departmentid);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            Logger.getLogger(LogicFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

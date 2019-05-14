@@ -96,8 +96,8 @@ public class PersistenceFacade implements IPersistence {
     }
 
     @Override
-    public void createUser(String userName, String firstName, String lastName, String password, int typeid) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        this.userDao.createUser(userName, firstName, lastName, password, typeid);
+    public void createUser(String userName, String firstName, String lastName, String password, int typeid, int departmentid) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        this.userDao.createUser(userName, firstName, lastName, password, typeid, departmentid);
     }
 
     @Override
