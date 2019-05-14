@@ -55,8 +55,8 @@ public class GUIrun extends Application implements IGUI {
         
         stage.initStyle(StageStyle.TRANSPARENT);
         
-//        Image img = new Image("/img/logo.png");
-//        stage.getIcons().add(img);
+        Image img = new Image("/gui/img/logo.png");
+        stage.getIcons().add(img);
 
         Scene scene = new Scene(root);
 

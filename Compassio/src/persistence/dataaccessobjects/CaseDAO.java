@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
- * @author @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
+ * @author Morten Kargo Lyngesen
  */
 public class CaseDAO {
 

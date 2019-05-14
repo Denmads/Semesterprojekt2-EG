@@ -101,6 +101,12 @@ public class loginController implements Initializable {
 
     @FXML
     private void login_button(ActionEvent event) throws IOException, InterruptedException {
+        if (user_textfield.getText().length() == 0 && password_passwordsFiled.getText().length() == 0) {
+            label_check.setText("Prøvede du virkelig på det! Seriøst!");
+            label_check.setTextFill(Color.rgb(210, 39, 30));
+            return;
+        }
+        
         setLoadingOverlay(true);
 
         new Thread(() -> {

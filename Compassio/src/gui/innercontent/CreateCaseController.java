@@ -66,6 +66,7 @@ public class CreateCaseController implements Initializable {
         caseTypeChoices = FXCollections.observableArrayList(GUIrun.getLogic().retrieveCaseTypes());
         caseTypeChoiceBox.setItems(caseTypeChoices);
         addedUsers = new ArrayList<>();
+        accessToCreateCase(true);
     }    
 
     @FXML
