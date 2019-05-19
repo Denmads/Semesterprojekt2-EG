@@ -15,7 +15,7 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
    ChangePasswordTest.class,
-   SaveCaseTest.class
+  // SaveCaseTest.class
 })
 
 public class PersistenceSuite {

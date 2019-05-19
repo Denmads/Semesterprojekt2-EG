@@ -1,7 +1,6 @@
 
 package logic;
 
-import logic.LogicFacade;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.Before;
@@ -24,7 +23,7 @@ public class LoginTest {
      /**
      * Test of login method, of class LogicFacade.
      */
-        @Test
+    @Test
     public void testWrongPassword(){
         System.out.println("Wrong password");
         String username = "admin";

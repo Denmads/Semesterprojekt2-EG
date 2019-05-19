@@ -12,8 +12,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-   // LoginTest.class,
-    GetCaseTest.class
+    LoginTest.class,
+   // GetCaseTest.class
 })
 
 public class LogicSuite {

@@ -41,9 +41,8 @@ public class ChangePasswordTest {
         System.out.println("change Password test");
         String newPassword = "change";
         String oldPassword = "password";
-        String username = "passwordtest";
         boolean expResult = true;
-        boolean result = instance.changePassword(newPassword, oldPassword, username);
+        boolean result = instance.changePassword(newPassword, oldPassword);
         assertEquals(expResult, result);
 
     }
