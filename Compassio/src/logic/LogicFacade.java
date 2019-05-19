@@ -4,7 +4,6 @@ import acquaintance.ILogic;
 import acquaintance.IPersistence;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -14,7 +13,7 @@ import java.util.UUID;
 public class LogicFacade implements ILogic {
 
     private static IPersistence persistence;
-    private User user;
+    private UserInterface user;
     private UserType userType;
 
     

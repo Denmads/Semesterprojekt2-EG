@@ -7,7 +7,7 @@ import java.util.UUID;
  * Represents a social case created by a case worker
  * @author Frederik Haagensen
  */
-public class Case implements UserInterface {
+public class Case implements CaseInterface {
 
     private String firstName;
 

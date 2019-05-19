@@ -1,116 +1,46 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package logic;
 
-import java.time.LocalDate;
-import java.util.UUID;
+import java.util.ArrayList;
 
 /**
  *
- * @author Morten Kargo Lyngesen
+ * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
  */
 public interface UserInterface {
 
     /**
-     * Returns the case id
-     * @return id of the case
+     * @return all the departments the current user is a member of.
      */
-    UUID getCaseID();
+    ArrayList<Long> getDepartments();
 
     /**
-     * Returns cpr-number of the citizen.
-     * @return cpr-number of the citizen.
-     */
-    long getCprNumber();
-
-    /**
-     * Returns the date the case was closed.
-     * @return date case was closed
-     */
-    LocalDate getDateClosed();
-
-    /**
-     * Returns the date the case was created.
-     * @return date case was created
-     */
-    LocalDate getDateCreated();
-
-    /**
-     * Returns the id of associated department.
-     * @return id of associated department.
-     */
-    int getDepartmentID();
-
-    /**
-     * Returns the first name of the citizen associated with the case.
-     * @return first name of citizen.
+     * @return the users first name
      */
     String getFirstName();
 
     /**
-     * Returns the inquiry associated with the case.
-     * @return inquiry message of case.
-     */
-    String getInquiry();
-
-    /**
-     * Returns the last name of the citizen associated with the case.
-     * @return first name of citizen.
+     * @return the users last name
      */
     String getLastName();
 
     /**
-     * Returns the main body of the case.
-     * @return main body of case
+     * @return the users id
      */
-    String getMainBody();
+    String getUserID();
 
     /**
-     * Returns the case type.
-     * @return case type.
+     * @return the users assigned type
      */
-    String getType();
+    int getUserType();
 
     /**
-     * Sets the case ID of the case.
-     * @param caseID the id of the case.
+     * @return the users username
      */
-    void setCaseID(UUID caseID);
-
-    /**
-     * Sets the date the case was closed. Returns <code>true</code> on success.
-     * Returns <code>false</code> if closed date is before the creation date.
-     * @param dateClosed
-     * @return Returns <code>true</code> on success. <code>false</code> false on failure.
-     */
-    boolean setDateClosed(LocalDate dateClosed);
-
-    /**
-     *
-     * @param departmentID
-     */
-    void setDepartmentID(int departmentID);
-
-    /**
-     * Sets the first name of the citizen associated with the case.
-     * @param firstName the first name of the citizen.
-     */
-    void setFirstName(String firstName);
-
-    /**
-     * Sets the case inquiry message.
-     * @param inquiry inquiry message to department.
-     */
-    void setInquiry(String inquiry);
-
-    /**
-     * Sets the main body text of the case.
-     * @param mainBody main body text of case.
-     */
-    void setMainBody(String mainBody);
-
-    /**
-     * Sets case type.
-     * @param type type of case.
-     */
-    void setType(String type);
+    String getUsername();
     
 }
