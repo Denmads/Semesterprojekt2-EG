@@ -1,4 +1,3 @@
-
 package logic;
 
 import acquaintance.ILogic;
@@ -16,18 +15,15 @@ import persistence.PersistenceFacade;
  */
 public class GetCasesTest {
 
- 
-    
     ILogic logic = new LogicFacade();
     IPersistence persistence = new PersistenceFacade();
-    
-    
+
     @Before
-    public void before(){
+    public void before() {
         logic.injectPersistence(persistence);
     }
-    
-     /**
+
+    /**
      * Test of getCases method, of class LogicFacade.
      */
     @Test
@@ -37,17 +33,16 @@ public class GetCasesTest {
         ArrayList<Case> result = logic.getCases();
         assertNotNull(result);
         logic.logout();
-        
     }
-    
-        @Test
-        public void testGetCasesNoCases() {
+
+    @Test
+    public void testGetCasesNoCases() {
         logic.login("passwordtest", "change");
         System.out.println("When no cases are present");
         ArrayList<Case> result = logic.getCases();
         ArrayList<Case> expResult = null;
         assertEquals(expResult, result);
-        
+
     }
-    
+
 }
