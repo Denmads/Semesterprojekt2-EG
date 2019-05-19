@@ -1,7 +1,6 @@
 package logic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * The User class is a representation of the signed in user. A user object is to
@@ -9,7 +8,7 @@ import java.util.Arrays;
  * 
  * @author Morten Kargo Lyngesen
  */
-public class User {
+public class User implements UserInterface {
     private final String userID;
     private final String username;
     private final String firstName;
@@ -31,6 +30,7 @@ public class User {
     /**
      * @return the users id
      */
+    @Override
     public String getUserID() {
         return this.userID;
     }
@@ -38,6 +38,7 @@ public class User {
     /**
      * @return the users username
      */
+    @Override
     public String getUsername() {
         return this.username;
     }
@@ -45,6 +46,7 @@ public class User {
     /**
      * @return the users first name
      */
+    @Override
     public String getFirstName() {
         return this.firstName;
     }
@@ -52,6 +54,7 @@ public class User {
     /**
      * @return the users last name
      */
+    @Override
     public String getLastName() {
         return this.lastName;
     }
@@ -59,6 +62,7 @@ public class User {
     /**
      * @return the users assigned type
      */
+    @Override
     public int getUserType() {
         return this.userType;
     }
@@ -66,6 +70,7 @@ public class User {
     /**
      * @return all the departments the current user is a member of.
      */
+    @Override
     public ArrayList<Long> getDepartments(){
         return departments;
     }

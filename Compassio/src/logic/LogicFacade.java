@@ -6,7 +6,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +17,7 @@ import java.util.logging.Logger;
 public class LogicFacade implements ILogic {
 
     private static IPersistence persistence;
-    private User user;
+    private UserInterface user;
     private UserType userType;
 
     
