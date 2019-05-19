@@ -49,7 +49,7 @@ public class SaveCaseTest {
         UUID caseID = null;
         long cprNumber = 0L;
         String type = "";
-        String mainBody = "";
+        String mainBody = "";   
         LocalDate dateCreated = null;
         LocalDate dateClosed = null;
         int departmentID = 0;

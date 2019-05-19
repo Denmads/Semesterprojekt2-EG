@@ -4,6 +4,7 @@ package logic;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -11,6 +12,16 @@ import org.junit.Test;
  * @author bentw
  */
 public class GetCaseTest {
+
+    private Object result;
+    
+    
+    @Before
+    public void before(){
+               LogicFacade instance = new LogicFacade();
+        instance.login("case", "password");
+         ArrayList<Case> result = instance.getCases();
+    }
     
      /**
      * Test of getCases method, of class LogicFacade.
@@ -18,9 +29,7 @@ public class GetCaseTest {
     @Test
     public void testGetCases() {
         System.out.println("getCases");
-        LogicFacade instance = new LogicFacade();
         ArrayList<Case> expResult = null;
-        ArrayList<Case> result = instance.getCases();
         assertEquals(expResult, result);
         
     }
