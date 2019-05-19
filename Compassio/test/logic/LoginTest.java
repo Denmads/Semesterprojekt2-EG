@@ -1,8 +1,10 @@
 
 package logic;
 
+import logic.LogicFacade;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -11,35 +13,39 @@ import org.junit.Test;
  */
 public class LoginTest {
 
-    private User admin;
+    
+    @Before
+    public void before(){
+        LogicFacade instance = new LogicFacade();
+    }
+    
+    
     
      /**
      * Test of login method, of class LogicFacade.
      */
+        @Test
+    public void testWrongPassword(){
+        System.out.println("Wrong password");
+        String username = "admin";
+        String password = "";
+        boolean expectedResult = false;
+        boolean failedResult = instance.login(username, password);
+        assertEquals(expectedResult, failedResult);
+    }
+    
     @Test
     public void testCorrectLogin() {
         System.out.println("Correct login");
-        String username = "case";
+        String username = "casetest";
         String password = "password";
-        LogicFacade instance = new LogicFacade();
         boolean expResult = true;
         boolean result = instance.login(username, password);
         assertEquals(expResult, result);
 
     }
     
-    @Test
-    public void testWrongPassword(){
-        System.out.println("Wrong password");
-        User user = admin;
-        
-        String username = "admin";
-        String password = "";
-        LogicFacade failedInstance = new LogicFacade();
-        boolean expectedResult = false;
-        boolean failedResult = failedInstance.login(username, password);
-        assertEquals(expectedResult, failedResult);
-    }
+
     
     
 }

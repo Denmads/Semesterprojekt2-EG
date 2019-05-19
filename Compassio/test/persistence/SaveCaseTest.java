@@ -3,6 +3,7 @@ package persistence;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import logic.LogicFacade;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.Before;
@@ -14,12 +15,11 @@ import org.junit.Test;
  */
 public class SaveCaseTest {
 
-    private UUID beb46cb10f1542cba94295b116fa53f6;
-    
-    
-    @Before
+        @Before
     public void before(){
-        UUID testUUID = beb46cb10f1542cba94295b116fa53f6;
+        LogicFacade instance = new LogicFacade();
+        instance.login("case", "password");
+
     }
     
      /**
