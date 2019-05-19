@@ -1,11 +1,12 @@
 
 package persistence;
 
+import acquaintance.ILogic;
+import acquaintance.IPersistence;
 import java.time.LocalDate;
 import java.util.UUID;
 import logic.LogicFacade;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,11 +16,13 @@ import org.junit.Test;
  */
 public class SaveCaseTest {
 
-    LogicFacade instance = new LogicFacade();
+    ILogic logic = new LogicFacade();
+    IPersistence persistence = new PersistenceFacade();
     
         @Before
     public void before(){
-        instance.login("case", "password");
+        logic.injectPersistence(persistence);
+        logic.login("case", "password");
 
     }
     
@@ -46,7 +49,7 @@ public class SaveCaseTest {
 
     @Test
     public void testSaveCase() {
-        System.out.println("saveCase");
+        System.out.println("save Case");
         UUID caseID = null;
         long cprNumber = 0L;
         String type = "";

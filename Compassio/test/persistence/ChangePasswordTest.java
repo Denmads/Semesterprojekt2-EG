@@ -1,9 +1,11 @@
 
 package persistence;
 
+import acquaintance.ILogic;
+import acquaintance.IPersistence;
 import logic.LogicFacade;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,12 +15,21 @@ import org.junit.Test;
  */
 public class ChangePasswordTest {
 
-    LogicFacade instance = new LogicFacade();
+    ILogic logic = new LogicFacade();
+    IPersistence persistence = new PersistenceFacade();
     
     @Before
     public void before(){
-        instance.login("passwordtest", "password");
+        logic.injectPersistence(persistence);
+        logic.login("passwordtest", "change");
 
+    }
+    
+    @After
+    public void after(){
+        logic.injectPersistence(persistence);
+        logic.login("passwordtest", "password");
+        logic.changePassword("change", "password");
     }
 
     /**
@@ -28,20 +39,20 @@ public class ChangePasswordTest {
     @Test
     public void testChangePasswordFail() {
         System.out.println("changePasswordFail");
-        String newPassword = "change";
+        String newPassword = "changes";
         String oldPassword = "notthis";
         boolean expResult = false;
-        boolean result = instance.changePassword(newPassword, oldPassword);
+        boolean result = logic.changePassword(newPassword, oldPassword);
         assertEquals(expResult, result);
     }
     
         @Test
     public void testChangePassword() {
         System.out.println("change Password test");
-        String newPassword = "change";
-        String oldPassword = "password";
+        String newPassword = "password";
+        String oldPassword = "change";
         boolean expResult = true;
-        boolean result = instance.changePassword(newPassword, oldPassword);
+        boolean result = logic.changePassword(newPassword, oldPassword);
         assertEquals(expResult, result);
 
     }

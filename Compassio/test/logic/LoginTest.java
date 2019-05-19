@@ -1,10 +1,12 @@
 
 package logic;
 
+import acquaintance.ILogic;
+import acquaintance.IPersistence;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
+import persistence.PersistenceFacade;
 
 /**
  *
@@ -12,7 +14,13 @@ import org.junit.Test;
  */
 public class LoginTest {
 
-    LogicFacade instance = new LogicFacade();
+    ILogic logic = new LogicFacade();
+    IPersistence persistence = new PersistenceFacade();
+        
+    @Before
+    public void before(){
+    logic.injectPersistence(persistence);
+    }
     
      /**
      * Test of login method, of class LogicFacade.
@@ -20,11 +28,12 @@ public class LoginTest {
     
     @Test
     public void testWrongPassword(){
+
         System.out.println("Wrong password");
         String username = "admin";
         String password = "";
         boolean expectedResult = false;
-        boolean failedResult = instance.login(username, password);
+        boolean failedResult = logic.login(username, password);
         assertEquals(expectedResult, failedResult);
     }
     
@@ -34,7 +43,7 @@ public class LoginTest {
         String username = "casetest";
         String password = "password";
         boolean expResult = true;
-        boolean result = instance.login(username, password);
+        boolean result = logic.login(username, password);
         assertEquals(expResult, result);
 
     }
