@@ -13,14 +13,15 @@ import org.junit.Test;
  */
 public class GetCaseTest {
 
-    private Object result;
+ 
+    
+    LogicFacade instance = new LogicFacade();
+
     
     
     @Before
     public void before(){
-               LogicFacade instance = new LogicFacade();
         instance.login("case", "password");
-         ArrayList<Case> result = instance.getCases();
     }
     
      /**
@@ -29,6 +30,7 @@ public class GetCaseTest {
     @Test
     public void testGetCases() {
         System.out.println("getCases");
+        ArrayList<Case> result = instance.getCases();
         ArrayList<Case> expResult = null;
         assertEquals(expResult, result);
         

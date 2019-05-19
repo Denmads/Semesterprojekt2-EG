@@ -15,9 +15,10 @@ import org.junit.Test;
  */
 public class SaveCaseTest {
 
+    LogicFacade instance = new LogicFacade();
+    
         @Before
     public void before(){
-        LogicFacade instance = new LogicFacade();
         instance.login("case", "password");
 
     }

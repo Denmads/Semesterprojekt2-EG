@@ -13,11 +13,10 @@ import org.junit.Test;
  */
 public class ChangePasswordTest {
 
-    private Object instance;
+    LogicFacade instance = new LogicFacade();
     
-        @Before
+    @Before
     public void before(){
-        LogicFacade instance = new LogicFacade();
         instance.login("passwordtest", "password");
 
     }

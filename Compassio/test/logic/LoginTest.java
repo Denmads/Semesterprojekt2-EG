@@ -12,17 +12,12 @@ import org.junit.Test;
  */
 public class LoginTest {
 
-    
-    @Before
-    public void before(){
-        LogicFacade instance = new LogicFacade();
-    }
-    
-    
+    LogicFacade instance = new LogicFacade();
     
      /**
      * Test of login method, of class LogicFacade.
      */
+    
     @Test
     public void testWrongPassword(){
         System.out.println("Wrong password");
