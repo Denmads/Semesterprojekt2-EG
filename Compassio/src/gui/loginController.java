@@ -15,10 +15,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -45,6 +48,8 @@ public class loginController implements Initializable {
     private Label label_check;
     @FXML
     private VBox loadingOverlay;
+    @FXML
+    private Button nextButton;
 
     /**
      * Initializes the controller class.
@@ -53,6 +58,7 @@ public class loginController implements Initializable {
         visible();
         password_passwordsFiled.setPromptText("Din adgangskode");
         user_textfield.setPromptText("Dit brugernavn");
+        nextButton.requestFocus();
     }
 
     @FXML
@@ -71,6 +77,13 @@ public class loginController implements Initializable {
         start_grid.setVisible(true);
         login_grid.setVisible(false);
         loadingOverlay.setVisible(false);
+    }
+    
+    @FXML
+    private void checkKey (KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            start_button(null);
+        }
     }
 
     @FXML

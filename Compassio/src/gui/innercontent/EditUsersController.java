@@ -193,6 +193,7 @@ public class EditUsersController implements Initializable {
         String pass = (result.isPresent() ? result.get() : null);
         
         while (result.isPresent() && (pass == null || !GUIrun.getLogic().checkUserPassword(pass))) {
+            confirmDialog.setHeaderText("FORKERT ADGANGSKODE! Indtast administrator adgangskode, for at oprette bruger!");
             result = confirmDialog.showAndWait();
             pass = (result.isPresent() ? result.get() : null);
         }

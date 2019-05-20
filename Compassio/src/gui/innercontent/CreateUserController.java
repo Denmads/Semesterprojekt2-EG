@@ -94,6 +94,7 @@ public class CreateUserController implements Initializable {
             String pass = (result.isPresent() ? result.get() : null);
 
             while (result.isPresent() && (pass == null || !GUIrun.getLogic().checkUserPassword(pass))) {
+                confirmDialog.setHeaderText("FORKERT ADGANGSKODE! Indtast administrator adgangskode, for at oprette bruger!");
                 result = confirmDialog.showAndWait();
                 pass = (result.isPresent() ? result.get() : null);
             }
@@ -118,8 +119,8 @@ public class CreateUserController implements Initializable {
             return false;
         }
         
-        if (txtPassword.getText().length() < 4) {
-            errorLabel.setText("Koden skal minimum være 4 tegn!");
+        if (txtPassword.getText().length() < 8) {
+            errorLabel.setText("Koden skal minimum være 8 tegn!");
             errorLabel.setTextFill(Color.RED);
             return false;
         }
