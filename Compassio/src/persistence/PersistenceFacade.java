@@ -29,6 +29,7 @@ public class PersistenceFacade implements IPersistence {
     //Data Access Objects
     private final UserDAO userDao;
     private final CaseDAO caseDao;
+    private final DepartmentDAO departmentDao;
 
     public PersistenceFacade() {
         //Configure connection pool
@@ -41,6 +42,7 @@ public class PersistenceFacade implements IPersistence {
 
         userDao = new UserDAO(this.connectionPool);
         caseDao = new CaseDAO(this.connectionPool);
+        departmentDao = new DepartmentDAO(this.connectionPool);
     }
     
     //==========================================================================
@@ -76,15 +78,18 @@ public class PersistenceFacade implements IPersistence {
     public ArrayList<String[]> getCasesByDepartment(long departmentID) {
         return this.caseDao.getCasesByDepartment(departmentID);
     }
-
+    
+    //==========================================================================
+    // Department methods
+    //==========================================================================
     @Override
     public ArrayList<String> getDepartments() {
-        return this.caseDao.getDepartments();
+        return this.departmentDao.getDepartments();
     }
 
     @Override
     public String getDepartmentNameById(int departmentId) {
-        return this.caseDao.getDepartmentNameById(departmentId);
+        return this.departmentDao.getDepartmentNameById(departmentId);
     }
 
     //==========================================================================

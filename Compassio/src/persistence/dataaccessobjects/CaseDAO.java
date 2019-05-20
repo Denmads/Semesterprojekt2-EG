@@ -185,40 +185,4 @@ public class CaseDAO {
             Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public ArrayList<String> getDepartments() {
-        ArrayList<String> departments = new ArrayList<>();
-        try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("SELECT departmentid, name FROM Department")) {
-            ResultSet tuples = statement.executeQuery();
-            while (tuples.next()) {
-                if (tuples.getLong(1) != -1) {
-                    String departmentInfo = tuples.getLong(1) + " " + tuples.getString(2);
-                    departments.add(departmentInfo);
-                } else {
-                    String departmentInfo = tuples.getLong(1) + " " + "Ukendt";
-                    departments.add(departmentInfo);
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return departments;
-    }
-
-    public String getDepartmentNameById(int departmentId) {
-        try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("SELECT name FROM department WHERE departmentid=?")) {
-            statement.setInt(1, departmentId);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next() == false) {
-                return null;
-            } else {
-                return rs.getString(1);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
 }
