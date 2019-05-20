@@ -43,6 +43,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -101,17 +103,17 @@ public class MainController implements Initializable {
     private void loadButtons () {
         try {
             //Buttons
-            Button btnCreateCase = createButton("Opret sag", "createCase");
-            Button btnSeeCases = createButton("Se sager", "seeCases");
-            Button btnChangePassword = createButton("Ændre password", "changePassword");
-            Button btnCreateUser = createButton("Opret bruger", "createUser");
-            Button btnEditUsers = createButton("Rediger brugere", "editUsers");
+            Button btnCreateCase = createButton("Opret sag", "createCase", "O");
+            Button btnSeeCases = createButton("Se sager", "seeCases", "S");
+            Button btnChangePassword = createButton("Ændre password", "changePassword", "P");
+            Button btnCreateUser = createButton("Opret bruger", "createUser", "B");
+            Button btnEditUsers = createButton("Rediger brugere", "editUsers", "R");
             
             //Won't do buttons
-            Button btnPlanning = createButton("Planlægning", null);
-            Button btnDiary = createButton("Dagbog", null);
-            Button btnSeeInformation = createButton("Se Oplysninger", null);
-            Button btnRequestCase = createButton("Anmod om sag", null);
+            Button btnPlanning = createButton("Planlægning", null, null);
+            Button btnDiary = createButton("Dagbog", null, null);
+            Button btnSeeInformation = createButton("Se Oplysninger", null, null);
+            Button btnRequestCase = createButton("Anmod om sag", null, null);
             
             String type = GUIrun.getLogic().getUserType();
             
@@ -128,7 +130,7 @@ public class MainController implements Initializable {
                 buttons.getChildren().addAll(btnSeeInformation, btnRequestCase);
             }
             
-            Button btnLogout = createButton("Logout", null);
+            Button btnLogout = createButton("Logout", null, "L");
             btnLogout.setOnAction(event -> {
                 GUIrun.getLogic().logout();
                 try {
@@ -146,10 +148,11 @@ public class MainController implements Initializable {
         }
     }
     
-    private Button createButton (String text, String fxmlName) throws NoSuchMethodException {
+    private Button createButton (String text, String fxmlName, String shortcutKey) throws NoSuchMethodException {
             Button newBtn = new Button(text);
             newBtn.getStyleClass().add("btn");
             newBtn.setPrefWidth(130);
+            newBtn.setUserData(shortcutKey);
             
             if (fxmlName != null) {
                 newBtn.setOnAction(event -> {
@@ -164,11 +167,35 @@ public class MainController implements Initializable {
             return newBtn;
     }
     
-    
+    @FXML
+    private void keyPressed (KeyEvent event) {
+        if (event.getCode() == KeyCode.TAB) {
+            if (user_menu.isVisible()) {
+                user_menu_close(null);
+            }
+            else {
+                user_menu_open(null);
+            }
+        }
+        else {
+            
+            if (!user_menu.isVisible()) {
+                return;
+            }
+            
+            for (Node b : buttons.getChildren()) {
+                Button btn = (Button)b;
+                if (btn.getUserData() != null & KeyCode.getKeyCode((String)btn.getUserData()) == event.getCode()) {
+                    btn.fire();
+                }
+            }
+        }
+    }
 
     @FXML
     private void user_menu_close(MouseEvent event) {
         visibleMenu();
+        content.requestFocus();
     }
 
     @FXML
@@ -177,6 +204,7 @@ public class MainController implements Initializable {
         user_menu.setVisible(true);
         menu_click.setVisible(false);
         menu_close.setVisible(true);
+        content.requestFocus();
     }
 
     private void visibleMenu() {
@@ -195,11 +223,6 @@ public class MainController implements Initializable {
     private void close(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
-    }
-
-    @FXML
-    private void buttonBack(MouseEvent event) {
-        //are u sure u want to log out.. then cng.changeFXMLAction("/gui/login.fxml", event); or change to front page start_user_login.fxml
     }
     
     public void loadContent (String fxmlName) throws IOException {
