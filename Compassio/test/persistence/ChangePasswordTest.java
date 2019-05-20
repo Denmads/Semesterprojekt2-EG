@@ -38,7 +38,7 @@ public class ChangePasswordTest {
 
     @Test
     public void testChangePasswordFail() {
-        System.out.println("changePasswordFail");
+        System.out.println("Testing when changing password fails");
         String newPassword = "changes";
         String oldPassword = "notthis";
         boolean expResult = false;
@@ -48,7 +48,7 @@ public class ChangePasswordTest {
     
         @Test
     public void testChangePassword() {
-        System.out.println("change Password test");
+        System.out.println("Testing succesful password change");
         String newPassword = "password";
         String oldPassword = "change";
         boolean expResult = true;
