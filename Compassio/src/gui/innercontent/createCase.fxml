@@ -121,7 +121,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </padding>
                     <children>
-                        <Label prefHeight="21.0" prefWidth="100.0" text="SocialArbejdere">
+                        <Label prefHeight="21.0" prefWidth="100.0" text="Sagsbehandler">
                             <font>
                                 <Font size="12.0" />
                             </font>
