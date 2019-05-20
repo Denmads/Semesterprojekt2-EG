@@ -100,9 +100,8 @@ public class CaseController implements Initializable {
 
             cancelButton.setVisible(true);
         } else if (editButton.getText().equals("Gem")) {
-
+            saveCase();
             if (currentCase.saveCase()) {
-                saveCase();
                 editButton.setText("Rediger");
                 editableFields.forEach(nodes -> {
                     nodes.setDisable(true);

@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" style="-fx-border-color: #515151; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
+<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1024.0" style="-fx-border-color: #515151; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.loginController">
     <children>
         <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="1024.0" style="-fx-background-color: #2899C2;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -119,7 +119,7 @@
                 </ImageView>
             </children>
         </GridPane>
-        <GridPane fx:id="start_grid" layoutY="36.0" prefHeight="600.0" prefWidth="1024.0" visible="false">
+        <GridPane fx:id="start_grid" layoutY="36.0" onKeyPressed="#checkKey" prefHeight="600.0" prefWidth="1024.0" visible="false">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -141,7 +141,7 @@
                         <Insets />
                     </GridPane.margin>
                 </ImageView>
-                <Button mnemonicParsing="false" onAction="#start_button" prefWidth="100.0" styleClass="btn" stylesheets="@css/Stylesheet.css" text="Log ind" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                <Button fx:id="nextButton" mnemonicParsing="false" onAction="#start_button" prefWidth="100.0" styleClass="btn" stylesheets="@css/Stylesheet.css" text="Log ind" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                     <font>
                         <Font name="System Bold Italic" size="12.0" />
                     </font>

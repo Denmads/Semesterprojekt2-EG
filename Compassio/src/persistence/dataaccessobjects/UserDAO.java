@@ -13,7 +13,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
  *
- * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
+ * @author Morten Kargo Lyngesen
  */
 public class UserDAO {
 
@@ -43,18 +43,28 @@ public class UserDAO {
         }
     }
 
-    public void createUser(String userName, String firstName, String lastName, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public void createUser(String userName, String firstName, String lastName, String password, int typeid, int departmentid) throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] salt = PasswordTool.generateSalt();
         try (
                 final Connection db = connectionPool.getConnection();
-                final PreparedStatement statement = db.prepareStatement("INSERT INTO people VALUES (?, ?, ?, ?, ?, ?)")) {
-            statement.setLong(1, 1L);
-            statement.setString(2, userName);
-            statement.setString(3, firstName);
-            statement.setString(4, lastName);
-            statement.setBytes(5, PasswordTool.hashPassword(password, salt));
-            statement.setBytes(6, salt);
+                final PreparedStatement statement = db.prepareStatement("INSERT INTO people(firstname, lastname, username, hashedpassword, salt, typeid, inactive) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                final PreparedStatement relationStatement = db.prepareStatement("INSERT INTO employeesofdepartment VALUES (?, ?)")) {
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, userName);
+            statement.setBytes(4, PasswordTool.hashPassword(password, salt));
+            statement.setBytes(5, salt);
+            statement.setInt(6, typeid);
+            statement.setBoolean(7, false);
             statement.executeUpdate();
+            
+            ResultSet key = statement.getGeneratedKeys();
+            
+            if (key.next()) {
+                relationStatement.setLong(1, departmentid);
+                relationStatement.setLong(2, key.getLong(1));
+                relationStatement.execute();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

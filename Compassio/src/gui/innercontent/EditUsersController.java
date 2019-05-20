@@ -149,7 +149,7 @@ public class EditUsersController implements Initializable {
         dia.setTitle("Bekræft adgangskode");
         dia.setHeaderText("Indtast administrator adgangskode, for at gemme ændringer");
         
-        ButtonType confirmBtn = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
+        ButtonType confirmBtn = new ButtonType("Bekræft", ButtonBar.ButtonData.OK_DONE);
         dia.getDialogPane().getButtonTypes().addAll(confirmBtn, ButtonType.CANCEL);
         
         GridPane grid = new GridPane();
@@ -158,8 +158,8 @@ public class EditUsersController implements Initializable {
         grid.setPadding(new Insets(20, 150, 10, 10));
 
         password = new PasswordField();
-        password.setPromptText("Password");
-        grid.add(new Label("Password:"), 0, 1);
+        password.setPromptText("Adgangskode");
+        grid.add(new Label("Adgangskode:"), 0, 1);
         grid.add(password, 1, 1);
         
         dia.getDialogPane().setContent(grid);
@@ -193,6 +193,7 @@ public class EditUsersController implements Initializable {
         String pass = (result.isPresent() ? result.get() : null);
         
         while (result.isPresent() && (pass == null || !GUIrun.getLogic().checkUserPassword(pass))) {
+            confirmDialog.setHeaderText("FORKERT ADGANGSKODE! Indtast administrator adgangskode, for at oprette bruger!");
             result = confirmDialog.showAndWait();
             pass = (result.isPresent() ? result.get() : null);
         }

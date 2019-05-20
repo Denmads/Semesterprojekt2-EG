@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * A utillity class, for representing all usertypes in the database, converting between id and name
  * 
- * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
+ * @author Morten Kargo Lyngesen
  */
 public class UserType {
     

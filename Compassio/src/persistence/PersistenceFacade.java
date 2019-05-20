@@ -14,7 +14,7 @@ import persistence.dataaccessobjects.*;
  * Provides a facade to interact with the database through Data Access Objects.
  *
  * @author Peterzxcvbnm
- * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
+ * @author Morten Kargo Lyngesen
  */
 public class PersistenceFacade implements IPersistence {
 
@@ -42,7 +42,7 @@ public class PersistenceFacade implements IPersistence {
         userDao = new UserDAO(this.connectionPool);
         caseDao = new CaseDAO(this.connectionPool);
     }
-
+    
     //==========================================================================
     // Case methods
     //==========================================================================
@@ -96,8 +96,8 @@ public class PersistenceFacade implements IPersistence {
     }
 
     @Override
-    public void createUser(String userName, String firstName, String lastName, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        this.userDao.createUser(userName, firstName, lastName, password);
+    public void createUser(String userName, String firstName, String lastName, String password, int typeid, int departmentid) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        this.userDao.createUser(userName, firstName, lastName, password, typeid, departmentid);
     }
 
     @Override

@@ -126,10 +126,21 @@ public interface ILogic {
     public Boolean changePassword(String newPassword, String oldPassword);
     
     /**
-     * Mathod to update the role and inactive state of a user
+     * Method to update the role and inactive state of a user
      * @param userID The id of the user to update
      * @param newRole The new role of the user
      * @param newInactiveState the state of the user
      */
     public void updateUserState (long userID, String newRole, boolean newInactiveState);
+    
+    /**
+     * Method for creating a new user in the system
+     * @param firstName The first name of the user
+     * @param lastName The last name of the user
+     * @param username The username of the user
+     * @param password The password of the user
+     * @param type The type of the user
+     * @param departmentid The department of the user
+     */
+    public void createUser(String firstName, String lastName, String username, String password, String type, int departmentid);
 }

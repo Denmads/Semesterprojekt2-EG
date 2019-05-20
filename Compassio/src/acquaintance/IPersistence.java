@@ -12,7 +12,7 @@ import java.util.UUID;
  * updating, and deleting data.
  *
  * @author Peterzxcvbnm
- * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
+ * @author Morten Kargo Lyngesen
  */
 public interface IPersistence {
     
@@ -56,10 +56,12 @@ public interface IPersistence {
      * @param firstName users first name
      * @param lastName users last name
      * @param password password to hash and add to database
+     * @param typeid the id of the type of the user
+     * @param departmentid the id of the department to which the user is connected
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
      */
-    public void createUser(String userName, String firstName, String lastName, String password) throws NoSuchAlgorithmException, InvalidKeySpecException;
+    public void createUser(String userName, String firstName, String lastName, String password, int typeid, int departmentid) throws NoSuchAlgorithmException, InvalidKeySpecException;
 
     /**
      * Returns a list of departments associated with a user.

@@ -104,7 +104,7 @@ public class MainController implements Initializable {
             Button btnCreateCase = createButton("Opret sag", "createCase");
             Button btnSeeCases = createButton("Se sager", "seeCases");
             Button btnChangePassword = createButton("Ændre password", "changePassword");
-            Button btnCreateUser = createButton("Opret bruger", null);
+            Button btnCreateUser = createButton("Opret bruger", "createUser");
             Button btnEditUsers = createButton("Rediger brugere", "editUsers");
             
             //Won't do buttons
