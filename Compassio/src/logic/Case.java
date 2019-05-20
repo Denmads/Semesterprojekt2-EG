@@ -269,6 +269,7 @@ public class Case implements CaseInterface {
      *
      * @return
      */
+    @Override
     public boolean saveCase() {
         return LogicFacade.getPersistence().saveCase(caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
     }
@@ -276,6 +277,7 @@ public class Case implements CaseInterface {
     /**
      *
      */
+    @Override
     public void addPatientToDatabase() {
         LogicFacade.getPersistence().insertNewPatient(cprNumber, firstName, lastName);
     }
