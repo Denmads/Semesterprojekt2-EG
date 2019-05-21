@@ -149,4 +149,12 @@ public class Case {
     public void addPatientToDatabase(){
         LogicFacade.getPersistence().insertNewPatient(cprNumber, firstName, lastName);
     }
+
+    public boolean compareTo(Case c) {
+    boolean mainBodyEquals =(mainBody !=null ?mainBody.equals(c.mainBody) : mainBody ==c.mainBody );
+    boolean dateClosedEquals =(dateClosed !=null ?dateClosed.equals(c.dateClosed) : dateClosed == c.dateClosed );
+    boolean inquiryEquals =(inquiry !=null ?inquiry.equals(c.inquiry) : inquiry == c.inquiry );
+    
+    return firstName.equals(c.firstName)&&lastName.equals(c.lastName)&&caseID.equals(c.caseID)&&cprNumber ==c.cprNumber&&type.equals(c.type)&& mainBodyEquals &&dateCreated.equals(c.dateCreated)&&dateClosedEquals&&departmentID == c.departmentID &&inquiryEquals;
+    }
 }

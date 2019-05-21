@@ -29,7 +29,7 @@ public class LoginTest {
     @Test
     public void testWrongPassword(){
 
-        System.out.println("esting login in with wrong password");
+        System.out.println("Testing login in with wrong password");
         String username = "admin";
         String password = "";
         boolean expectedResult = false;

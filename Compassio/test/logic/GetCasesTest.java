@@ -37,7 +37,7 @@ public class GetCasesTest {
         logic.login("casetest", "password");
         ArrayList<Case> cases = logic.getCases();
         Case testControl = cases.get(0);
-        assertSame(testControl, tested);
+        assertSame(testControl.compareTo(tested), true);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class GetCasesTest {
         logic.login("casetest", "password");
         ArrayList<Case> cases = logic.getCases();
         Case testControl = cases.get(0);
-        assertNotEquals(testControl, tested);
+        assertSame(testControl.compareTo(tested), false);
 
     }
 

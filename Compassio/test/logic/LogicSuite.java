@@ -13,7 +13,7 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
     LoginTest.class,
-   // GetCaseTest.class
+    GetCasesTest.class
 })
 
 public class LogicSuite {
