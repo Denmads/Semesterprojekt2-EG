@@ -11,17 +11,19 @@ import java.util.List;
 public interface DataAccessObject {
 
     /**
-     *
-     * @param id
-     * @return
+     * Returns the entry that matches the given ID. If none exists returns 
+     * <code>null</code>.
+     * @param id id of the element to get
+     * @return the element with specified id.
      */
-    String[] get (long id);
+    String[] get (String ... id);
 
     /**
-     *
-     * @return
+     * Returns all entries that satisfy the condition(s)
+     * @param cond condition(s) that entries must satisfy
+     * @return all entries that satisfy the conditions
      */
-    List <String[]> getAll();
+    List <String[]> getAll(String ... cond);
 
     /**
      *

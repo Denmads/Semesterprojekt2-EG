@@ -6,9 +6,9 @@ package logic;
  * @author madsh
  */
 public class UserInfo {
-    private long id;
-    private String username;
-    private String name;
+    private final long id;
+    private final String username;
+    private final String name;
     private String type;
     private boolean inactive;
 
@@ -37,7 +37,7 @@ public class UserInfo {
     }
 
     /**
-     * Gets wether the users is currently inactive
+     * Gets whether or not the users is currently inactive
      * @return The state of the user
      */
     public boolean isInactive() {

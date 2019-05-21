@@ -21,28 +21,12 @@ public class DepartmentDAO implements DataAccessObject {
     public DepartmentDAO(BasicDataSource connectionPool) {
         this.connectionPool = connectionPool;
     }
-
-    public String getDepartmentNameById(int departmentId) {
-        try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("SELECT name FROM department WHERE departmentid=?")) {
-            statement.setInt(1, departmentId);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next() == false) {
-                return null;
-            } else {
-                return rs.getString(1);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
+    
     @Override
-    public String[] get(long id) {
+    public String[] get(String ... id) {
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("SELECT * FROM department WHERE departmentid=?")) {
-            statement.setInt(1, (int) id);
+            statement.setInt(1, (int) Integer.parseInt(id[0]));
             ResultSet rs = statement.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
             int columnLength = rsmd.getColumnCount();
@@ -62,7 +46,7 @@ public class DepartmentDAO implements DataAccessObject {
     }
 
     @Override
-    public ArrayList getAll() {
+    public ArrayList getAll(String ... cond) {
         ArrayList<String> departments = new ArrayList<>();
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("SELECT departmentid, name FROM Department")) {

@@ -30,6 +30,8 @@ public class PersistenceFacade implements IPersistence {
     private final UserDAO userDao;
     private final CaseDAO caseDao;
     private final DepartmentDAO departmentDao;
+    private final CaseTypeRelationDAO caseTypeRelationDao;
+    private final CprDAO cprDao;
 
     public PersistenceFacade() {
         //Configure connection pool
@@ -39,10 +41,13 @@ public class PersistenceFacade implements IPersistence {
         connectionPool.setDriverClassName("org.postgresql.Driver");
         connectionPool.setUrl(this.dbIP);
         connectionPool.setInitialSize(10);
-
+        
+        //Initialize DAO's
         userDao = new UserDAO(this.connectionPool);
         caseDao = new CaseDAO(this.connectionPool);
         departmentDao = new DepartmentDAO(this.connectionPool);
+        caseTypeRelationDao = new CaseTypeRelationDAO(this.connectionPool);
+        cprDao = new CprDAO(this.connectionPool);
     }
     
     //==========================================================================
@@ -50,7 +55,13 @@ public class PersistenceFacade implements IPersistence {
     //==========================================================================
     @Override
     public ArrayList<String> retrieveCaseTypeNames() {
-        return this.caseDao.retrieveCaseTypeNames();
+        ArrayList<String[]> result = (ArrayList<String[]>) this.caseTypeRelationDao.getAll();
+        Long[] array = departments.toArray(new String[result.size()]);
+        String[] data = new String[departments.size()];
+        for (int i = 0; i < departments.size(); i++) {
+            data[i] = Long.toString(array[i]);
+        }
+        return this.caseTypeRelationDao.getAll().toArray(new String[result.size()]);
     }
 
     @Override
@@ -71,7 +82,7 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public void insertNewPatient(long cpr, String firstName, String lastName) {
-        this.caseDao.insertNewPatient(cpr, firstName, lastName);
+        this.cprDao.create(new String[]{Long.toString(cpr), firstName, lastName});
     }
 
     @Override
@@ -89,11 +100,11 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public String getDepartmentNameById(int departmentId) {
-        return this.departmentDao.getDepartmentNameById(departmentId);
+        return this.departmentDao.get(Integer.toString(departmentId))[1];
     }
     
     public String[] getDepartment(int departmentId) {
-        return this.departmentDao.get((int) departmentId);
+        return this.departmentDao.get(Integer.toString(departmentId));
     }
 
     //==========================================================================
@@ -111,7 +122,7 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public String[] getUser(String username, String password) {
-        return this.userDao.getUser(username, password);
+        return this.userDao.get(new String[]{username, password});
     }
 
     @Override
@@ -131,7 +142,12 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public ArrayList<String[]> getAllUsers(ArrayList<Long> departments) {
-        return this.userDao.getAllUsers(departments);
+        Long[] array = departments.toArray(new Long[departments.size()]);
+        String[] data = new String[departments.size()];
+        for (int i = 0; i < departments.size(); i++) {
+            data[i] = Long.toString(array[i]);
+        }
+        return (ArrayList<String[]>) this.userDao.getAll(data);
     }
     
     @Override

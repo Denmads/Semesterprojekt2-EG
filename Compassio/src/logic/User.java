@@ -14,7 +14,7 @@ public class User implements UserInterface {
     private final String firstName;
     private final String lastName;
     private final int userType;
-    private ArrayList<Long> departments;
+    private final ArrayList<Long> departments;
 
     
     public User (String userID, String username, String firstName, 

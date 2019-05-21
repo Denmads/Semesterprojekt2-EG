@@ -203,36 +203,6 @@ public class UserDAO implements DataAccessObject {
         return true;
     }
 
-    public ArrayList<String[]> getAllUsers(ArrayList<Long> departments) {
-        try (Connection db = connectionPool.getConnection();
-                PreparedStatement getUserType = db.prepareStatement("SELECT people.userid, username, firstname, lastname, typeid, inactive, departmentid FROM people NATURAL JOIN employeesofdepartment")) {
-
-            ResultSet rs = getUserType.executeQuery();
-
-            ArrayList<String[]> users = new ArrayList<>();
-
-            while (rs.next()) {
-                if (departments.contains(rs.getLong("departmentid"))) {
-                    String[] user = new String[]{
-                        rs.getLong("userid") + "",
-                        rs.getString("username"),
-                        rs.getString("firstname"),
-                        rs.getString("lastname"),
-                        rs.getInt("typeid") + "",
-                        rs.getBoolean("inactive") + ""
-                    };
-
-                    users.add(user);
-                }
-            }
-
-            return users;
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return new ArrayList<>();
-        }
-    }
-
     public void updateInfo(long userID, int role, boolean inactive) {
         try (
                 final Connection db = connectionPool.getConnection();
@@ -247,13 +217,78 @@ public class UserDAO implements DataAccessObject {
     }
 
     @Override
-    public String[] get(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public String[] get(String ... id) {
+        if (id.length != 2) {
+            return null;
+        }
+        String[] user = new String[5];
+        try (Connection db = connectionPool.getConnection();
+                PreparedStatement statement = db.prepareStatement("SELECT salt FROM people WHERE username=? AND inactive=false")) {
+            statement.setString(1, id[0]);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next() == false) {
+                return null;
+            } else {
+                byte[] salt = rs.getBytes("salt");
 
+                try (PreparedStatement checkStatement = db.prepareStatement("SELECT * FROM people WHERE username=? AND hashedpassword=?")) {
+                    checkStatement.setString(1, id[0]);
+                    checkStatement.setBytes(2, PasswordTool.hashPassword(id[1], salt));
+                    ResultSet res = checkStatement.executeQuery();
+                    if (res.next()) {
+                        user[0] = res.getString("userid");
+                        user[1] = res.getString("username");
+                        user[2] = res.getString("firstname");
+                        user[3] = res.getString("lastname");
+                        user[4] = this.getUserType(user[0]);
+                        return user;
+                    } else {
+                        return null;
+                    }
+                } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+                    Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    return null;
+                }
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    /**
+     * Returns all users that satisfy the condition(s)
+     * @param cond department ID's that the user must be associated with.
+     * @return all entries that satisfy the conditions
+     */
     @Override
-    public List<String[]> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<String[]> getAll(String... cond) {
+        try (Connection db = connectionPool.getConnection();
+                PreparedStatement getUserType = db.prepareStatement("SELECT people.userid, username, firstname, lastname, typeid, inactive, departmentid FROM people NATURAL JOIN employeesofdepartment")) {
+
+            ResultSet rs = getUserType.executeQuery();
+
+            ArrayList<String[]> users = new ArrayList<>();
+
+            while (rs.next()) {
+                if (Arrays.asList(cond).contains(Long.toString(rs.getLong("departmentid")))) {
+                    String[] user = new String[]{
+                        rs.getLong("userid") + "",
+                        rs.getString("username"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
+                        rs.getInt("typeid") + "",
+                        rs.getBoolean("inactive") + ""
+                    };
+                    users.add(user);
+                }
+            }
+            return users;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return new ArrayList<>();
+        }
     }
 
     @Override

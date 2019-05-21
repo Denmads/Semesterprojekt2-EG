@@ -22,18 +22,6 @@ public class CaseDAO implements DataAccessObject {
         this.connectionPool = connectionPool;
     }
 
-    public ArrayList<String> retrieveCaseTypeNames() {
-        ArrayList<String> types = new ArrayList<>();
-        try (Connection db = connectionPool.getConnection()) {
-            ResultSet result = db.prepareStatement("SELECT name FROM casetyperelation").executeQuery();
-            while (result.next()) {
-                types.add(result.getString("name"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return types;
-    }
 
     public boolean saveCase(UUID caseID, long cprNumber, String type,
             String mainBody, LocalDate dateCreated, LocalDate dateClosed, int departmentID, String inquiry) {
@@ -162,25 +150,13 @@ public class CaseDAO implements DataAccessObject {
         }
     }
 
-    public void insertNewPatient(long cpr, String firstName, String lastName) {
-        try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("INSERT INTO cpr VALUES (?, ?, ?)")) {
-            statement.setLong(1, cpr);
-            statement.setString(2, firstName);
-            statement.setString(3, lastName);
-            statement.execute();
-        } catch (SQLException ex) {
-            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     @Override
-    public String[] get(long id) {
+    public String[] get(String ... id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ArrayList<String[]> getAll() {
+    public ArrayList<String[]> getAll(String ... cond) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
