@@ -26,7 +26,7 @@ public class SaveCaseTest {
     @Before
     public void before() {
         logic.injectPersistence(persistence);
-        logic.login("case", "password");
+        logic.login("casetest", "password");
 
         ArrayList<Case> cases = logic.getCases();
         Case unchanged = cases.get(0);
@@ -39,7 +39,7 @@ public class SaveCaseTest {
 
     @Test
     public void testSaveCase() {
-        logic.login("case", "password");
+        logic.login("casetest", "password");
 
         ArrayList<Case> cases = logic.getCases();
         Case changed = cases.get(0);
