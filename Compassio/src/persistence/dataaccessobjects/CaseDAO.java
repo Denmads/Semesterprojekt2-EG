@@ -41,8 +41,8 @@ public class CaseDAO implements DataAccessObject {
                 PreparedStatement statement = db.prepareStatement("INSERT INTO socialcase VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT (caseid) DO UPDATE SET (mainbody, departmentid, inquiry, typeid, dateclosed) = (?, ?, ?, ?, ?)")) {
             statement.setString(1, caseID.toString());
             statement.setLong(2, cprNumber);
-            statement.setLong(8, getTypeID(db, type));
-            statement.setLong(12, getTypeID(db, type));
+            statement.setLong(8, getTypeID(type));
+            statement.setLong(12, getTypeID(type));
             statement.setString(3, mainBody);
             statement.setString(9, mainBody);
 
@@ -71,21 +71,9 @@ public class CaseDAO implements DataAccessObject {
         return false;
     }
 
-    private int checkForCaseID(Connection db, UUID caseID) {
-        try (PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(caseID) AS total FROM SocialCase WHERE caseID = ?")) {
-            existCheck.setString(1, caseID.toString());
-            ResultSet tuples = existCheck.executeQuery();
-            tuples.next();
-            return tuples.getInt("total");
-
-        } catch (SQLException ex) {
-            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 1;
-    }
-
-    private long getTypeID(Connection db, String type) {
-        try (PreparedStatement statement = db.prepareStatement("SELECT typeid FROM CaseTypeRelation WHERE name = ?")) {
+    private long getTypeID(String type) {
+        try (Connection db = connectionPool.getConnection();
+                PreparedStatement statement = db.prepareStatement("SELECT typeid FROM CaseTypeRelation WHERE name = ?")) {
             statement.setString(1, type);
             ResultSet tuples = statement.executeQuery();
             tuples.next();
