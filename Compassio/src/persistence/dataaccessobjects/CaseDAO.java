@@ -14,7 +14,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 /**
  * @author Morten Kargo Lyngesen
  */
-public class CaseDAO {
+public class CaseDAO implements DataAccessObject {
 
     private final BasicDataSource connectionPool;
 
@@ -184,5 +184,30 @@ public class CaseDAO {
         } catch (SQLException ex) {
             Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public String[] get(long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<String[]> getAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean create(String[] args) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean update(long id, String[] args) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean delete(long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

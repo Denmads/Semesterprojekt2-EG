@@ -65,6 +65,7 @@ public class LogicFacade implements ILogic {
             }
         } else if (this.user.getUserType() == this.userType.get("SOCIALWORKER")) {
             ArrayList<Long> departments = this.user.getDepartments();
+            
             ArrayList<String[]> cases = new ArrayList<>();
             departments.forEach(d -> {
                 cases.addAll(persistence.getCasesByDepartment(d));
@@ -90,7 +91,7 @@ public class LogicFacade implements ILogic {
     @Override
     public boolean login(String username, String password) {
         String[] result = this.persistence.getUser(username, password);
-
+        
         int userType = this.userType.get("UNKNOWN");
 
         if (result != null) {
@@ -147,6 +148,11 @@ public class LogicFacade implements ILogic {
 
     @Override
     public String getDepartmentNameById(int departmentId) {
+        return persistence.getDepartmentNameById(departmentId);
+    }
+    
+    @Override
+    public String getDepartment(int departmentId) {
         return persistence.getDepartmentNameById(departmentId);
     }
 

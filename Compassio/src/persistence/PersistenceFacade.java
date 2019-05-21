@@ -84,12 +84,16 @@ public class PersistenceFacade implements IPersistence {
     //==========================================================================
     @Override
     public ArrayList<String> getDepartments() {
-        return this.departmentDao.getDepartments();
+        return this.departmentDao.getAll();
     }
 
     @Override
     public String getDepartmentNameById(int departmentId) {
         return this.departmentDao.getDepartmentNameById(departmentId);
+    }
+    
+    public String[] getDepartment(int departmentId) {
+        return this.departmentDao.get((int) departmentId);
     }
 
     //==========================================================================

@@ -7,22 +7,21 @@ import java.util.List;
  * The methods provided in this interface are for creating, retrieving,
  * updating, and deleting data.
  * @author Morten Kargo Lyngesen
- * @param <T>
  */
-public interface DataAccessInterface <T> {
+public interface DataAccessObject {
 
     /**
      *
      * @param id
      * @return
      */
-    T get (String id);
+    String[] get (long id);
 
     /**
      *
      * @return
      */
-    List <T> getAll();
+    List <String[]> getAll();
 
     /**
      *
@@ -37,12 +36,12 @@ public interface DataAccessInterface <T> {
      * @param args
      * @return
      */
-    boolean update (String id, String[] args);
+    boolean update (long id, String[] args);
     
     /**
      *
      * @param id
      * @return
      */
-    boolean delete (String id);
+    boolean delete (long id);
 }

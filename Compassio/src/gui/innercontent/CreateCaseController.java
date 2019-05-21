@@ -22,6 +22,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import logic.CprValidator;
 
 /**
  * FXML Controller class
@@ -83,7 +84,7 @@ public class CreateCaseController implements Initializable {
     private void createCaseButton(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         try {
-            if (CPRField.getText().trim().length() == 10) {
+            if (CprValidator.validate(CPRField.getText().trim())) {
                 String[] departmentInfo = departmentBox.getValue().split(" ");
                 int departmentID = Integer.parseInt(departmentInfo[0]);
                 if (GUIrun.getLogic().createCase(firstNameField.getText().trim(), lastNameField.getText().trim(), Long.parseLong(CPRField.getText().trim()),
@@ -99,7 +100,7 @@ public class CreateCaseController implements Initializable {
                 }
 
             } else {
-                alert.setContentText("CPR nummer skal være 10 numre langt");
+                alert.setContentText("CPR nummer ikke gyldigt");
                 alert.showAndWait();
             }
         } catch (NumberFormatException ex) {

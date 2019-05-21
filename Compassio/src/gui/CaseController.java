@@ -146,6 +146,7 @@ public class CaseController implements Initializable {
         firstNameField.setText(currentCase.getFirstName());
         lastNameField.setText(currentCase.getLastName());
         caseIDField.setText(currentCase.getCaseID().toString());
+        CPRField.setText(Long.toString(currentCase.getCprNumber()));
         caseTypeChoiceBox.getItems().addAll(GUIrun.getLogic().retrieveCaseTypes());
         caseTypeChoiceBox.getSelectionModel().select(currentCase.getType());
         mainBodyArea.setText(currentCase.getMainBody());
