@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
+ * @author Morten Kargo Lyngesen
  */
 public interface UserInterface {
 
