@@ -6,7 +6,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import logic.UserType;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -57,9 +56,9 @@ public class UserDAO implements DataAccessObject {
             statement.setInt(6, typeid);
             statement.setBoolean(7, false);
             statement.executeUpdate();
-            
+
             ResultSet key = statement.getGeneratedKeys();
-            
+
             if (key.next()) {
                 relationStatement.setLong(1, departmentid);
                 relationStatement.setLong(2, key.getLong(1));
@@ -84,21 +83,20 @@ public class UserDAO implements DataAccessObject {
 
         }
     }
-    
+
     public boolean validateUserPassword(long userID, String password) {
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement existCheck = db.prepareStatement("SELECT hashedpassword, salt FROM People WHERE userID = ?")) {
             existCheck.setLong(1, userID);
             ResultSet res = existCheck.executeQuery();
-            
+
             if (res.next()) {
                 byte[] salt = res.getBytes("salt");
                 byte[] passDB = res.getBytes("hashedpassword");
                 byte[] hashedpass = PasswordTool.hashPassword(password, salt);
-                
+
                 return Arrays.equals(passDB, hashedpass);
-            }
-            else {
+            } else {
                 return false;
             }
 
@@ -151,15 +149,14 @@ public class UserDAO implements DataAccessObject {
                 PreparedStatement getUserType = db.prepareStatement("SELECT name FROM "
                         + "people, usertyperelation "
                         + "WHERE people.typeID = usertyperelation.typeID AND userid=?")) {
-            
+
             getUserType.setLong(1, Long.parseLong(userID));
-            
+
             ResultSet rs = getUserType.executeQuery();
-            
+
             if (rs.next()) {
                 return rs.getString("name");
-            }
-            else {
+            } else {
                 return null;
             }
         } catch (SQLException ex) {
@@ -167,14 +164,13 @@ public class UserDAO implements DataAccessObject {
             return null;
         }
     }
-    
-    public String[] getUserTypes () {
+
+    public String[] getUserTypes() {
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement getUserType = db.prepareStatement("SELECT * FROM usertyperelation")) {
-            
+
             ResultSet rs = getUserType.executeQuery();
-            
-            
+
             if (rs.next()) {
                 ArrayList<String> names = new ArrayList<>();
                 do {
@@ -183,12 +179,10 @@ public class UserDAO implements DataAccessObject {
                 String[] nameArray = new String[names.size()];
                 names.toArray(nameArray);
                 return nameArray;
-            }
-            else {
+            } else {
                 return null;
             }
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -208,31 +202,30 @@ public class UserDAO implements DataAccessObject {
         }
         return true;
     }
-    
-    public ArrayList<String[]> getAllUsers (ArrayList<Long> departments) {
+
+    public ArrayList<String[]> getAllUsers(ArrayList<Long> departments) {
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement getUserType = db.prepareStatement("SELECT people.userid, username, firstname, lastname, typeid, inactive, departmentid FROM people NATURAL JOIN employeesofdepartment")) {
-            
+
             ResultSet rs = getUserType.executeQuery();
-            
-            
+
             ArrayList<String[]> users = new ArrayList<>();
-            
+
             while (rs.next()) {
                 if (departments.contains(rs.getLong("departmentid"))) {
                     String[] user = new String[]{
-                        rs.getLong("userid")+"",
+                        rs.getLong("userid") + "",
                         rs.getString("username"),
                         rs.getString("firstname"),
                         rs.getString("lastname"),
                         rs.getInt("typeid") + "",
-                        rs.getBoolean("inactive") + ""                    
+                        rs.getBoolean("inactive") + ""
                     };
 
                     users.add(user);
                 }
             }
-            
+
             return users;
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -275,6 +268,13 @@ public class UserDAO implements DataAccessObject {
 
     @Override
     public boolean delete(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try (Connection db = connectionPool.getConnection();
+                PreparedStatement statement = db.prepareStatement("DELETE FROM people WHERE userid=?")) {
+            statement.setLong(1, id);
+            statement.executeQuery();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 }

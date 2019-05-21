@@ -94,6 +94,13 @@ public class DepartmentDAO implements DataAccessObject {
 
     @Override
     public boolean delete(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try (Connection db = connectionPool.getConnection();
+                PreparedStatement statement = db.prepareStatement("DELETE FROM Department WHERE departmentid=?")) {
+            statement.setLong(1, id);
+            statement.executeQuery();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 }
