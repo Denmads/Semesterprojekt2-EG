@@ -22,26 +22,6 @@ public class UserDAO implements DataAccessObject {
         this.connectionPool = connectionPool;
     }
 
-    public ArrayList<Long> getUserDepartments(String userID) {
-        ArrayList<Long> departments = new ArrayList();
-        try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("SELECT * FROM employeesofdepartment WHERE userID=?")) {
-            statement.setLong(1, Long.parseLong(userID));
-            ResultSet rs = statement.executeQuery();
-            if (rs.next() == false) {
-                return null;
-            } else {
-                do {
-                    departments.add(rs.getLong("departmentID"));
-                } while (rs.next());
-                return departments;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
     public void createUser(String userName, String firstName, String lastName, String password, int typeid, int departmentid) throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] salt = PasswordTool.generateSalt();
         try (
@@ -293,7 +273,7 @@ public class UserDAO implements DataAccessObject {
 
     @Override
     public boolean create(String[] args) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
 
     @Override

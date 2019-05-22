@@ -4,12 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
- *
+ * Provides standard operations for the cpr table in the database.
  * @author kargo
  */
 public class CprDAO implements DataAccessObject {
@@ -21,7 +20,7 @@ public class CprDAO implements DataAccessObject {
 
     @Override
     public String[] get(String... id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      return null;  
     }
 
     @Override
@@ -30,16 +29,20 @@ public class CprDAO implements DataAccessObject {
     }
 
     @Override
-    public boolean create(String[] args) {
+    public boolean create(String... args) {
+        Map<String, List<String>> options = ArgumentParser.parse(args);
+        if (!options.containsKey("cpr") && !options.containsKey("firstname")
+                && !options.containsKey("lastname")) { 
+            return false;
+        }
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("INSERT INTO cpr VALUES (?, ?, ?)")) {
-            statement.setLong(1, Long.parseLong(args[0]));
-            statement.setString(2, args[1]);
-            statement.setString(3, args[2]);
+            statement.setLong(1, Long.parseLong(options.get("cpr").get(0)));
+            statement.setString(2, options.get("firstname").get(0));
+            statement.setString(3, options.get("lastname").get(0));
             statement.execute();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class LogicFacade implements ILogic {
 
     private static IPersistence persistence;
-    private UserInterface user;
+    private User user;
     private UserType userType;
 
     

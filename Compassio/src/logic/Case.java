@@ -7,7 +7,7 @@ import java.util.UUID;
  * Represents a social case created by a case worker
  * @author Frederik Haagensen
  */
-public class Case implements CaseInterface {
+public class Case {
 
     private String firstName;
 
@@ -106,7 +106,6 @@ public class Case implements CaseInterface {
      * Returns the case id
      * @return id of the case
      */
-    @Override
     public UUID getCaseID() {
         return caseID;
     }
@@ -115,7 +114,6 @@ public class Case implements CaseInterface {
      * Returns cpr-number of the citizen.
      * @return cpr-number of the citizen.
      */
-    @Override
     public long getCprNumber() {
         return cprNumber;
     }
@@ -124,7 +122,6 @@ public class Case implements CaseInterface {
      * Returns the case type.
      * @return case type.
      */
-    @Override
     public String getType() {
         return type;
     }
@@ -133,7 +130,6 @@ public class Case implements CaseInterface {
      * Returns the main body of the case.
      * @return main body of case
      */
-    @Override
     public String getMainBody() {
         return mainBody;
     }
@@ -142,7 +138,6 @@ public class Case implements CaseInterface {
      * Returns the date the case was created.
      * @return date case was created
      */
-    @Override
     public LocalDate getDateCreated() {
         return dateCreated;
     }
@@ -151,7 +146,6 @@ public class Case implements CaseInterface {
      * Returns the date the case was closed.
      * @return date case was closed
      */
-    @Override
     public LocalDate getDateClosed() {
         return dateClosed;
     }
@@ -160,7 +154,6 @@ public class Case implements CaseInterface {
      * Returns the id of associated department.
      * @return id of associated department.
      */
-    @Override
     public int getDepartmentID() {
         return departmentID;
     }
@@ -169,7 +162,6 @@ public class Case implements CaseInterface {
      * Returns the inquiry associated with the case.
      * @return inquiry message of case.
      */
-    @Override
     public String getInquiry() {
         return inquiry;
     }
@@ -178,7 +170,6 @@ public class Case implements CaseInterface {
      * Returns the first name of the citizen associated with the case.
      * @return first name of citizen.
      */
-    @Override
     public String getFirstName() {
         return firstName;
     }
@@ -187,7 +178,6 @@ public class Case implements CaseInterface {
      * Returns the last name of the citizen associated with the case.
      * @return first name of citizen.
      */
-    @Override
     public String getLastName() {
         return lastName;
     }
@@ -196,7 +186,6 @@ public class Case implements CaseInterface {
      * Sets the first name of the citizen associated with the case.
      * @param firstName the first name of the citizen.
      */
-    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -205,7 +194,6 @@ public class Case implements CaseInterface {
      * Sets the case ID of the case.
      * @param caseID the id of the case.
      */
-    @Override
     public void setCaseID(UUID caseID) {
         this.caseID = caseID;
     }
@@ -214,7 +202,6 @@ public class Case implements CaseInterface {
      * Sets case type.
      * @param type type of case.
      */
-    @Override
     public void setType(String type) {
         this.type = type;
     }
@@ -223,7 +210,6 @@ public class Case implements CaseInterface {
      * Sets the main body text of the case.
      * @param mainBody main body text of case.
      */
-    @Override
     public void setMainBody(String mainBody) {
         this.mainBody = mainBody;
     }
@@ -234,7 +220,6 @@ public class Case implements CaseInterface {
      * @param dateClosed
      * @return Returns <code>true</code> on success. <code>false</code> false on failure.
      */
-    @Override
     public boolean setDateClosed(LocalDate dateClosed) {
         if (dateClosed == null){
            this.dateClosed = dateClosed;
@@ -251,7 +236,6 @@ public class Case implements CaseInterface {
      *
      * @param departmentID
      */
-    @Override
     public void setDepartmentID(int departmentID) {
         this.departmentID = departmentID;
     }
@@ -260,7 +244,6 @@ public class Case implements CaseInterface {
      * Sets the case inquiry message.
      * @param inquiry inquiry message to department.
      */
-    @Override
     public void setInquiry(String inquiry) {
         this.inquiry = inquiry;
     }
@@ -269,7 +252,6 @@ public class Case implements CaseInterface {
      *
      * @return
      */
-    @Override
     public boolean saveCase() {
         return LogicFacade.getPersistence().saveCase(caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
     }
@@ -277,7 +259,6 @@ public class Case implements CaseInterface {
     /**
      *
      */
-    @Override
     public void addPatientToDatabase() {
         LogicFacade.getPersistence().insertNewPatient(cprNumber, firstName, lastName);
     }

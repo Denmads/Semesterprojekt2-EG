@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import logic.CaseInterface;
+import logic.Case;
 
 /**
  * FXML Controller class
@@ -40,7 +40,7 @@ public class SocialWorkerCaseController implements Initializable {
     @FXML
     private Button closeButton;
 
-    CaseInterface currentCase;
+    Case currentCase;
     @FXML
     private TextField typeField;
     @FXML
@@ -71,7 +71,7 @@ public class SocialWorkerCaseController implements Initializable {
         stage.close();
     }
 
-    public void injectCase(CaseInterface currentCase) {
+    public void injectCase(Case currentCase) {
         this.currentCase = currentCase;
         setupCase();
     }

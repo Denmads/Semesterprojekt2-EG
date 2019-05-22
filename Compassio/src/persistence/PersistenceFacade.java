@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import persistence.dataaccessobjects.*;
@@ -33,6 +34,7 @@ public class PersistenceFacade implements IPersistence {
     private final DepartmentDAO departmentDao;
     private final CaseTypeRelationDAO caseTypeRelationDao;
     private final CprDAO cprDao;
+    private final EmployeesOfDepartmentDAO employeesOfDepartmentDAO;
 
     public PersistenceFacade() {
         //Configure connection pool
@@ -42,22 +44,23 @@ public class PersistenceFacade implements IPersistence {
         connectionPool.setDriverClassName("org.postgresql.Driver");
         connectionPool.setUrl(this.dbIP);
         connectionPool.setInitialSize(10);
-        
+
         //Initialize DAO's
         userDao = new UserDAO(this.connectionPool);
         caseDao = new CaseDAO(this.connectionPool);
         departmentDao = new DepartmentDAO(this.connectionPool);
         caseTypeRelationDao = new CaseTypeRelationDAO(this.connectionPool);
         cprDao = new CprDAO(this.connectionPool);
+        employeesOfDepartmentDAO = new EmployeesOfDepartmentDAO(this.connectionPool);
     }
-    
+
     //==========================================================================
     // Case methods
     //==========================================================================
     @Override
     public ArrayList<String> retrieveCaseTypeNames() {
         List<String[]> list = this.caseTypeRelationDao.getAll();
-        String[][] array = list.toArray(new String[][] {});
+        String[][] array = list.toArray(new String[][]{});
         ArrayList<String> arrayList = new ArrayList<>();
         for (String[] arr : array) {
             arrayList.add(arr[0]);
@@ -83,14 +86,14 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public void insertNewPatient(long cpr, String firstName, String lastName) {
-        this.cprDao.create(new String[]{Long.toString(cpr), firstName, lastName});
+        this.cprDao.create("-cpr " + Long.toString(cpr), "-firstname " + firstName, "-lastname " + lastName);
     }
 
     @Override
     public ArrayList<String[]> getCasesByDepartment(long departmentID) {
         return this.caseDao.getCasesByDepartment(departmentID);
     }
-    
+
     //==========================================================================
     // Department methods
     //==========================================================================
@@ -103,7 +106,7 @@ public class PersistenceFacade implements IPersistence {
     public String getDepartmentNameById(int departmentId) {
         return this.departmentDao.get(Integer.toString(departmentId))[1];
     }
-    
+
     public String[] getDepartment(int departmentId) {
         return this.departmentDao.get(Integer.toString(departmentId));
     }
@@ -113,7 +116,14 @@ public class PersistenceFacade implements IPersistence {
     //==========================================================================
     @Override
     public ArrayList<Long> getUserDepartments(String userID) {
-        return userDao.getUserDepartments(userID);
+        String[] dataset = this.employeesOfDepartmentDAO.get("-id " + userID);
+        ArrayList<Long> longList = new ArrayList<>();
+        if (dataset != null) {
+            for (String dataset1 : dataset) {
+                longList.add(Long.valueOf(dataset1));
+            }
+        }
+        return longList;
     }
 
     @Override
@@ -130,7 +140,7 @@ public class PersistenceFacade implements IPersistence {
     public boolean validateUserID(String userID) {
         return this.userDao.validateUserID(userID);
     }
-    
+
     @Override
     public boolean validateUserPassword(long userID, String password) {
         return this.userDao.validateUserPassword(userID, password);
@@ -150,7 +160,7 @@ public class PersistenceFacade implements IPersistence {
         }
         return (ArrayList<String[]>) this.userDao.getAll(data);
     }
-    
+
     @Override
     public boolean changePassword(String newPassword, String oldPassword, String username) {
         if (getUser(username, oldPassword) != null) {

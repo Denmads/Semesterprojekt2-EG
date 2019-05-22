@@ -17,7 +17,7 @@ public class ArgumentParser {
      * @return map containing arguments as key with parameters as list of strings.
      */
     public static Map<String, List<String>> parse(String... args) {
-        final Map<String, List<String>> params = new HashMap<>();
+        Map<String, List<String>> params = new HashMap<>();
 
         for (String arg : args) {
             if (arg.charAt(0) == '-') {

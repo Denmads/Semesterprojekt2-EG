@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * 
  * @author Morten Kargo Lyngesen
  */
-public class User implements UserInterface {
+public class User {
     private final String userID;
     private final String username;
     private final String firstName;
@@ -30,7 +30,6 @@ public class User implements UserInterface {
     /**
      * @return the users id
      */
-    @Override
     public String getUserID() {
         return this.userID;
     }
@@ -38,7 +37,6 @@ public class User implements UserInterface {
     /**
      * @return the users username
      */
-    @Override
     public String getUsername() {
         return this.username;
     }
@@ -46,7 +44,6 @@ public class User implements UserInterface {
     /**
      * @return the users first name
      */
-    @Override
     public String getFirstName() {
         return this.firstName;
     }
@@ -54,7 +51,6 @@ public class User implements UserInterface {
     /**
      * @return the users last name
      */
-    @Override
     public String getLastName() {
         return this.lastName;
     }
@@ -62,7 +58,6 @@ public class User implements UserInterface {
     /**
      * @return the users assigned type
      */
-    @Override
     public int getUserType() {
         return this.userType;
     }
@@ -70,7 +65,6 @@ public class User implements UserInterface {
     /**
      * @return all the departments the current user is a member of.
      */
-    @Override
     public ArrayList<Long> getDepartments(){
         return departments;
     }
