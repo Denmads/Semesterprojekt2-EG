@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import persistence.dataaccessobjects.*;
 
@@ -55,13 +56,13 @@ public class PersistenceFacade implements IPersistence {
     //==========================================================================
     @Override
     public ArrayList<String> retrieveCaseTypeNames() {
-        ArrayList<String[]> result = (ArrayList<String[]>) this.caseTypeRelationDao.getAll();
-        Long[] array = departments.toArray(new String[result.size()]);
-        String[] data = new String[departments.size()];
-        for (int i = 0; i < departments.size(); i++) {
-            data[i] = Long.toString(array[i]);
+        List<String[]> list = this.caseTypeRelationDao.getAll();
+        String[][] array = list.toArray(new String[][] {});
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (String[] arr : array) {
+            arrayList.add(arr[0]);
         }
-        return this.caseTypeRelationDao.getAll().toArray(new String[result.size()]);
+        return arrayList;
     }
 
     @Override

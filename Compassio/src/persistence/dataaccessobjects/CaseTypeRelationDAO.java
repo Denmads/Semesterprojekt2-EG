@@ -38,16 +38,16 @@ public class CaseTypeRelationDAO implements DataAccessObject {
 
     @Override
     public List<String[]> getAll(String... cond) {
-         ArrayList<String[]> types = new ArrayList<>();
+         ArrayList<String[]> list = new ArrayList<>();
         try (Connection db = connectionPool.getConnection()) {
-            ResultSet result = db.prepareStatement("SELECT name FROM casetyperelation").executeQuery();
+            ResultSet result = db.prepareStatement("SELECT * FROM casetyperelation").executeQuery();
             while (result.next()) {
-                types.add(new String[]{result.getString("name")});
+                list.add(new String[]{result.getString("name"), result.getString("typeid")});
             }
         } catch (SQLException ex) {
             Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return types;
+        return list;
     }
 
     @Override
