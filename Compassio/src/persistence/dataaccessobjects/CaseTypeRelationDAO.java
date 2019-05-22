@@ -18,8 +18,8 @@ public class CaseTypeRelationDAO implements DataAccessObject {
     
     private final BasicDataSource connectionPool;
     
-    public CaseTypeRelationDAO(BasicDataSource connectionPool) {
-        this.connectionPool = connectionPool;
+    public CaseTypeRelationDAO() {
+        this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }
 
     @Override

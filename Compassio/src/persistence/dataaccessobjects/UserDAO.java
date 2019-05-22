@@ -18,8 +18,8 @@ public class UserDAO implements DataAccessObject {
 
     private final BasicDataSource connectionPool;
 
-    public UserDAO(BasicDataSource connectionPool) {
-        this.connectionPool = connectionPool;
+    public UserDAO() {
+        this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }
 
     public void createUser(String userName, String firstName, String lastName, String password, int typeid, int departmentid) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -139,30 +139,6 @@ public class UserDAO implements DataAccessObject {
             } else {
                 return null;
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    public String[] getUserTypes() {
-        try (Connection db = connectionPool.getConnection();
-                PreparedStatement getUserType = db.prepareStatement("SELECT * FROM usertyperelation")) {
-
-            ResultSet rs = getUserType.executeQuery();
-
-            if (rs.next()) {
-                ArrayList<String> names = new ArrayList<>();
-                do {
-                    names.add(rs.getInt("typeid") + "," + rs.getString("name"));
-                } while (rs.next());
-                String[] nameArray = new String[names.size()];
-                names.toArray(nameArray);
-                return nameArray;
-            } else {
-                return null;
-            }
-
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;

@@ -18,8 +18,8 @@ public class DepartmentDAO implements DataAccessObject {
 
     private final BasicDataSource connectionPool;
 
-    public DepartmentDAO(BasicDataSource connectionPool) {
-        this.connectionPool = connectionPool;
+    public DepartmentDAO() {
+        this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }
     
     @Override

@@ -18,8 +18,8 @@ import org.apache.commons.dbcp2.BasicDataSource;
 public class EmployeesOfDepartmentDAO implements DataAccessObject {
     private final BasicDataSource connectionPool;
 
-    public EmployeesOfDepartmentDAO (BasicDataSource connectionPool) {
-        this.connectionPool = connectionPool;
+    public EmployeesOfDepartmentDAO () {
+        this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }
     
     @Override

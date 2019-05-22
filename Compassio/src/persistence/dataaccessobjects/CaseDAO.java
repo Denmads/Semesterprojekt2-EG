@@ -18,8 +18,8 @@ public class CaseDAO implements DataAccessObject {
 
     private final BasicDataSource connectionPool;
 
-    public CaseDAO(BasicDataSource connectionPool) {
-        this.connectionPool = connectionPool;
+    public CaseDAO() {
+        this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }
 
 

@@ -14,8 +14,8 @@ import org.apache.commons.dbcp2.BasicDataSource;
 public class CprDAO implements DataAccessObject {
     private final BasicDataSource connectionPool;
 
-    public CprDAO (BasicDataSource connectionPool) {
-        this.connectionPool = connectionPool;
+    public CprDAO () {
+        this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }
 
     @Override

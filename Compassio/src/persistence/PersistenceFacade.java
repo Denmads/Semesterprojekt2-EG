@@ -7,7 +7,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import persistence.dataaccessobjects.*;
@@ -20,14 +19,6 @@ import persistence.dataaccessobjects.*;
  */
 public class PersistenceFacade implements IPersistence {
 
-    //Database connection parameters
-    //#TODO: Move to a secure location
-    private final String dbIP = "jdbc:postgresql://68.183.68.65:5432/compassio";
-    private final String username = "postgres";
-    private final String password = "software-f19-4";
-
-    private final BasicDataSource connectionPool;
-
     //Data Access Objects
     private final UserDAO userDao;
     private final CaseDAO caseDao;
@@ -35,23 +26,17 @@ public class PersistenceFacade implements IPersistence {
     private final CaseTypeRelationDAO caseTypeRelationDao;
     private final CprDAO cprDao;
     private final EmployeesOfDepartmentDAO employeesOfDepartmentDAO;
+    private final UserTypeRelationDAO userTypeRelationDao;
 
     public PersistenceFacade() {
-        //Configure connection pool
-        connectionPool = new BasicDataSource();
-        connectionPool.setUsername(this.username);
-        connectionPool.setPassword(this.password);
-        connectionPool.setDriverClassName("org.postgresql.Driver");
-        connectionPool.setUrl(this.dbIP);
-        connectionPool.setInitialSize(10);
-
         //Initialize DAO's
-        userDao = new UserDAO(this.connectionPool);
-        caseDao = new CaseDAO(this.connectionPool);
-        departmentDao = new DepartmentDAO(this.connectionPool);
-        caseTypeRelationDao = new CaseTypeRelationDAO(this.connectionPool);
-        cprDao = new CprDAO(this.connectionPool);
-        employeesOfDepartmentDAO = new EmployeesOfDepartmentDAO(this.connectionPool);
+        userDao = new UserDAO();
+        caseDao = new CaseDAO();
+        departmentDao = new DepartmentDAO();
+        caseTypeRelationDao = new CaseTypeRelationDAO();
+        cprDao = new CprDAO();
+        employeesOfDepartmentDAO = new EmployeesOfDepartmentDAO();
+        userTypeRelationDao = new UserTypeRelationDAO();
     }
 
     //==========================================================================
@@ -148,7 +133,12 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public String[] getUserTypes() {
-        return this.userDao.getUserTypes();
+        ArrayList<String[]> dataset = (ArrayList<String[]>) this.userTypeRelationDao.getAll();
+        String[] types = new String[dataset.size()];
+        for (int i=0;i < dataset.size(); i++) {
+            types[i] = dataset.get(i)[0];
+        }
+        return types;
     }
 
     @Override
