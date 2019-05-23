@@ -1,5 +1,6 @@
 package persistence.dataaccessobjects;
 
+import persistence.util.PasswordTool;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
@@ -87,64 +88,6 @@ public class UserDAO implements DataAccessObject {
         }
     }
 
-    public String[] getUser(String username, String password) {
-        String[] user = new String[5];
-        try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("SELECT salt FROM people WHERE username=? AND inactive=false")) {
-            statement.setString(1, username);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next() == false) {
-                return null;
-            } else {
-                byte[] salt = rs.getBytes("salt");
-
-                try (PreparedStatement checkStatement = db.prepareStatement("SELECT * FROM people WHERE username=? AND hashedpassword=?")) {
-                    checkStatement.setString(1, username);
-                    checkStatement.setBytes(2, PasswordTool.hashPassword(password, salt));
-                    ResultSet res = checkStatement.executeQuery();
-                    if (res.next()) {
-                        user[0] = res.getString("userid");
-                        user[1] = res.getString("username");
-                        user[2] = res.getString("firstname");
-                        user[3] = res.getString("lastname");
-                        user[4] = this.getUserType(user[0]);
-                        return user;
-                    } else {
-                        return null;
-                    }
-                } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
-                    Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-                    return null;
-                }
-
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    private String getUserType(String userID) {
-        try (Connection db = connectionPool.getConnection();
-                PreparedStatement getUserType = db.prepareStatement("SELECT name FROM "
-                        + "people, usertyperelation "
-                        + "WHERE people.typeID = usertyperelation.typeID AND userid=?")) {
-
-            getUserType.setLong(1, Long.parseLong(userID));
-
-            ResultSet rs = getUserType.executeQuery();
-
-            if (rs.next()) {
-                return rs.getString("name");
-            } else {
-                return null;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
     public boolean changePassword(String newPassword, String username) {
         byte[] salt = PasswordTool.generateSalt();
         try (Connection db = connectionPool.getConnection();
@@ -196,7 +139,10 @@ public class UserDAO implements DataAccessObject {
                         user[1] = res.getString("username");
                         user[2] = res.getString("firstname");
                         user[3] = res.getString("lastname");
-                        user[4] = this.getUserType(user[0]);
+                        String[] type = UserTypeRelationDAO.getInstance().get("-id " + user[0]);
+                        if(type != null){
+                            user[4] = type[0];
+                        }
                         return user;
                     } else {
                         return null;

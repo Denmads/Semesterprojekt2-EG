@@ -17,11 +17,16 @@ import org.apache.commons.dbcp2.BasicDataSource;
 public class CaseDAO implements DataAccessObject {
 
     private final BasicDataSource connectionPool;
+    
+    private static final CaseDAO INSTANCE = new CaseDAO();
 
-    public CaseDAO() {
+    private CaseDAO() {
         this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }
 
+    public static CaseDAO getInstance() {
+        return INSTANCE;
+    }
 
     public boolean saveCase(UUID caseID, long cprNumber, String type,
             String mainBody, LocalDate dateCreated, LocalDate dateClosed, int departmentID, String inquiry) {

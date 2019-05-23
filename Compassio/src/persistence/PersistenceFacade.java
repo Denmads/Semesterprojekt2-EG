@@ -31,12 +31,12 @@ public class PersistenceFacade implements IPersistence {
     public PersistenceFacade() {
         //Initialize DAO's
         userDao = new UserDAO();
-        caseDao = new CaseDAO();
+        caseDao = CaseDAO.getInstance();
         departmentDao = new DepartmentDAO();
         caseTypeRelationDao = new CaseTypeRelationDAO();
         cprDao = new CprDAO();
         employeesOfDepartmentDAO = new EmployeesOfDepartmentDAO();
-        userTypeRelationDao = new UserTypeRelationDAO();
+        userTypeRelationDao = UserTypeRelationDAO.getInstance();
     }
 
     //==========================================================================

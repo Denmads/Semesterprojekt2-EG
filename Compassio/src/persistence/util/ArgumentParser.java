@@ -1,4 +1,4 @@
-package persistence.dataaccessobjects;
+package persistence.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;

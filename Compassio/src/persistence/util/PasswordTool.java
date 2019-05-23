@@ -1,4 +1,4 @@
-package persistence.dataaccessobjects;
+package persistence.util;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -15,14 +15,14 @@ import javax.crypto.spec.PBEKeySpec;
  */
 public class PasswordTool {
 
-    protected static byte[] generateSalt() {
+    public static byte[] generateSalt() {
         SecureRandom secRan = new SecureRandom();
         byte[] salt = new byte[128];
         secRan.nextBytes(salt);
         return salt;
     }
 
-    protected static byte[] hashPassword(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static byte[] hashPassword(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         return factory.generateSecret(spec).getEncoded();
