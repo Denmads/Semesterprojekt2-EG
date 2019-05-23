@@ -51,24 +51,17 @@ public class CaseTypeRelationDAO implements DataAccessObject {
         }
         return list;
     }
-    /**
-     * Creates an entry in the CaseUserRelation table
-     * @param args Must specify an "-id" for the case and "-users" for users assigned to case
-     * @return <code>true</code> on success and <code>false</code> on failure.
-     */
+
     @Override
     public boolean create(String... args) {
         Map<String, List<String>> options = ArgumentParser.parse(args);
-        if (!options.containsKey("id") && !options.containsKey("users")) {
+        if (!options.containsKey("name")) {
             return false;
         }
         try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("INSERT INTO CaseUserRelation VALUES (?, ?)");) {
-            for (int i = 0; i < options.get("users").size(); i++) {
-                statement.setString(1, options.get("id").toString());
-                statement.setLong(2, Long.parseLong(options.get("users").get(i)));
-                statement.execute();
-            }
+                PreparedStatement statement = db.prepareStatement("INSERT INTO casetyperelation VALUES (?, DEFAULT)");) {
+            statement.setString(1, options.get("name").toString());
+            statement.execute();
             return true;
         } catch (SQLException ex) {
             return false;

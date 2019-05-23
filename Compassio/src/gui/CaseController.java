@@ -24,7 +24,7 @@ import logic.Case;
 /**
  * FXML Controller class
  *
- * @author Peterzxcvbnm
+ * @author Peter Andreas Brændgaard
  */
 public class CaseController implements Initializable {
 
