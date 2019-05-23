@@ -1,7 +1,5 @@
 package persistence;
 
-import org.apache.commons.dbcp2.BasicDataSource;
-
 import acquaintance.IPersistence;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -14,7 +12,7 @@ import persistence.dataaccessobjects.*;
 /**
  * Provides a facade to interact with the database through Data Access Objects.
  *
- * @author Peterzxcvbnm
+ * @author Peter Andreas Brændgaard
  * @author Morten Kargo Lyngesen
  */
 public class PersistenceFacade implements IPersistence {
@@ -27,6 +25,7 @@ public class PersistenceFacade implements IPersistence {
     private final CprDAO cprDao;
     private final EmployeesOfDepartmentDAO employeesOfDepartmentDAO;
     private final UserTypeRelationDAO userTypeRelationDao;
+    private final CaseUserRelationDAO caseUserRelationDao;
 
     public PersistenceFacade() {
         //Initialize DAO's
@@ -37,6 +36,7 @@ public class PersistenceFacade implements IPersistence {
         cprDao = new CprDAO();
         employeesOfDepartmentDAO = new EmployeesOfDepartmentDAO();
         userTypeRelationDao = UserTypeRelationDAO.getInstance();
+        caseUserRelationDao = new CaseUserRelationDAO();
     }
 
     //==========================================================================
@@ -66,7 +66,14 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public void saveCaseUserRelation(UUID caseID, ArrayList<String> userID) {
-        this.caseDao.saveCaseUserRelation(caseID, userID);
+        StringBuilder builder = new StringBuilder();
+        userID.stream().map((String userID1) -> {
+            builder.append(userID1);
+            return userID1;
+        }).forEachOrdered((String _item) -> {
+            builder.append(" ");
+        });
+        this.caseUserRelationDao.create("-id " + caseID.toString(), "-users " + builder.toString());
     }
 
     @Override
@@ -135,7 +142,7 @@ public class PersistenceFacade implements IPersistence {
     public String[] getUserTypes() {
         ArrayList<String[]> dataset = (ArrayList<String[]>) this.userTypeRelationDao.getAll();
         String[] types = new String[dataset.size()];
-        for (int i=0;i < dataset.size(); i++) {
+        for (int i = 0; i < dataset.size(); i++) {
             types[i] = dataset.get(i)[0];
         }
         return types;

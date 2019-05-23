@@ -11,7 +11,7 @@ import java.util.UUID;
  * The methods provided in this interface are for creating, retrieving,
  * updating, and deleting data.
  *
- * @author Peterzxcvbnm
+ * @author Peter Andreas Brændgaard
  * @author Morten Kargo Lyngesen
  */
 public interface IPersistence {

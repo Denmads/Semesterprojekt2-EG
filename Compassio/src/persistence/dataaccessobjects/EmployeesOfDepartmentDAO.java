@@ -8,13 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
  *
- * @author kargo
+ * @author Morten Kargo Lyngesen
  */
 public class EmployeesOfDepartmentDAO implements DataAccessObject {
     private final BasicDataSource connectionPool;
@@ -44,7 +42,6 @@ public class EmployeesOfDepartmentDAO implements DataAccessObject {
                 return departments.toArray(new String[departments.size()]);
             }
         } catch (SQLException ex) {
-            System.out.println("wierdness");
             return null;
         }
     }

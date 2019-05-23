@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Peterzxcvbnm
+ * @author Peter Andreas Brændgaard
  */
 public class Compassio extends Application {
     

@@ -104,8 +104,7 @@ public class CaseDAO implements DataAccessObject {
                 cases.add(singleCase);
             }
         } catch (SQLException ex) {
-            System.out.println("SQL exception");
-            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
 
         }
         return cases;
@@ -140,19 +139,6 @@ public class CaseDAO implements DataAccessObject {
             Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return cases;
-    }
-
-    public void saveCaseUserRelation(UUID caseID, ArrayList<String> userID) {
-        try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("INSERT INTO CaseUserRelation VALUES (?, ?)");) {
-            for (int i = 0; i < userID.size(); i++) {
-                statement.setString(1, caseID.toString());
-                statement.setLong(2, Long.parseLong(userID.get(i)));
-                statement.execute();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Peterzxcvbnm
+ * @author Peter Andreas Brændgaard
  */
 public class LogicFacade implements ILogic {
 
