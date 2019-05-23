@@ -5,7 +5,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import persistence.dataaccessobjects.*;
@@ -26,6 +25,7 @@ public class PersistenceFacade implements IPersistence {
     private final CprDAO cprDao;
     private final EmployeesOfDepartmentDAO employeesOfDepartmentDAO;
     private final UserTypeRelationDAO userTypeRelationDao;
+    private final CaseUserRelationDAO caseUserRelationDao;
 
     public PersistenceFacade() {
         //Initialize DAO's
@@ -36,6 +36,7 @@ public class PersistenceFacade implements IPersistence {
         cprDao = new CprDAO();
         employeesOfDepartmentDAO = new EmployeesOfDepartmentDAO();
         userTypeRelationDao = UserTypeRelationDAO.getInstance();
+        caseUserRelationDao = new CaseUserRelationDAO();
     }
 
     //==========================================================================
@@ -72,7 +73,7 @@ public class PersistenceFacade implements IPersistence {
         }).forEachOrdered((String _item) -> {
             builder.append(" ");
         });
-        this.caseTypeRelationDao.create("-id " + caseID.toString(), "-users " + builder.toString());
+        this.caseUserRelationDao.create("-id " + caseID.toString(), "-users " + builder.toString());
     }
 
     @Override
