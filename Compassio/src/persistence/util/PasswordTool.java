@@ -10,7 +10,7 @@ import javax.crypto.spec.PBEKeySpec;
 /**
  * Handles salting and passwords in relation to the users.
  * 
- * @author L530
+ * @author Mads Holm Jensen
  * @author Morten Kargo Lyngesen
  */
 public class PasswordTool {

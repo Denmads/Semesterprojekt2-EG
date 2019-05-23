@@ -57,7 +57,7 @@ import logic.Case;
 /**
  * FXML Controller class
  *
- * @author L530
+ * @author Mads Holm Jensen
  */
 public class MainController implements Initializable {
 

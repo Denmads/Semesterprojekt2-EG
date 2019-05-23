@@ -16,7 +16,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 /**
  * Provides standard operations for the cpr table in the database.
  *
- * @author kargo
+ * @author Morten Kargo Lyngesen
  */
 public class CprDAO implements DataAccessObject {
 

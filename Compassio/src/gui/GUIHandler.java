@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author L530
+ * @author Mads Holm Jensen
  */
 public class GUIHandler {
 

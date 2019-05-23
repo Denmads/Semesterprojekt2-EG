@@ -17,7 +17,7 @@ import logic.Case;
 
 /**
  *
- * @author L530
+ * @author Mads Holm Jensen
  */
 public class GUICaseCell extends ListCell<Case> {
 

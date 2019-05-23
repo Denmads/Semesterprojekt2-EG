@@ -67,12 +67,12 @@ public class DepartmentDAO implements DataAccessObject {
     }
 
     @Override
-    public boolean create(String[] args) {
+    public boolean create(String... args) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean update(long id, String[] args) {
+    public boolean update(long id, String... args) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -115,7 +115,6 @@ public interface ILogic {
      * @return The name of the department
      */
     public String getDepartmentNameById(int departmentId);
-    public String getDepartment(int departmentId);
 
 
     /**

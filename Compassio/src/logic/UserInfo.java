@@ -3,7 +3,7 @@ package logic;
 /**
  * A class for storing the info of a user
  * 
- * @author madsh
+ * @author Mads Holm Jensen
  */
 public class UserInfo {
     private final long id;

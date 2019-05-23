@@ -26,6 +26,10 @@ public class UserTypeRelationDAO implements DataAccessObject {
         this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }
     
+    /**
+     * Returns a singleton instance of the class.
+     * @return a singleton instance of the class.
+     */
     public static UserTypeRelationDAO getInstance() {
         return INSTANCE;
     }
