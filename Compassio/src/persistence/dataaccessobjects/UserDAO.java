@@ -7,12 +7,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
+import persistence.util.ArgumentParser;
 
 /**
- *
+ * Provides standard operations for interacting with the people table in the database.
  * @author Morten Kargo Lyngesen
  */
 public class UserDAO implements DataAccessObject {
@@ -102,19 +104,6 @@ public class UserDAO implements DataAccessObject {
         return true;
     }
 
-    public void updateInfo(long userID, int role, boolean inactive) {
-        try (
-                final Connection db = connectionPool.getConnection();
-                final PreparedStatement statement = db.prepareStatement("UPDATE people SET typeid=?, inactive=? WHERE userid=?")) {
-            statement.setInt(1, role);
-            statement.setBoolean(2, inactive);
-            statement.setLong(3, userID);
-            statement.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     @Override
     public String[] get(String ... id) {
         if (id.length != 2) {
@@ -199,8 +188,21 @@ public class UserDAO implements DataAccessObject {
     }
 
     @Override
-    public boolean update(long id, String[] args) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean update(long id, String... args) {
+        Map<String, List<String>> options = ArgumentParser.parse(args);
+                if (!options.containsKey("type") && !options.containsKey("inactive")) {
+                    return false;
+                }
+        try (final Connection db = connectionPool.getConnection();
+                final PreparedStatement statement = db.prepareStatement("UPDATE people SET typeid=?, inactive=? WHERE userid=?")) {
+            statement.setInt(1, Integer.parseInt(options.get("type").get(0)));
+            statement.setBoolean(2, Boolean.parseBoolean(options.get("inactive").get(0)));
+            statement.setLong(3, id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 
     @Override

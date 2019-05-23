@@ -165,7 +165,7 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public void updateUserInfo(long userID, int role, boolean inactive) {
-        this.userDao.updateInfo(userID, role, inactive);
+        this.userDao.update(userID, "-type " + Integer.toString(role),"-inactive " + Boolean.toString(inactive));
     }
 
 }

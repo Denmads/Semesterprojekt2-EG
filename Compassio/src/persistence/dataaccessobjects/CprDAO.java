@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
- * Provides standard operations for the cpr table in the database.
+ * Provides standard operations for interacting with the cpr table in the database.
  *
  * @author Morten Kargo Lyngesen
  */
