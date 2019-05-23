@@ -1,12 +1,11 @@
 package persistence;
 
-import org.apache.commons.dbcp2.BasicDataSource;
-
 import acquaintance.IPersistence;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import persistence.dataaccessobjects.*;
@@ -66,7 +65,14 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public void saveCaseUserRelation(UUID caseID, ArrayList<String> userID) {
-        this.caseDao.saveCaseUserRelation(caseID, userID);
+        StringBuilder builder = new StringBuilder();
+        userID.stream().map((String userID1) -> {
+            builder.append(userID1);
+            return userID1;
+        }).forEachOrdered((String _item) -> {
+            builder.append(" ");
+        });
+        this.caseTypeRelationDao.create("-id " + caseID.toString(), "-users " + builder.toString());
     }
 
     @Override
@@ -135,7 +141,7 @@ public class PersistenceFacade implements IPersistence {
     public String[] getUserTypes() {
         ArrayList<String[]> dataset = (ArrayList<String[]>) this.userTypeRelationDao.getAll();
         String[] types = new String[dataset.size()];
-        for (int i=0;i < dataset.size(); i++) {
+        for (int i = 0; i < dataset.size(); i++) {
             types[i] = dataset.get(i)[0];
         }
         return types;

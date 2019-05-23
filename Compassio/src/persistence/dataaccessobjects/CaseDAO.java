@@ -141,19 +141,6 @@ public class CaseDAO implements DataAccessObject {
         return cases;
     }
 
-    public void saveCaseUserRelation(UUID caseID, ArrayList<String> userID) {
-        try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("INSERT INTO CaseUserRelation VALUES (?, ?)");) {
-            for (int i = 0; i < userID.size(); i++) {
-                statement.setString(1, caseID.toString());
-                statement.setLong(2, Long.parseLong(userID.get(i)));
-                statement.execute();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     @Override
     public String[] get(String ... id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
