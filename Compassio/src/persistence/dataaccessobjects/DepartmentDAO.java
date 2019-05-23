@@ -105,7 +105,6 @@ public class DepartmentDAO implements DataAccessObject {
             statement.setString(1, options.get("name").get(0));
             statement.setInt(2, Integer.parseInt(options.get("phonenumber").get(0)));
             statement.setString(3, options.get("address").get(0));
-            statement.execute();
             statement.executeUpdate();
             return true;
         } catch (SQLException ex) {

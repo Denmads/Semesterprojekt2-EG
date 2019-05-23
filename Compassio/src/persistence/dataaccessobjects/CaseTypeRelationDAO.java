@@ -13,7 +13,8 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import persistence.util.ArgumentParser;
 
 /**
- *
+ * Provides standard operations for interacting with the CaseTypeRelation table 
+ * in the database.
  * @author Morten Kargo Lyngesen
  */
 public class CaseTypeRelationDAO implements DataAccessObject {
@@ -26,16 +27,15 @@ public class CaseTypeRelationDAO implements DataAccessObject {
 
     @Override
     public String[] get(String... id) {
-        ArrayList<String> types = new ArrayList<>();
         try (Connection db = connectionPool.getConnection()) {
-            ResultSet result = db.prepareStatement("SELECT name FROM casetyperelation WHERE id").executeQuery();
-            while (result.next()) {
-                types.add(result.getString("name"));
+            ResultSet result = db.prepareStatement("SELECT name FROM casetyperelation WHERE typeid=").executeQuery();
+            if (result.next()) {
+                return new String[]{result.getString("name")};
             }
+            return null;
         } catch (SQLException ex) {
-            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        return types.toArray(new String[0]);
     }
 
     @Override
@@ -69,8 +69,20 @@ public class CaseTypeRelationDAO implements DataAccessObject {
     }
 
     @Override
-    public boolean update(long id, String[] args) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean update(long id, String... args) {
+        Map<String, List<String>> options = ArgumentParser.parse(args);
+        if (!options.containsKey("name")) {
+            return false;
+        }
+        try (Connection db = connectionPool.getConnection();
+                PreparedStatement statement = db.prepareStatement("UPDATE CaseTypeRelation SET name=? WHERE typeid=?")) {
+            statement.setLong(2, id);
+            statement.setString(1, options.get("name").get(0));
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 
     @Override
