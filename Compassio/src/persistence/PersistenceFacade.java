@@ -99,10 +99,6 @@ public class PersistenceFacade implements IPersistence {
         return this.departmentDao.get(Integer.toString(departmentId))[1];
     }
 
-    public String[] getDepartment(int departmentId) {
-        return this.departmentDao.get(Integer.toString(departmentId));
-    }
-
     //==========================================================================
     // User methods
     //==========================================================================

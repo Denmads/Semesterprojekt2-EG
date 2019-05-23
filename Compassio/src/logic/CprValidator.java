@@ -1,7 +1,8 @@
 package logic;
 
 /**
- *
+ * The CprValidator class is a utility class for modolo 11 validating Danish
+ * CPR numbers.
  * @author Morten Kargo Lyngesen
  */
 public class CprValidator {
@@ -9,6 +10,12 @@ public class CprValidator {
     private static final int[] CONTROL_NUMBER = {4, 3, 2, 7, 6, 5, 4, 3, 2};
     private static final int MODOLO_CONTROL = 11;
 
+    /**
+     * Returns if a given CPR number is valid.
+     * @param cpr CPR number to test validity of.
+     * @return <code>true</code> if given cpr number is valid, and 
+     * <code>false</code> if incorrect.
+     */
     public static boolean validate(String cpr) {
         if (cpr.length() != 10) {
             return false;

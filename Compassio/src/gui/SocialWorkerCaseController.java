@@ -48,6 +48,8 @@ public class SocialWorkerCaseController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param rb The resources used to localize the root object, or null if the root object was not localized.
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
