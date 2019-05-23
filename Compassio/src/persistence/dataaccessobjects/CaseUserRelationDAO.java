@@ -44,7 +44,8 @@ public class CaseUserRelationDAO implements DataAccessObject {
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("INSERT INTO CaseUserRelation VALUES (?, ?)");) {
             for (int i = 0; i < options.get("users").size(); i++) {
-                statement.setString(1, options.get("id").toString());
+                //REGEX expression to remove all punction chars except hyphens
+                statement.setString(1, options.get("id").toString().replaceAll("[^\\P{P}-]+",""));
                 statement.setLong(2, Long.parseLong(options.get("users").get(i)));
                 statement.execute();
             }
@@ -56,12 +57,12 @@ public class CaseUserRelationDAO implements DataAccessObject {
 
     @Override
     public boolean update(long id, String... args) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public boolean delete(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

@@ -104,6 +104,7 @@ public class CreateCaseController implements Initializable {
             alert.setContentText("CPR må kun indeholde numre");
             alert.showAndWait();
         } catch (NullPointerException e) {
+            e.printStackTrace();
             alert.setContentText("Vælg både bostedsafdeling og sagstype");
             alert.showAndWait();
         }

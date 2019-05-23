@@ -3,7 +3,7 @@ package persistence.dataaccessobjects;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
- *
+ * A singleton class to provide a singular connection pool to multiple classes.
  * @author Morten Kargo Lyngesen
  */
 public class DatabaseConnection {
@@ -25,10 +25,18 @@ public class DatabaseConnection {
         connectionPool.setInitialSize(10);
     }
     
+    /**
+     * Returns a connection pool to perform transactions on.
+     * @return a connection pool to perform transactions on.
+     */
     public static BasicDataSource getConnectionPool (){
         return connectionPool;
     }
     
+    /**
+     * Returns a singleton instance of the DatabaseConnection class.
+     * @return a singleton instance of the DatabaseConnection class.
+     */
     public static DatabaseConnection getInstance() {
         return INSTANCE;
     }

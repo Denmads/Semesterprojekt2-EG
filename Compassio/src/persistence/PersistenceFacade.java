@@ -32,7 +32,7 @@ public class PersistenceFacade implements IPersistence {
         userDao = new UserDAO();
         caseDao = CaseDAO.getInstance();
         departmentDao = new DepartmentDAO();
-        caseTypeRelationDao = new CaseTypeRelationDAO();
+        caseTypeRelationDao = CaseTypeRelationDAO.getInstance();
         cprDao = new CprDAO();
         employeesOfDepartmentDAO = new EmployeesOfDepartmentDAO();
         userTypeRelationDao = UserTypeRelationDAO.getInstance();
@@ -56,12 +56,16 @@ public class PersistenceFacade implements IPersistence {
     @Override
     public boolean saveCase(UUID caseID, long cprNumber, String type,
             String mainBody, LocalDate dateCreated, LocalDate dateClosed, int departmentID, String inquiry) {
-        return this.caseDao.saveCase(caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
+        String closedate = "-dateClosed null";
+        if (dateClosed != null) {
+            closedate = "-dateClosed " + dateClosed.toString().replace('-', '/');
+        }
+        return this.caseDao.create("-caseID " + caseID.toString(), "-cprNumber " + Long.toString(cprNumber), "-type " + type, "-mainBody " + mainBody, "-dateCreated " + dateCreated.toString().replace('-', '/'), closedate, "-departmentID " + Integer.toString(departmentID), "-inquiry " + inquiry);
     }
 
     @Override
     public ArrayList<String[]> getCasesByUserID(String userID) {
-        return this.caseDao.getCasesByUserID(userID);
+        return this.caseDao.getAll("-id " + userID, "-user");
     }
 
     @Override
@@ -83,7 +87,7 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public ArrayList<String[]> getCasesByDepartment(long departmentID) {
-        return this.caseDao.getCasesByDepartment(departmentID);
+        return this.caseDao.getAll("-id " + departmentID, "-department");
     }
 
     //==========================================================================
@@ -165,7 +169,7 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public void updateUserInfo(long userID, int role, boolean inactive) {
-        this.userDao.update(userID, "-type " + Integer.toString(role),"-inactive " + Boolean.toString(inactive));
+        this.userDao.update(userID, "-type " + Integer.toString(role), "-inactive " + Boolean.toString(inactive));
     }
 
 }

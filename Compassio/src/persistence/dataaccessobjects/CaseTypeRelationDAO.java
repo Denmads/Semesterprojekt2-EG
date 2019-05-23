@@ -20,22 +20,30 @@ import persistence.util.ArgumentParser;
 public class CaseTypeRelationDAO implements DataAccessObject {
 
     private final BasicDataSource connectionPool;
+    
+    private static final CaseTypeRelationDAO INSTANCE = new CaseTypeRelationDAO();
 
-    public CaseTypeRelationDAO() {
+    private CaseTypeRelationDAO() {
         this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
+    }
+    
+    public static CaseTypeRelationDAO getInstance() {
+        return INSTANCE;
     }
 
     @Override
-    public String[] get(String... id) {
-        try (Connection db = connectionPool.getConnection()) {
-            ResultSet result = db.prepareStatement("SELECT name FROM casetyperelation WHERE typeid=").executeQuery();
-            if (result.next()) {
-                return new String[]{result.getString("name")};
+    public String[] get(String... id) {      
+        try (Connection db = connectionPool.getConnection();
+                PreparedStatement statement = db.prepareStatement("SELECT typeid FROM CaseTypeRelation WHERE name = ?")) {
+            statement.setString(1, id[0]);
+            ResultSet tuples = statement.executeQuery();
+            if (tuples.next()){
+                return new String[]{Long.toString(tuples.getLong(1))};
             }
-            return null;
         } catch (SQLException ex) {
-            return null;
+            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
     }
 
     @Override
