@@ -104,8 +104,7 @@ public class CaseDAO implements DataAccessObject {
                 cases.add(singleCase);
             }
         } catch (SQLException ex) {
-            System.out.println("SQL exception");
-            Logger.getLogger(CaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
 
         }
         return cases;
