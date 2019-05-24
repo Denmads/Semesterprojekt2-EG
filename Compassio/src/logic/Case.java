@@ -6,6 +6,7 @@ import java.util.UUID;
 /**
  * Represents a social case created by a case worker
  * @author Frederik Haagensen
+ * @author Bent Wilhelmsen
  */
 public class Case {
 

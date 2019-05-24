@@ -8,6 +8,8 @@ import logic.UserInfo;
 /**
  *
  * @author Peter Brændgaard
+ * @author Frederik Haagensen
+ * @author Julie Markersen
  */
 public interface ILogic {
 

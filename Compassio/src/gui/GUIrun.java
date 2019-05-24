@@ -14,6 +14,7 @@ import javafx.stage.StageStyle;
 /**
  *
  * @author Peter Brændgaard
+ * @author Julie Markersen
  */
 public class GUIrun extends Application implements IGUI {
 

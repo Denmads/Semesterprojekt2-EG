@@ -12,6 +12,7 @@ import java.util.UUID;
  * updating, and deleting data.
  *
  * @author Peter Andreas Brændgaard
+ * @author Frederik Haagensen
  * @author Morten Kargo Lyngesen
  */
 public interface IPersistence {
