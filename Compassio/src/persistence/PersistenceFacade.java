@@ -1,8 +1,6 @@
 package persistence;
 
 import acquaintance.IPersistence;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,8 +117,8 @@ public class PersistenceFacade implements IPersistence {
     }
 
     @Override
-    public void createUser(String userName, String firstName, String lastName, String password, int typeid, int departmentid) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        this.userDao.createUser(userName, firstName, lastName, password, typeid, departmentid);
+    public void createUser(String userName, String firstName, String lastName, String password, int typeid, int departmentid) {
+        this.userDao.create("-userName " + userName,"-firstName " + firstName,"-lastName " + lastName,"-password " + password,"-typeid " + Integer.toString(typeid),"-departmentid " + Integer.toString(departmentid));
     }
 
     @Override
@@ -161,7 +159,7 @@ public class PersistenceFacade implements IPersistence {
     @Override
     public boolean changePassword(String newPassword, String oldPassword, String username) {
         if (getUser(username, oldPassword) != null) {
-            return userDao.changePassword(newPassword, username);
+            return userDao.update(-1 ,"-updatePassword","-newPassword" + newPassword,"-username" + username);
         } else {
             return false;
         }

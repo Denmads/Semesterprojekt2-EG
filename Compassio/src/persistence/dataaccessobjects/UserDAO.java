@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 import persistence.util.ArgumentParser;
 
 /**
- * Provides standard operations for interacting with the people table in the database.
+ * Provides standard operations for interacting with the people table in the
+ * database.
+ *
  * @author Morten Kargo Lyngesen
  */
 public class UserDAO implements DataAccessObject {
@@ -23,33 +23,6 @@ public class UserDAO implements DataAccessObject {
 
     public UserDAO() {
         this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
-    }
-
-    public void createUser(String userName, String firstName, String lastName, String password, int typeid, int departmentid) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] salt = PasswordTool.generateSalt();
-        try (
-                final Connection db = connectionPool.getConnection();
-                final PreparedStatement statement = db.prepareStatement("INSERT INTO people(firstname, lastname, username, hashedpassword, salt, typeid, inactive) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-                final PreparedStatement relationStatement = db.prepareStatement("INSERT INTO employeesofdepartment VALUES (?, ?)")) {
-            statement.setString(1, firstName);
-            statement.setString(2, lastName);
-            statement.setString(3, userName);
-            statement.setBytes(4, PasswordTool.hashPassword(password, salt));
-            statement.setBytes(5, salt);
-            statement.setInt(6, typeid);
-            statement.setBoolean(7, false);
-            statement.executeUpdate();
-
-            ResultSet key = statement.getGeneratedKeys();
-
-            if (key.next()) {
-                relationStatement.setLong(1, departmentid);
-                relationStatement.setLong(2, key.getLong(1));
-                relationStatement.execute();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public boolean validateUserID(String userID) {
@@ -61,7 +34,6 @@ public class UserDAO implements DataAccessObject {
             return 0 < tuples.getInt("total");
 
         } catch (SQLException | NumberFormatException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
 
         }
@@ -84,28 +56,12 @@ public class UserDAO implements DataAccessObject {
             }
 
         } catch (SQLException | NumberFormatException | NoSuchAlgorithmException | InvalidKeySpecException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-
-        }
-    }
-
-    public boolean changePassword(String newPassword, String username) {
-        byte[] salt = PasswordTool.generateSalt();
-        try (Connection db = connectionPool.getConnection();
-                PreparedStatement statement = db.prepareStatement("UPDATE people SET hashedpassword=?, salt=? WHERE username=?");) {
-            statement.setBytes(1, PasswordTool.hashPassword(newPassword, salt));
-            statement.setBytes(2, salt);
-            statement.setString(3, username);
-            statement.execute();
-        } catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException ex) {
             return false;
         }
-        return true;
     }
 
     @Override
-    public String[] get(String ... id) {
+    public String[] get(String... id) {
         if (id.length != 2) {
             return null;
         }
@@ -129,7 +85,7 @@ public class UserDAO implements DataAccessObject {
                         user[2] = res.getString("firstname");
                         user[3] = res.getString("lastname");
                         String[] type = UserTypeRelationDAO.getInstance().get("-id " + user[0]);
-                        if(type != null){
+                        if (type != null) {
                             user[4] = type[0];
                         }
                         return user;
@@ -137,19 +93,17 @@ public class UserDAO implements DataAccessObject {
                         return null;
                     }
                 } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
-                    Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
                     return null;
                 }
-
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
-    
+
     /**
      * Returns all users that satisfy the condition(s)
+     *
      * @param cond department ID's that the user must be associated with.
      * @return all entries that satisfy the conditions
      */
@@ -177,22 +131,66 @@ public class UserDAO implements DataAccessObject {
             }
             return users;
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return new ArrayList<>();
+            return null;
         }
     }
 
     @Override
-    public boolean create(String[] args) {
-        return false;
+    public boolean create(String... args) {
+        Map<String, List<String>> options = ArgumentParser.parse(args);
+        if (!options.containsKey("firstName") && !options.containsKey("lastName")
+                && !options.containsKey("userName") && !options.containsKey("password")
+                && !options.containsKey("typeid")
+                && !options.containsKey("departmentid")) {
+            return false;
+        }
+
+        byte[] salt = PasswordTool.generateSalt();
+        try (
+                final Connection db = connectionPool.getConnection();
+                final PreparedStatement statement = db.prepareStatement("INSERT INTO people(firstname, lastname, username, hashedpassword, salt, typeid, inactive) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                final PreparedStatement relationStatement = db.prepareStatement("INSERT INTO employeesofdepartment VALUES (?, ?)")) {
+            statement.setString(1, options.get("firstName").get(0));
+            statement.setString(2, options.get("lastName").get(0));
+            statement.setString(3, options.get("userName").get(0));
+            statement.setBytes(4, PasswordTool.hashPassword(options.get("password").get(0), salt));
+            statement.setBytes(5, salt);
+            statement.setInt(6, Integer.parseInt(options.get("typeid").get(0)));
+            statement.setBoolean(7, false);
+            statement.executeUpdate();
+
+            ResultSet key = statement.getGeneratedKeys();
+
+            if (key.next()) {
+                relationStatement.setLong(1, Integer.parseInt(options.get("departmentid").get(0)));
+                relationStatement.setLong(2, key.getLong(1));
+                relationStatement.execute();
+            }
+            return true;
+        } catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            return false;
+        }
     }
 
     @Override
     public boolean update(long id, String... args) {
         Map<String, List<String>> options = ArgumentParser.parse(args);
-                if (!options.containsKey("type") && !options.containsKey("inactive")) {
-                    return false;
-                }
+        if (!options.containsKey("type") && !options.containsKey("inactive")) {
+            return false;
+        }
+        if (options.containsKey("updatePassword")) {
+            byte[] salt = PasswordTool.generateSalt();
+            try (Connection db = connectionPool.getConnection();
+                    PreparedStatement statement = db.prepareStatement("UPDATE people SET hashedpassword=?, salt=? WHERE username=?");) {
+                statement.setBytes(1, PasswordTool.hashPassword(options.get("newPassword").get(0), salt));
+                statement.setBytes(2, salt);
+                statement.setString(3, options.get("username").get(0));
+                statement.execute();
+            } catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException ex) {
+                return false;
+            }
+            return true;
+        }
         try (final Connection db = connectionPool.getConnection();
                 final PreparedStatement statement = db.prepareStatement("UPDATE people SET typeid=?, inactive=? WHERE userid=?")) {
             statement.setInt(1, Integer.parseInt(options.get("type").get(0)));

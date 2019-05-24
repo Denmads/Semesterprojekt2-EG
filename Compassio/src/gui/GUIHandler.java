@@ -1,10 +1,8 @@
 package gui;
 
 import java.io.IOException;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -41,6 +39,11 @@ public class GUIHandler {
         window.show();
     }
 
+    /**
+     * Handles movement of the window.
+     * @param stage primary stage
+     * @param scene primary scene
+     */
     public void moves(Stage stage, Scene scene) {
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
