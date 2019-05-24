@@ -160,7 +160,7 @@ public class PersistenceFacade implements IPersistence {
     @Override
     public boolean changePassword(String newPassword, String oldPassword, String username) {
         if (getUser(username, oldPassword) != null) {
-            return userDao.update(-1 ,"-updatePassword","-newPassword" + newPassword,"-username" + username);
+            return userDao.update(-1 ,"-updatePassword ","-newPassword " + newPassword,"-username " + username);
         } else {
             return false;
         }

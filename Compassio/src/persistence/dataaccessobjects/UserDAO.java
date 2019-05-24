@@ -175,9 +175,6 @@ public class UserDAO implements DataAccessObject {
     @Override
     public boolean update(long id, String... args) {
         Map<String, List<String>> options = ArgumentParser.parse(args);
-        if (!options.containsKey("type") && !options.containsKey("inactive")) {
-            return false;
-        }
         if (options.containsKey("updatePassword")) {
             byte[] salt = PasswordTool.generateSalt();
             try (Connection db = connectionPool.getConnection();

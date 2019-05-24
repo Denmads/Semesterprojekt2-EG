@@ -157,7 +157,6 @@ public class CaseDAO implements DataAccessObject {
                 statement.setDate(4, null);
             }
             java.sql.Date dateClosed = null;
-            System.out.println(options.get("dateClosed").get(0));
             if (!options.get("dateClosed").get(0).equals("null")) {
                 String dateClosedStr = options.get("dateClosed").get(0);
 
