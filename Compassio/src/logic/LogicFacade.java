@@ -167,9 +167,9 @@ public class LogicFacade implements ILogic {
         ArrayList<UserInfo> users = new ArrayList<>();
         ArrayList<String[]> usersInfo = persistence.getAllUsers(user.getDepartments());
         
-        for (String[] info : usersInfo) {
+        usersInfo.forEach((info) -> {
             users.add(new UserInfo(Long.parseLong(info[0]), info[1], info[2] + " " +  info[3], userType.getName(Integer.parseInt(info[4])), Boolean.parseBoolean(info[5])));
-        }
+        });
         
         return users;
     }
@@ -182,5 +182,10 @@ public class LogicFacade implements ILogic {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
             Logger.getLogger(LogicFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public boolean validateCpr(String cpr) {
+        return CprValidator.validate(cpr);
     }
 }

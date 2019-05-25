@@ -146,4 +146,6 @@ public interface ILogic {
      * @param departmentid The department of the user
      */
     public void createUser(String firstName, String lastName, String username, String password, String type, int departmentid);
+    
+    public boolean validateCpr(String cpr);
 }

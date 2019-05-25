@@ -22,7 +22,7 @@ import logic.CprValidator;
 /**
  * FXML Controller class
  *
- * @author madsh
+ * @author Mads Holm Jensen
  */
 public class CreateCaseController implements Initializable {
 
@@ -81,7 +81,7 @@ public class CreateCaseController implements Initializable {
     private void createCaseButton(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         try {
-            if (CprValidator.validate(CPRField.getText().trim())) {
+            if (GUIrun.getLogic().validateCpr(CPRField.getText().trim())) {
                 String[] departmentInfo = departmentBox.getValue().split(" ");
                 int departmentID = Integer.parseInt(departmentInfo[0]);
                 if (GUIrun.getLogic().createCase(firstNameField.getText().trim(), lastNameField.getText().trim(), Long.parseLong(CPRField.getText().trim()),

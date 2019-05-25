@@ -1,5 +1,6 @@
 package persistence.dataaccessobjects;
 
+import persistence.util.DatabaseConnection;
 import persistence.util.PasswordTool;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;

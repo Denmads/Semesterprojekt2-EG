@@ -1,4 +1,4 @@
-package persistence.dataaccessobjects;
+package persistence.util;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 

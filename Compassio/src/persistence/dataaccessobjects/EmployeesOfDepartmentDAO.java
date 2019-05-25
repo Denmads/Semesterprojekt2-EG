@@ -1,5 +1,6 @@
 package persistence.dataaccessobjects;
 
+import persistence.util.DatabaseConnection;
 import persistence.util.ArgumentParser;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
