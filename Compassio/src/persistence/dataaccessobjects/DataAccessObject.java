@@ -10,6 +10,7 @@ import java.util.List;
  * @author Morten Kargo Lyngesen
  */
 public interface DataAccessObject {
+    
 
     /**
      * Returns the entry that matches the given ID. If none exists returns

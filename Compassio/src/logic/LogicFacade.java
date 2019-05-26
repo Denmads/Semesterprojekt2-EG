@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Facade class for facilitating a single entry point to the logic layer.
  * @author Peter Andreas Brændgaard
  * @author Frederik Haagensen
  */
@@ -28,10 +28,14 @@ public class LogicFacade implements ILogic {
         loadUserTypes();
     }
 
+    /**
+     * Creates an instance of the different user types.
+     */
     public void loadUserTypes() {
         userType = new UserType(persistence.getUserTypes());
     }
     
+    @Override
     public String[] getUserTypes () {
        return userType.getTypes();
     }
@@ -80,6 +84,10 @@ public class LogicFacade implements ILogic {
         return response;
     }
 
+    /**
+     * Returns the current instance of the persistence layer.
+     * @return the current instance of the persistence layer.
+     */
     public static IPersistence getPersistence() {
         return persistence;
     }
@@ -122,6 +130,7 @@ public class LogicFacade implements ILogic {
         return persistence.validateUserID(userID);
     }
     
+    @Override
     public boolean checkUserPassword(String password) {
         return persistence.validateUserPassword(Long.parseLong(user.getUserID()), password);
     }

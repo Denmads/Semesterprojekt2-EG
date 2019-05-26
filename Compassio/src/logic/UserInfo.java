@@ -12,6 +12,14 @@ public class UserInfo {
     private String type;
     private boolean inactive;
 
+    /**
+     * Class constructor
+     * @param id id of the current user.
+     * @param username current users username.
+     * @param name current users first and last name.
+     * @param type current users usertype; admin, user etc...
+     * @param inactive users activity status.
+     */
     public UserInfo(long id, String username, String name, String type, boolean inactive) {
         this.id = id;
         this.username = username;

@@ -24,6 +24,9 @@ public class DepartmentDAO implements DataAccessObject {
 
     private final BasicDataSource connectionPool;
 
+    /**
+     * Initializes the class.
+     */
     public DepartmentDAO() {
         this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }

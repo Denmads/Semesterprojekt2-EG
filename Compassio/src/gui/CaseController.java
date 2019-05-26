@@ -133,7 +133,11 @@ public class CaseController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
-
+    
+    /**
+     * Injects the case being worked on into a different stage.
+     * @param currentCase case to inject
+     */
     public void injectCase(Case currentCase) {
         this.currentCase = currentCase;
         setupCase();

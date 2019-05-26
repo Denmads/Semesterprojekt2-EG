@@ -16,7 +16,15 @@ public class User {
     private final int userType;
     private final ArrayList<Long> departments;
 
-    
+    /**
+     * Class constructor.
+     * @param userID userID of the current user.
+     * @param username username of the current user.
+     * @param firstName current users first name.
+     * @param lastName current users last name.
+     * @param departments departments that the current user is associated with.
+     * @param userType current users type; admin, user etc...
+     */
     public User (String userID, String username, String firstName, 
                     String lastName, ArrayList<Long> departments, int userType) {
         this.username = username;

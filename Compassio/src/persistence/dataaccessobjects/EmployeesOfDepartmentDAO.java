@@ -12,23 +12,28 @@ import java.util.Map;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
- *
+ * Provides standard operations for interacting with the EmployeesOfDepartment 
+ * table in the database.
  * @author Morten Kargo Lyngesen
  */
 public class EmployeesOfDepartmentDAO implements DataAccessObject {
+
     private final BasicDataSource connectionPool;
 
-    public EmployeesOfDepartmentDAO () {
+    /**
+     * Initializes the class by retrieving the connection pool.
+     */
+    public EmployeesOfDepartmentDAO() {
         this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }
-    
+
     @Override
     public String[] get(String... id) {
         Map<String, List<String>> options = ArgumentParser.parse(id);
-        if (!options.containsKey("id")) { 
+        if (!options.containsKey("id")) {
             return null;
         }
-        
+
         ArrayList<String> departments = new ArrayList();
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement statement = db.prepareStatement("SELECT * FROM employeesofdepartment WHERE userID=?")) {
@@ -73,5 +78,5 @@ public class EmployeesOfDepartmentDAO implements DataAccessObject {
             return false;
         }
     }
-    
+
 }

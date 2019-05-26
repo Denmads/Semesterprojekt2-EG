@@ -22,10 +22,18 @@ public class UserDAO implements DataAccessObject {
 
     private final BasicDataSource connectionPool;
 
+    /**
+     * Initializes the class by retrieving the connection pool.
+     */
     public UserDAO() {
         this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }
-
+    
+    /**
+     * Validates user ID's.
+     * @param userID ID to validate
+     * @return <code>true</code> on valid userID, and <code>false</code> on invalid.
+     */
     public boolean validateUserID(String userID) {
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement existCheck = db.prepareStatement("SELECT COUNT(userID) AS total FROM People WHERE userID = ?")) {
@@ -40,6 +48,12 @@ public class UserDAO implements DataAccessObject {
         }
     }
 
+    /**
+     * Validates a user password.
+     * @param userID user id to validate password of.
+     * @param password password to validate.
+     * @return <code>true</code> on valid password, and <code>false</code> on invalid.
+     */
     public boolean validateUserPassword(long userID, String password) {
         try (Connection db = connectionPool.getConnection();
                 PreparedStatement existCheck = db.prepareStatement("SELECT hashedpassword, salt FROM People WHERE userID = ?")) {

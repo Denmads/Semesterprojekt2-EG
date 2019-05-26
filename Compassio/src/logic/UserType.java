@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A utility class, for representing all user types in the database, converting between id and name
+ * A utility class, for representing all user types in the database, 
+ * converting between id and name
  * 
  * @author Morten Kargo Lyngesen
  * @author Mads Holm Jensen
@@ -13,7 +14,11 @@ public class UserType {
     
         private HashMap<Integer, String> types;
     
-        public UserType (String[] names) {
+    /**
+     * Class constructor. Takes an array of user types.
+     * @param names names and ID's of user types.
+     */
+    public UserType (String[] names) {
             types = new HashMap<>();
             
             for (String n : names) {

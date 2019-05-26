@@ -29,7 +29,11 @@ public class CaseDAO implements DataAccessObject {
     private CaseDAO() {
         this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }
-
+    
+     /**
+     * Returns a singleton instance of the class.
+     * @return a singleton instance of the class.
+     */
     public static CaseDAO getInstance() {
         return INSTANCE;
     }

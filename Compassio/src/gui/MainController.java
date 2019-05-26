@@ -200,6 +200,11 @@ public class MainController implements Initializable {
         stage.close();
     }
     
+    /**
+     * Changes the main content scene of the stage.
+     * @param fxmlName FXML file to load as inner scene.
+     * @throws IOException if the specified FXML file doesn't exist.
+     */
     public void loadContent (String fxmlName) throws IOException {
         lblWelcome.setVisible(false);
         

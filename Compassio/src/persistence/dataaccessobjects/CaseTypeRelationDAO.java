@@ -28,6 +28,10 @@ public class CaseTypeRelationDAO implements DataAccessObject {
         this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }
     
+     /**
+     * Returns a singleton instance of the class.
+     * @return a singleton instance of the class.
+     */
     public static CaseTypeRelationDAO getInstance() {
         return INSTANCE;
     }

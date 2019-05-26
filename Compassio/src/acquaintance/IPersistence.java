@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * The purpose of this interface is to provide access to the persistent storage.
  * The methods provided in this interface are for creating, retrieving,
- * updating, and deleting data.
+ * updating, and deleting data related to the compassio system.
  *
  * @author Peter Andreas Brændgaard
  * @author Frederik Haagensen

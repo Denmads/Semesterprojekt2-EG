@@ -23,6 +23,9 @@ public class CprDAO implements DataAccessObject {
 
     private final BasicDataSource connectionPool;
 
+    /**
+     * Initializes the class.
+     */
     public CprDAO() {
         this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }

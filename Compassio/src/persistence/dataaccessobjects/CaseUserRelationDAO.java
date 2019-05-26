@@ -10,13 +10,17 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import persistence.util.ArgumentParser;
 
 /**
- *
+ * Provides standard operations for interacting with the CaseUserRelationDAO
+ * table in the database.
  * @author Morten Kargo Lyngesen
  */
 public class CaseUserRelationDAO implements DataAccessObject {
     
     private final BasicDataSource connectionPool;
 
+    /**
+     * Initializes the class.
+     */
     public CaseUserRelationDAO() {
         this.connectionPool = DatabaseConnection.getInstance().getConnectionPool();
     }

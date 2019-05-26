@@ -26,6 +26,9 @@ public class PersistenceFacade implements IPersistence {
     private final UserTypeRelationDAO userTypeRelationDao;
     private final CaseUserRelationDAO caseUserRelationDao;
 
+    /**
+     * Initializes the class by instantiating the DAO classes.
+     */
     public PersistenceFacade() {
         //Initialize DAO's
         userDao = new UserDAO();

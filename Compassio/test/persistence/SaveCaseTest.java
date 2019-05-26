@@ -1,4 +1,3 @@
-
 package persistence;
 
 import acquaintance.ILogic;
@@ -8,14 +7,13 @@ import java.util.ArrayList;
 import java.util.UUID;
 import logic.Case;
 import logic.LogicFacade;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- *
- * @author bentw
+ * A test class for the saving of cases to persistent storage.
+ * @author Bent Wilhelmsen
  */
 public class SaveCaseTest {
 
@@ -23,6 +21,9 @@ public class SaveCaseTest {
     IPersistence persistence = new PersistenceFacade();
     private Case unchanged;
 
+    /**
+     * Logs into the system and retrieves cases to test on.
+     */
     @Before
     public void before() {
         logic.injectPersistence(persistence);
@@ -30,13 +31,11 @@ public class SaveCaseTest {
 
         ArrayList<Case> cases = logic.getCases();
         Case unchanged = cases.get(0);
-   
     }
     
      /**
      * Test of saveCase method, of class PersistenceFacade.
      */
-
     @Test
     public void testSaveCase() {
         logic.login("casetest", "password");

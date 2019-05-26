@@ -6,7 +6,8 @@ import logic.Case;
 import logic.UserInfo;
 
 /**
- *
+ * Defines methods that the logic layer must implement in order to function with
+ * the GUI layer.
  * @author Peter Brændgaard
  * @author Frederik Haagensen
  * @author Julie Markersen
@@ -147,5 +148,11 @@ public interface ILogic {
      */
     public void createUser(String firstName, String lastName, String username, String password, String type, int departmentid);
     
+    /**
+     * Returns <code>true</code> on valid number. <code>false</code> on invalid
+     * number.
+     * @param cpr cpr number to test on.
+     * @return <code>true</code> on valid. <code>false</code> on invalid
+     */
     public boolean validateCpr(String cpr);
 }

@@ -73,6 +73,10 @@ public class SocialWorkerCaseController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Injects the current case into the controller.
+     * @param currentCase case to inject.
+     */
     public void injectCase(Case currentCase) {
         this.currentCase = currentCase;
         setupCase();

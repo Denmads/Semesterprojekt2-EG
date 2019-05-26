@@ -1,7 +1,8 @@
 package acquaintance;
 
 /**
- * Defines methods the presentation layer "main" class must implement.
+ * Defines methods that the presentation layer must implement in order to function 
+ * with the system start class.
  * @author Peter Brændgaard
  */
 public interface IGUI {
