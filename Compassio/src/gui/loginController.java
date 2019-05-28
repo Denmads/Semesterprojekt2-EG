@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import java.io.IOException;
@@ -31,7 +26,8 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author Peterzxcvbnm
+ * @author Peter Andreas Brændgaard
+ * @author Julie Markersen
  */
 public class loginController implements Initializable {
 
@@ -53,7 +49,10 @@ public class loginController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param rb The resources used to localize the root object, or null if the root object was not localized.
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
      */
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
         visible();
         password_passwordsFiled.setPromptText("Din adgangskode");
@@ -73,6 +72,9 @@ public class loginController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Sets the initial visibility of the login menu.
+     */
     public void visible() {
         start_grid.setVisible(true);
         login_grid.setVisible(false);

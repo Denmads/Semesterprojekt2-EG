@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import java.net.URL;
@@ -28,7 +23,7 @@ import logic.Case;
 /**
  * FXML Controller class
  *
- * @author Peterzxcvbnm
+ * @author Peter Andreas Brændgaard
  */
 public class SocialWorkerCaseController implements Initializable {
 
@@ -53,6 +48,8 @@ public class SocialWorkerCaseController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param rb The resources used to localize the root object, or null if the root object was not localized.
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,6 +73,10 @@ public class SocialWorkerCaseController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Injects the current case into the controller.
+     * @param currentCase case to inject.
+     */
     public void injectCase(Case currentCase) {
         this.currentCase = currentCase;
         setupCase();

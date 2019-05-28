@@ -1,7 +1,6 @@
 package logic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * The User class is a representation of the signed in user. A user object is to
@@ -15,9 +14,17 @@ public class User {
     private final String firstName;
     private final String lastName;
     private final int userType;
-    private ArrayList<Long> departments;
+    private final ArrayList<Long> departments;
 
-    
+    /**
+     * Class constructor.
+     * @param userID userID of the current user.
+     * @param username username of the current user.
+     * @param firstName current users first name.
+     * @param lastName current users last name.
+     * @param departments departments that the current user is associated with.
+     * @param userType current users type; admin, user etc...
+     */
     public User (String userID, String username, String firstName, 
                     String lastName, ArrayList<Long> departments, int userType) {
         this.username = username;

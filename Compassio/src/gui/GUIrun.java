@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import javafx.application.Application;
@@ -17,8 +12,10 @@ import javafx.scene.image.Image;
 import javafx.stage.StageStyle;
 
 /**
+ * Starts the GUI thread and instantiates the initial controller class.
  *
  * @author Peter Brændgaard
+ * @author Julie Markersen 
  */
 public class GUIrun extends Application implements IGUI {
 
@@ -32,15 +29,28 @@ public class GUIrun extends Application implements IGUI {
     public void injectLogic(ILogic LogicLayer) {
         logic = LogicLayer;
     }
-
+    
+    /**
+     * Returns a singleton instance of the class.
+     * @return a singleton instance of the class.
+     */
     public static IGUI getInstance() {
         return guiRun;
     }
-
+    
+    /**
+     * Returns the logic layer associated with the class.
+     * @return the logic layer associated with the class.
+     */
     public static ILogic getLogic() {
         return logic;
     }
     
+    /**
+     * Changes the scene based on a specified FXML file.
+     * @param fxml FXML file to set the scene as.
+     * @throws IOException if the specified file does not exist.
+     */
     public static void changeFxml (String fxml) throws IOException {
         guih.changeFXMLAction(fxml);
     }
@@ -73,5 +83,4 @@ public class GUIrun extends Application implements IGUI {
         guiRun = this;
         launch(args);
     }
-
 }

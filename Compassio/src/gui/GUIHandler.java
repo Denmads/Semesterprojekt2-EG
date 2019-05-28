@@ -1,23 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import java.io.IOException;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
- *
- * @author L530
+ * Handles window movement and scene changes in the GUI.
+ * @author Mads Holm Jensen
  */
 public class GUIHandler {
 
@@ -26,13 +19,16 @@ public class GUIHandler {
     
     private Stage window;
 
+    /**
+     * Class constructor, takes stage as parameter.
+     * @param window GUI stage 
+     */
     public GUIHandler(Stage window) {
         this.window = window;
     }
 
     /**
-     *
-     * @param fxml Takes the attribute fxml as a String
+     * @param fxml Takes the attribute FXML as a String
      * @throws IOException Throws an Exception Changes the fxml scene you are in
      * Sets a new Scene in the new location
      */
@@ -46,6 +42,11 @@ public class GUIHandler {
         window.show();
     }
 
+    /**
+     * Handles movement of the window.
+     * @param stage primary stage
+     * @param scene primary scene
+     */
     public void moves(Stage stage, Scene scene) {
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override

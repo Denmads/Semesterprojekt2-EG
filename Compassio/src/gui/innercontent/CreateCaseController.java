@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui.innercontent;
 
 import gui.GUIrun;
@@ -22,11 +17,12 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import logic.CprValidator;
 
 /**
  * FXML Controller class
  *
- * @author madsh
+ * @author Mads Holm Jensen
  */
 public class CreateCaseController implements Initializable {
 
@@ -58,6 +54,8 @@ public class CreateCaseController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param rb The resources used to localize the root object, or null if the root object was not localized.
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -83,7 +81,7 @@ public class CreateCaseController implements Initializable {
     private void createCaseButton(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         try {
-            if (CPRField.getText().trim().length() == 10) {
+            if (GUIrun.getLogic().validateCpr(CPRField.getText().trim())) {
                 String[] departmentInfo = departmentBox.getValue().split(" ");
                 int departmentID = Integer.parseInt(departmentInfo[0]);
                 if (GUIrun.getLogic().createCase(firstNameField.getText().trim(), lastNameField.getText().trim(), Long.parseLong(CPRField.getText().trim()),
@@ -99,13 +97,14 @@ public class CreateCaseController implements Initializable {
                 }
 
             } else {
-                alert.setContentText("CPR nummer skal være 10 numre langt");
+                alert.setContentText("CPR nummer ikke gyldigt");
                 alert.showAndWait();
             }
         } catch (NumberFormatException ex) {
             alert.setContentText("CPR må kun indeholde numre");
             alert.showAndWait();
         } catch (NullPointerException e) {
+            e.printStackTrace();
             alert.setContentText("Vælg både bostedsafdeling og sagstype");
             alert.showAndWait();
         }

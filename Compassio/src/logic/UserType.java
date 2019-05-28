@@ -1,19 +1,24 @@
 package logic;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A utillity class, for representing all usertypes in the database, converting between id and name
+ * A utility class, for representing all user types in the database, 
+ * converting between id and name
  * 
  * @author Morten Kargo Lyngesen
+ * @author Mads Holm Jensen
  */
 public class UserType {
     
         private HashMap<Integer, String> types;
     
-        public UserType (String[] names) {
+    /**
+     * Class constructor. Takes an array of user types.
+     * @param names names and ID's of user types.
+     */
+    public UserType (String[] names) {
             types = new HashMap<>();
             
             for (String n : names) {
@@ -61,34 +66,4 @@ public class UserType {
             
             return allTypes;
         }
-        
-//    /**
-//     * This is the default user. This user has no editing rights and can only
-//     * see their own information
-//     */
-//    USER,
-//
-//    /**
-//     * Represents a social worker at a institution. This user can only see the
-//     * cases related to their specific department.
-//     */
-//    SOCIALWORKER,
-//    
-//    /**
-//     * Represents a caseworker that works for the municipality. This user can
-//     * only see the the cases that they're assigned to. They have the right to
-//     * create and edit new cases. As well as closing existing ones.
-//     */
-//    CASEWORKER,
-//
-//    /**
-//     * Represents system administrators. System admins can't see any cases. They
-//     * have the ability to change the passwords of the other users.
-//     */
-//    ADMIN,
-//    
-//    /**
-//     * If the user type is unrecognizable or an error happens the usertype gets set to this
-//     */
-//    UNKNOWN
 }

@@ -1,90 +1,108 @@
 package persistence;
 
-import org.apache.commons.dbcp2.BasicDataSource;
-
 import acquaintance.IPersistence;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import persistence.dataaccessobjects.*;
 
 /**
  * Provides a facade to interact with the database through Data Access Objects.
  *
- * @author Peterzxcvbnm
+ * @author Peter Andreas Brændgaard
+ * @author Frederik Haagensen
  * @author Morten Kargo Lyngesen
  */
 public class PersistenceFacade implements IPersistence {
 
-    //Database connection parameters
-    //#TODO: Move to a secure location
-    private final String dbIP = "jdbc:postgresql://68.183.68.65:5432/compassio";
-    private final String username = "postgres";
-    private final String password = "software-f19-4";
-
-    private final BasicDataSource connectionPool;
-
     //Data Access Objects
     private final UserDAO userDao;
     private final CaseDAO caseDao;
+    private final DepartmentDAO departmentDao;
+    private final CaseTypeRelationDAO caseTypeRelationDao;
+    private final CprDAO cprDao;
+    private final EmployeesOfDepartmentDAO employeesOfDepartmentDAO;
+    private final UserTypeRelationDAO userTypeRelationDao;
+    private final CaseUserRelationDAO caseUserRelationDao;
 
+    /**
+     * Initializes the class by instantiating the DAO classes.
+     */
     public PersistenceFacade() {
-        //Configure connection pool
-        connectionPool = new BasicDataSource();
-        connectionPool.setUsername(this.username);
-        connectionPool.setPassword(this.password);
-        connectionPool.setDriverClassName("org.postgresql.Driver");
-        connectionPool.setUrl(this.dbIP);
-        connectionPool.setInitialSize(10);
-
-        userDao = new UserDAO(this.connectionPool);
-        caseDao = new CaseDAO(this.connectionPool);
+        //Initialize DAO's
+        userDao = new UserDAO();
+        caseDao = CaseDAO.getInstance();
+        departmentDao = new DepartmentDAO();
+        caseTypeRelationDao = CaseTypeRelationDAO.getInstance();
+        cprDao = new CprDAO();
+        employeesOfDepartmentDAO = new EmployeesOfDepartmentDAO();
+        userTypeRelationDao = UserTypeRelationDAO.getInstance();
+        caseUserRelationDao = new CaseUserRelationDAO();
     }
-    
+
     //==========================================================================
     // Case methods
     //==========================================================================
     @Override
     public ArrayList<String> retrieveCaseTypeNames() {
-        return this.caseDao.retrieveCaseTypeNames();
+        List<String[]> list = this.caseTypeRelationDao.getAll();
+        String[][] array = list.toArray(new String[][]{});
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (String[] arr : array) {
+            arrayList.add(arr[0]);
+        }
+        return arrayList;
     }
 
     @Override
     public boolean saveCase(UUID caseID, long cprNumber, String type,
             String mainBody, LocalDate dateCreated, LocalDate dateClosed, int departmentID, String inquiry) {
-        return this.caseDao.saveCase(caseID, cprNumber, type, mainBody, dateCreated, dateClosed, departmentID, inquiry);
+        String closedate = "-dateClosed null";
+        if (dateClosed != null) {
+            closedate = "-dateClosed " + dateClosed.toString().replace('-', '/');
+        }
+        return this.caseDao.create("-caseID " + caseID.toString(), "-cprNumber " + Long.toString(cprNumber), "-type " + type, "-mainBody " + mainBody, "-dateCreated " + dateCreated.toString().replace('-', '/'), closedate, "-departmentID " + Integer.toString(departmentID), "-inquiry " + inquiry);
     }
 
     @Override
     public ArrayList<String[]> getCasesByUserID(String userID) {
-        return this.caseDao.getCasesByUserID(userID);
+        return this.caseDao.getAll("-id " + userID, "-user");
     }
 
     @Override
     public void saveCaseUserRelation(UUID caseID, ArrayList<String> userID) {
-        this.caseDao.saveCaseUserRelation(caseID, userID);
+        StringBuilder builder = new StringBuilder();
+        userID.stream().map((String userID1) -> {
+            builder.append(userID1);
+            return userID1;
+        }).forEachOrdered((String _item) -> {
+            builder.append(" ");
+        });
+        this.caseUserRelationDao.create("-id " + caseID.toString(), "-users " + builder.toString());
     }
 
     @Override
     public void insertNewPatient(long cpr, String firstName, String lastName) {
-        this.caseDao.insertNewPatient(cpr, firstName, lastName);
+        this.cprDao.create("-cpr " + Long.toString(cpr), "-firstname " + firstName, "-lastname " + lastName);
     }
 
     @Override
     public ArrayList<String[]> getCasesByDepartment(long departmentID) {
-        return this.caseDao.getCasesByDepartment(departmentID);
+        return this.caseDao.getAll("-id " + departmentID, "-department");
     }
 
+    //==========================================================================
+    // Department methods
+    //==========================================================================
     @Override
     public ArrayList<String> getDepartments() {
-        return this.caseDao.getDepartments();
+        return this.departmentDao.getAll();
     }
 
     @Override
     public String getDepartmentNameById(int departmentId) {
-        return this.caseDao.getDepartmentNameById(departmentId);
+        return this.departmentDao.get(Integer.toString(departmentId))[1];
     }
 
     //==========================================================================
@@ -92,24 +110,31 @@ public class PersistenceFacade implements IPersistence {
     //==========================================================================
     @Override
     public ArrayList<Long> getUserDepartments(String userID) {
-        return userDao.getUserDepartments(userID);
+        String[] dataset = this.employeesOfDepartmentDAO.get("-id " + userID);
+        ArrayList<Long> longList = new ArrayList<>();
+        if (dataset != null) {
+            for (String dataset1 : dataset) {
+                longList.add(Long.valueOf(dataset1));
+            }
+        }
+        return longList;
     }
 
     @Override
-    public void createUser(String userName, String firstName, String lastName, String password, int typeid, int departmentid) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        this.userDao.createUser(userName, firstName, lastName, password, typeid, departmentid);
+    public void createUser(String userName, String firstName, String lastName, String password, int typeid, int departmentid) {
+        this.userDao.create("-userName " + userName,"-firstName " + firstName,"-lastName " + lastName,"-password " + password,"-typeid " + Integer.toString(typeid),"-departmentid " + Integer.toString(departmentid));
     }
 
     @Override
     public String[] getUser(String username, String password) {
-        return this.userDao.getUser(username, password);
+        return this.userDao.get(new String[]{username, password});
     }
 
     @Override
     public boolean validateUserID(String userID) {
         return this.userDao.validateUserID(userID);
     }
-    
+
     @Override
     public boolean validateUserPassword(long userID, String password) {
         return this.userDao.validateUserPassword(userID, password);
@@ -117,18 +142,28 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public String[] getUserTypes() {
-        return this.userDao.getUserTypes();
+        ArrayList<String[]> dataset = (ArrayList<String[]>) this.userTypeRelationDao.getAll();
+        String[] types = new String[dataset.size()];
+        for (int i = 0; i < dataset.size(); i++) {
+            types[i] = dataset.get(i)[0];
+        }
+        return types;
     }
 
     @Override
     public ArrayList<String[]> getAllUsers(ArrayList<Long> departments) {
-        return this.userDao.getAllUsers(departments);
+        Long[] array = departments.toArray(new Long[departments.size()]);
+        String[] data = new String[departments.size()];
+        for (int i = 0; i < departments.size(); i++) {
+            data[i] = Long.toString(array[i]);
+        }
+        return (ArrayList<String[]>) this.userDao.getAll(data);
     }
-    
+
     @Override
     public boolean changePassword(String newPassword, String oldPassword, String username) {
         if (getUser(username, oldPassword) != null) {
-            return userDao.changePassword(newPassword, username);
+            return userDao.update(-1 ,"-updatePassword ","-newPassword " + newPassword,"-username " + username);
         } else {
             return false;
         }
@@ -136,7 +171,7 @@ public class PersistenceFacade implements IPersistence {
 
     @Override
     public void updateUserInfo(long userID, int role, boolean inactive) {
-        this.userDao.updateInfo(userID, role, inactive);
+        this.userDao.update(userID, "-type " + Integer.toString(role), "-inactive " + Boolean.toString(inactive));
     }
 
 }

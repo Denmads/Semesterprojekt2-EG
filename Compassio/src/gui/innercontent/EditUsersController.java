@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui.innercontent;
 
 import gui.GUIrun;
@@ -66,6 +61,8 @@ public class EditUsersController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param rb The resources used to localize the root object, or null if the root object was not localized.
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

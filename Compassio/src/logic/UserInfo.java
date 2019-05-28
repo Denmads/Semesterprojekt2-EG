@@ -3,15 +3,23 @@ package logic;
 /**
  * A class for storing the info of a user
  * 
- * @author madsh
+ * @author Mads Holm Jensen
  */
 public class UserInfo {
-    private long id;
-    private String username;
-    private String name;
+    private final long id;
+    private final String username;
+    private final String name;
     private String type;
     private boolean inactive;
 
+    /**
+     * Class constructor
+     * @param id id of the current user.
+     * @param username current users username.
+     * @param name current users first and last name.
+     * @param type current users usertype; admin, user etc...
+     * @param inactive users activity status.
+     */
     public UserInfo(long id, String username, String name, String type, boolean inactive) {
         this.id = id;
         this.username = username;
@@ -37,7 +45,7 @@ public class UserInfo {
     }
 
     /**
-     * Gets wether the users is currently inactive
+     * Gets whether or not the users is currently inactive
      * @return The state of the user
      */
     public boolean isInactive() {

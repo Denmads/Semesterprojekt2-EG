@@ -1,14 +1,21 @@
 package logic;
 
 /**
- *
- * @author Morten Kargo Lyngesen <mortenkargo@gmail.com>
+ * The CprValidator class is a utility class for modolo 11 validating Danish
+ * CPR numbers.
+ * @author Morten Kargo Lyngesen
  */
 public class CprValidator {
 
     private static final int[] CONTROL_NUMBER = {4, 3, 2, 7, 6, 5, 4, 3, 2};
     private static final int MODOLO_CONTROL = 11;
 
+    /**
+     * Returns if a given CPR number is valid.
+     * @param cpr CPR number to test validity of.
+     * @return <code>true</code> if given cpr number is valid, and 
+     * <code>false</code> if incorrect.
+     */
     public static boolean validate(String cpr) {
         if (cpr.length() != 10) {
             return false;
@@ -30,11 +37,10 @@ public class CprValidator {
                 i++) {
             cprArray[i] = Integer.parseInt(cpr.split("")[i]);
         }
-        
-        if (!firstControlCipher(Character.getNumericValue(cpr.charAt(6)) ,Integer.parseInt(cpr.substring(4, 6)))){
+        if (!firstControlCipher(Character.getNumericValue(cpr.charAt(6)), Integer.parseInt(cpr.substring(4, 6)))) {
             return false;
         }
-        
+
         int total = 0;
 
         for (int i = 0;
@@ -43,10 +49,12 @@ public class CprValidator {
             total += cprArray[i] * CONTROL_NUMBER[i];
         }
         int modolo = (total % MODOLO_CONTROL);
-        if (modolo > 9) {
-            modolo = modolo / 10;
+    
+        int control = MODOLO_CONTROL - modolo;
+        if (control > 9) {
+            control = control / 10;
         }
-        return ( modolo == Character.getNumericValue(cpr.charAt(9)));
+        return (control == Character.getNumericValue(cpr.charAt(9)));
     }
 
     private static boolean firstControlCipher(int cipher, int year) {

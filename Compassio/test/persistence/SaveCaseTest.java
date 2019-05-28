@@ -1,4 +1,3 @@
-
 package persistence;
 
 import acquaintance.ILogic;
@@ -13,25 +12,25 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- *
- * @author bentw
+ * A test class for the saving of cases to persistent storage.
+ * @author Bent Wilhelmsen
  */
 public class SaveCaseTest {
 
     ILogic logic = new LogicFacade();
     IPersistence persistence = new PersistenceFacade();
 
+    /**
+     * Logs into the system and retrieves cases to test on.
+     */
     @Before
     public void before() {
         logic.injectPersistence(persistence);
-
-
     }
     
      /**
      * Test of saveCase method, of class PersistenceFacade.
      */
-
     @Test
     public void testSaveCase() {
         logic.login("casetest", "password");

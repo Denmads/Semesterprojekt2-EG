@@ -9,23 +9,25 @@ import org.junit.Test;
 import persistence.PersistenceFacade;
 
 /**
- *
- * @author bentw
+ * Checks login functionality in logic layer.
+ * @author Bent Wilhelmsen
  */
 public class LoginTest {
 
     ILogic logic = new LogicFacade();
     IPersistence persistence = new PersistenceFacade();
         
+    /**
+     * Injects persistence into logic layer to prepare for tests.
+     */
     @Before
     public void before(){
     logic.injectPersistence(persistence);
     }
     
      /**
-     * Test of login method, of class LogicFacade.
+     * Test if a wrong password is denied.
      */
-    
     @Test
     public void testWrongPassword(){
 
@@ -37,6 +39,9 @@ public class LoginTest {
         assertEquals(expectedResult, failedResult);
     }
     
+    /**
+     * Test if a valid login is accepted.
+     */
     @Test
     public void testCorrectLogin() {
         System.out.println("Testing login in with correct login");
@@ -47,8 +52,4 @@ public class LoginTest {
         assertEquals(expResult, result);
 
     }
-    
-
-    
-    
 }

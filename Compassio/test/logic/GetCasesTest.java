@@ -10,14 +10,17 @@ import org.junit.Test;
 import persistence.PersistenceFacade;
 
 /**
- *
- * @author bentw
+ * Tests retrieving cases from persistent storage.
+ * @author Bent Wilhelmsen
  */
 public class GetCasesTest {
 
     ILogic logic = new LogicFacade();
     IPersistence persistence = new PersistenceFacade();
 
+    /**
+     * Injects an instance of persistence into the logic layer.
+     */
     @Before
     public void before() {
         logic.injectPersistence(persistence);
@@ -40,6 +43,9 @@ public class GetCasesTest {
         assertSame(testControl.compareTo(tested), true);
     }
 
+    /**
+     * Tests that the retrieved cases are not the same.
+     */
     @Test
     public void testGetCasesNotEqual() {
         logic.login("case", "password");

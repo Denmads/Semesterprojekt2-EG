@@ -6,14 +6,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Peterzxcvbnm
+ * Facade class for facilitating a single entry point to the logic layer.
+ * @author Peter Andreas Brændgaard
+ * @author Frederik Haagensen
  */
 public class LogicFacade implements ILogic {
 
@@ -28,10 +28,14 @@ public class LogicFacade implements ILogic {
         loadUserTypes();
     }
 
+    /**
+     * Creates an instance of the different user types.
+     */
     public void loadUserTypes() {
         userType = new UserType(persistence.getUserTypes());
     }
     
+    @Override
     public String[] getUserTypes () {
        return userType.getTypes();
     }
@@ -66,6 +70,7 @@ public class LogicFacade implements ILogic {
             }
         } else if (this.user.getUserType() == this.userType.get("SOCIALWORKER")) {
             ArrayList<Long> departments = this.user.getDepartments();
+            
             ArrayList<String[]> cases = new ArrayList<>();
             departments.forEach(d -> {
                 cases.addAll(persistence.getCasesByDepartment(d));
@@ -79,6 +84,10 @@ public class LogicFacade implements ILogic {
         return response;
     }
 
+    /**
+     * Returns the current instance of the persistence layer.
+     * @return the current instance of the persistence layer.
+     */
     public static IPersistence getPersistence() {
         return persistence;
     }
@@ -91,7 +100,7 @@ public class LogicFacade implements ILogic {
     @Override
     public boolean login(String username, String password) {
         String[] result = this.persistence.getUser(username, password);
-
+        
         int userType = this.userType.get("UNKNOWN");
 
         if (result != null) {
@@ -121,6 +130,7 @@ public class LogicFacade implements ILogic {
         return persistence.validateUserID(userID);
     }
     
+    @Override
     public boolean checkUserPassword(String password) {
         return persistence.validateUserPassword(Long.parseLong(user.getUserID()), password);
     }
@@ -166,9 +176,9 @@ public class LogicFacade implements ILogic {
         ArrayList<UserInfo> users = new ArrayList<>();
         ArrayList<String[]> usersInfo = persistence.getAllUsers(user.getDepartments());
         
-        for (String[] info : usersInfo) {
+        usersInfo.forEach((info) -> {
             users.add(new UserInfo(Long.parseLong(info[0]), info[1], info[2] + " " +  info[3], userType.getName(Integer.parseInt(info[4])), Boolean.parseBoolean(info[5])));
-        }
+        });
         
         return users;
     }
@@ -181,5 +191,10 @@ public class LogicFacade implements ILogic {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
             Logger.getLogger(LogicFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public boolean validateCpr(String cpr) {
+        return CprValidator.validate(cpr);
     }
 }
