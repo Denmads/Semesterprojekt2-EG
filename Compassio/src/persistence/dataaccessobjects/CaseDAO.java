@@ -77,7 +77,7 @@ public class CaseDAO implements DataAccessObject {
             return null;
         }
         ArrayList<String[]> cases = new ArrayList<>();
-        String byDepartment = "SELECT * FROM SocialCase NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE 'departmentID'=(?)";
+        String byDepartment = "SELECT * FROM SocialCase NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE departmentID=(?)";
         String byUser = "SELECT * FROM SocialCase NATURAL JOIN CaseUserRelation NATURAL JOIN CPR NATURAL JOIN CaseTypeRelation WHERE userID=(?)";
         String query;
         if (options.containsKey("department")) {

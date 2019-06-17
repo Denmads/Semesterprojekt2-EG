@@ -78,7 +78,7 @@ public class LogicFacade implements ILogic {
             while (cases.size() > 0) {
                 String[] singleCase = cases.remove(cases.size() - 1);
                 response.add(new Case(singleCase[0], singleCase[1], UUID.fromString(singleCase[2]), Long.parseLong(singleCase[3]),
-                        singleCase[4], null, null, null, Integer.parseInt(singleCase[5]), singleCase[6]));
+                        singleCase[4], null, LocalDate.parse(singleCase[6]), null, Integer.parseInt(singleCase[8]), singleCase[9]));
             }
         }
         return response;
